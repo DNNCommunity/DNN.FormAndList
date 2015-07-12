@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SearchMode.Equal" xml:space="preserve">
+    <value>are equal to</value>
+  </data>
+  <data name="cmdSearch.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="AddContent.Action" xml:space="preserve">
+    <value>Add New Record</value>
+  </data>
+  <data name="SearchMode.StartWith" xml:space="preserve">
+    <value>start with</value>
+  </data>
+  <data name="lblNoRecordsFound.Text" xml:space="preserve">
+    <value>No records found.</value>
+  </data>
+  <data name="SearchMode.EndWith" xml:space="preserve">
+    <value>end with</value>
+  </data>
+  <data name="DeleteAll.Action" xml:space="preserve">
+    <value>Delete All Records</value>
+  </data>
+  <data name="Filter.ErrorMessage" xml:space="preserve">
+    <value>Unsupported Filter Statement</value>
+  </data>
+  <data name="ShowXML.Action" xml:space="preserve">
+    <value>Show All Data as XML</value>
+  </data>
+  <data name="NoFieldsDefined.ErrorMessage" xml:space="preserve">
+    <value>There are no columns defined. Setup the module inside the &lt;a href="{0}"&gt;Form and List Configuration&lt;/a&gt;.</value>
+  </data>
+  <data name="SearchMode.Contain" xml:space="preserve">
+    <value>contain</value>
+  </data>
+  <data name="XslFailed.ErrorMessage" xml:space="preserve">
+    <value>XSL Tranformation failed. Switched back to Default Grid Table.</value>
+  </data>
+  <data name="DeleteAll.Confirm" xml:space="preserve">
+    <value>Are you sure you wish to delete all records stored in this table?</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;About the Form and List Module&lt;/h1&gt;
+&lt;p&gt;The Form and List Module allows you to manage an individual table of data, where each column of data is a specific data type and each row represents a single record.&amp;#160;Column headings, when clicked, reorder data alphanumerically&amp;#160;A-Z or Z-A. If the feature is enabled, you may &lt;strong&gt;Search&lt;/strong&gt; through records that contain only select data.&lt;/p&gt;
+&lt;p&gt;If granted permission by the site Administrator,&amp;#160;you can &lt;strong&gt;Add&amp;#160;New Record&lt;/strong&gt; and&amp;#160;optionally&amp;#160;&lt;strong&gt;Edit&lt;/strong&gt;&amp;#160;and &lt;strong&gt;Delete&lt;/strong&gt; any records or only those records you have added yourself. If you have the ability to&amp;#160;add or edit records without being logged in this site, you may need to enter a CAPTCHA confirmation code.&lt;/p&gt;
+&lt;p&gt;Page Administrators can edit &lt;strong&gt;Module Settings&lt;/strong&gt; and select &lt;strong&gt;Form and List Configuration&lt;/strong&gt; from the module Action Menu to define columns and column properties.&lt;/p&gt;</value>
+  </data>
+  <data name="cmdShowAll.Text" xml:space="preserve">
+    <value>Reset Search</value>
+  </data>
+  <data name="plSearch.Help" xml:space="preserve">
+    <value>Enter Search Value:&lt;br/&gt;
+- without any prefix or suffix to find all records where a column contains the value you enter, e.g. Net&lt;br /&gt;
+- with | prefix to find all records where a&amp;#160;column starts with the value you enter, e.g. |Network&lt;br /&gt;
+- with |&amp;#160;suffix to find all records where a&amp;#160;column ends with the value you enter, e.g. Network|&lt;br /&gt;
+- with | prefix and suffix&amp;#160;to find all records containing the value you enter exactly,&amp;#160;e.g. |Network|</value>
+  </data>
+  <data name="AllColumns.Text" xml:space="preserve">
+    <value>all searchable columns</value>
+  </data>
+  <data name="SearchSentence.Text" xml:space="preserve">
+    <value>Browse records in {1} that {2} {3}</value>
+  </data>
+  <data name="EditXsl.Action" xml:space="preserve">
+    <value>Edit Current XSL Script</value>
+  </data>
+  <data name="cmdResetSearch.Text" xml:space="preserve">
+    <value>Reset Search</value>
+  </data>
+  <data name="CreateTemplate.Action" xml:space="preserve">
+    <value>Save as Template</value>
+  </data>
+  <data name="Description.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Name.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Select.Text" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="plSearch.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ControlTitle_list.Text" xml:space="preserve">
+    <value>Show Records</value>
+  </data>
+  <data name="BackToForm.Action" xml:space="preserve">
+    <value>Back to Form</value>
+  </data>
+  <data name="DataBindingFailed.ErrorMessage" xml:space="preserve">
+    <value>Data Binding Failed. This issue might be caused by an unsupported cast of a data type. </value>
+  </data>
+</root>

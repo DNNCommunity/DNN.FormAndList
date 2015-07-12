@@ -1,0 +1,39 @@
+﻿/************************************************************/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for UserDefinedTable 3.3.6 *****/
+/*****       [sleupold] 10/12/2006                      *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]
+GO
+
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+@FirstUserDefinedFieldId   INT,
+@SecndUserDefinedFieldId   INT
+AS
+DECLARE @Pos1 INT
+DECLARE @Pos2 INT
+SET @Pos1 = (SELECT FieldOrder FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE UserDefinedFieldId = @FirstUserDefinedFieldId)
+SET @Pos2 = (SELECT FieldOrder FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE UserDefinedFieldId = @SecndUserDefinedFieldId)
+
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields SET FieldOrder = -1    WHERE UserDefinedFieldId = @SecndUserDefinedFieldId
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields SET FieldOrder = @Pos2 WHERE UserDefinedFieldId = @FirstUserDefinedFieldId
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields SET FieldOrder = @Pos1 WHERE UserDefinedFieldId = @SecndUserDefinedFieldId
+GO
+

@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Create New Row.Permission" xml:space="preserve">
+    <value>Create Record/ Submit Form</value>
+  </data>
+  <data name="Delete Row.Permission" xml:space="preserve">
+    <value>Delete Record</value>
+  </data>
+  <data name="Edit Row.Permission" xml:space="preserve">
+    <value>Edit Record</value>
+  </data>
+  <data name="RequiredIndicator.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="RequiredFootnote.Text" xml:space="preserve">
+    <value>* required</value>
+  </data>
+  <data name="Required2.ErrorMessage" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
+  <data name="ShowColumns.Permission" xml:space="preserve">
+    <value>Display All Columns</value>
+  </data>
+  <data name="PrivateColumns.Permission" xml:space="preserve">
+    <value>Edit Also Restricted Columns</value>
+  </data>
+  <data name="Boolean.Text" xml:space="preserve">
+    <value>True/False</value>
+  </data>
+  <data name="ChangedAt.Text" xml:space="preserve">
+    <value>Changed at</value>
+  </data>
+  <data name="ChangedBy.Text" xml:space="preserve">
+    <value>Changed by</value>
+  </data>
+  <data name="CreatedBy.Text" xml:space="preserve">
+    <value>Created by</value>
+  </data>
+  <data name="CreatedAt.Text" xml:space="preserve">
+    <value>Created at</value>
+  </data>
+  <data name="Currency.Text" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Date.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateTime.Text" xml:space="preserve">
+    <value>Date and Time</value>
+  </data>
+  <data name="Decimal.Text" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="Download.Text" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="EMail.Text" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Expression.Text" xml:space="preserve">
+    <value>Calculated Column</value>
+  </data>
+  <data name="Image.Text" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Int32.Text" xml:space="preserve">
+    <value>Integer</value>
+  </data>
+  <data name="Separator.Text" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="String.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TextHtml.Text" xml:space="preserve">
+    <value>Rich Text (Html)</value>
+  </data>
+  <data name="Time.Text" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="URL.Text" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="LookUp.Text" xml:space="preserve">
+    <value>Look-Up</value>
+  </data>
+  <data name="UserLink.Text" xml:space="preserve">
+    <value>Link to User's Profile</value>
+  </data>
+  <data name="Boolean.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid True/False value.</value>
+  </data>
+  <data name="Currency.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Currency value.</value>
+  </data>
+  <data name="Date.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Date value.</value>
+  </data>
+  <data name="DateTime.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Date and Time value.</value>
+  </data>
+  <data name="Decimal.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Decimal value.</value>
+  </data>
+  <data name="EMail.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Email address.</value>
+  </data>
+  <data name="Int32.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Integer value.</value>
+  </data>
+  <data name="PageNotFound.ErrorMessage" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
+  <data name="Time.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid Time value.</value>
+  </data>
+  <data name="URL.ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid URL.</value>
+  </data>
+  <data name="ValueTooLong.ErrorMessage" xml:space="preserve">
+    <value>Value entered is too long. Please shorten your input.</value>
+  </data>
+  <data name="ImageViewSetting.Text" xml:space="preserve">
+    <value>Display options for image columns:</value>
+  </data>
+  <data name="Boolean_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Boolean_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this value as the default value, for example, "True" or "False".</value>
+  </data>
+  <data name="ChangedAt_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="ChangedAt_OutputSetting.Help" xml:space="preserve">
+    <value>Enter a date format, for example, "DD-MM-YYYY".</value>
+  </data>
+  <data name="CreatedAt_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="CreatedAt_OutputSetting.Help" xml:space="preserve">
+    <value>Enter a date format, for example, "dd.MM.yyyy".</value>
+  </data>
+  <data name="Currency_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="Currency_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of numbers separated with ";", for example, 1;12,23;99,87.</value>
+  </data>
+  <data name="Currency_OutputSetting.Text" xml:space="preserve">
+    <value>Currency Symbol:</value>
+  </data>
+  <data name="Currency_OutputSetting.Help" xml:space="preserve">
+    <value>Enter the name or symbol of the currency.</value>
+  </data>
+  <data name="Currency_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Currency_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this amount as the default value. </value>
+  </data>
+  <data name="Date_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of dates separated with ";", for example, 2000-01-01;2000-12-31;2001-7-24.</value>
+  </data>
+  <data name="Date_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="Date_OutputSetting.Help" xml:space="preserve">
+    <value>New records will use this date as the default value, for example, "MM/dd/yyyy".</value>
+  </data>
+  <data name="Date_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Date_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this value as the default value. You can enter a format, for example, MM/DD/YYYY.</value>
+  </data>
+  <data name="Date_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="DateTime_NormalizeFlag.Text" xml:space="preserve">
+    <value>Convert TimeZone?</value>
+  </data>
+  <data name="DateTime_NormalizeFlag.Help" xml:space="preserve">
+    <value>Activate to store values with respect to the users timezone.</value>
+  </data>
+  <data name="DateTime_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="DateTime_OutputSetting.Help" xml:space="preserve">
+    <value>Enter a date format, for example, "dd.MM.yyyy".</value>
+  </data>
+  <data name="DateTime_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="DateTime_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this value as the default value, for example, 2000-01-01T12:00:00. If no TimeZone information is added , the value will be treated as UTC.  Example for same in CET Summer Time: 2000-01-01T12:00:00+2.00</value>
+  </data>
+  <data name="Decimal_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="Decimal_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of numbers separated with ";", for example, 1;12.23;99.87.</value>
+  </data>
+  <data name="Decimal_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Decimal_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this value as the default value, for example, 12.23.</value>
+  </data>
+  <data name="Decimal_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="Decimal_OutputSetting.Help" xml:space="preserve">
+    <value>Enter a number format, for example, "0.00".</value>
+  </data>
+  <data name="Download_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="Download_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of image links separated with ";".</value>
+  </data>
+  <data name="Download_OutputSetting.Text" xml:space="preserve">
+    <value>Link Caption:</value>
+  </data>
+  <data name="Download_OutputSetting.Help" xml:space="preserve">
+    <value>Enter static text that is displayed instead of a file name.</value>
+  </data>
+  <data name="Download_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Download_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this value as the default value. Enter a valid URL. </value>
+  </data>
+  <data name="EMail_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="EMail_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of email addresses separated by ";".</value>
+  </data>
+  <data name="EMail_OutputSetting.Text" xml:space="preserve">
+    <value>Link Caption:</value>
+  </data>
+  <data name="EMail_OutputSetting.Help" xml:space="preserve">
+    <value>Enter the static text that is displayed instead of an email address (with mailto: link).</value>
+  </data>
+  <data name="EMail_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="EMail_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this default value. Enter a valid email address.</value>
+  </data>
+  <data name="EMail_NormalizeFlag.Text" xml:space="preserve">
+    <value>Disable Hyperlink?</value>
+  </data>
+  <data name="EMail_NormalizeFlag.Help" xml:space="preserve">
+    <value>Enable to display email address as text.</value>
+  </data>
+  <data name="Expression_InputSetting.Text" xml:space="preserve">
+    <value>Data Type:</value>
+  </data>
+  <data name="Expression_InputSetting.Help" xml:space="preserve">
+    <value>Select result Type. Default is "Text", but you may want to alter it for sorting/formatting purposes.</value>
+  </data>
+  <data name="Expression_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="Expression_OutputSetting.Help" xml:space="preserve">
+    <value>Enter an output format string suitable for this data type, for example, "###.###" </value>
+  </data>
+  <data name="Expression_DefaultValue.Text" xml:space="preserve">
+    <value>Expression:</value>
+  </data>
+  <data name="Expression_DefaultValue.Help" xml:space="preserve">
+    <value>Enter an expression formula (appropriate for the data type) which will be evaluated at runtime.</value>
+  </data>
+  <data name="LookUp_InputSetting.Text" xml:space="preserve">
+    <value>Source Column:</value>
+  </data>
+  <data name="LookUp_InputSetting.Help" xml:space="preserve">
+    <value>Name of the column containing a ref to a User or local File.</value>
+  </data>
+  <data name="LookUp_DefaultValue.Text" xml:space="preserve">
+    <value>Token Text:</value>
+  </data>
+  <data name="LookUp_DefaultValue.Help" xml:space="preserve">
+    <value>Token Text to query the User or File object.</value>
+  </data>
+  <data name="Image_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="Image_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of image links separated with ";".</value>
+  </data>
+  <data name="Image_OutputSetting.Text" xml:space="preserve">
+    <value>ALT Tag:</value>
+  </data>
+  <data name="Image_OutputSetting.Help" xml:space="preserve">
+    <value>Enter text to be used as "ALT tag" for all records.</value>
+  </data>
+  <data name="Image_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Image_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this default value. Enter a valid image link.</value>
+  </data>
+  <data name="Image_NormalizeFlag.Text" xml:space="preserve">
+    <value>Hyperlink:</value>
+  </data>
+  <data name="Image_NormalizeFlag.Help" xml:space="preserve">
+    <value>Enable to display thumbnail image as a link to open full sized image in new window.</value>
+  </data>
+  <data name="Int32_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="Int32_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of integers separated with ";", for example, 5;10;50;100</value>
+  </data>
+  <data name="Int32_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="Int32_OutputSetting.Help" xml:space="preserve">
+    <value>Enter a format string, for example, "###.###"</value>
+  </data>
+  <data name="Int32_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Int32_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this number as the default value. </value>
+  </data>
+  <data name="String_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="String_InputSetting.Help" xml:space="preserve">
+    <value>Enter either a list of values (1;2;3 or A;B;C) or name|value pairs (One|1;Two|2;Three|3), with elements separated by a ";" (semicolon).</value>
+  </data>
+  <data name="String_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="String_DefaultValue.Help" xml:space="preserve">
+    <value>New records will auto-fill using this default value.</value>
+  </data>
+  <data name="TextHtml_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="TextHtml_PlainText.Help" xml:space="preserve">
+    <value>Enable to display a Plain Text Box instead of a Rich Text (HTML) editor.</value>
+  </data>
+  <data name="TextHtml_PlainText.Text" xml:space="preserve">
+    <value>Plain Text Box?</value>
+  </data>
+  <data name="TextHtml_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this HTML text as the default value.</value>
+  </data>
+  <data name="UserLink_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="UserLink_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of usernames separated with ";".</value>
+  </data>
+  <data name="UserLink_OutputSetting.Text" xml:space="preserve">
+    <value>Caption options:</value>
+  </data>
+  <data name="UserLink_OutputSetting.Help" xml:space="preserve">
+    <value>Output of Caption can be controlled with Tokens. It defaults to [User:Displayname]</value>
+  </data>
+  <data name="UserLink_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="UserLink_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this username.</value>
+  </data>
+  <data name="UserLink_NormalizeFlag.Text" xml:space="preserve">
+    <value>Show user's username instead of his displayname:</value>
+  </data>
+  <data name="UserLink_NormalizeFlag.Help" xml:space="preserve">
+    <value>Show user's username instead of his displayname</value>
+  </data>
+  <data name="Time_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="Time_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of times separated with ";", for example, 10:00:00;11:30:00;13:00:00.</value>
+  </data>
+  <data name="Time_OutputSetting.Text" xml:space="preserve">
+    <value>Output Format:</value>
+  </data>
+  <data name="Time_OutputSetting.Help" xml:space="preserve">
+    <value>You can specify an appropriate output format, for example, "hh:mm".</value>
+  </data>
+  <data name="Time_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="Time_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this default time value.</value>
+  </data>
+  <data name="Time_NormalizeFlag.Text" xml:space="preserve">
+    <value>Convert TimeZone?</value>
+  </data>
+  <data name="Time_NormalizeFlag.Help" xml:space="preserve">
+    <value>Enable to store time based on the user's timezone.</value>
+  </data>
+  <data name="URL_InputSetting.Text" xml:space="preserve">
+    <value>List of Values:</value>
+  </data>
+  <data name="URL_InputSetting.Help" xml:space="preserve">
+    <value>Enter a list of URLs separated with ";".</value>
+  </data>
+  <data name="URL_OutputSetting.Text" xml:space="preserve">
+    <value>Link Caption:</value>
+  </data>
+  <data name="URL_OutputSetting.Help" xml:space="preserve">
+    <value>Enter a static (HTML) value to be used as a link caption.</value>
+  </data>
+  <data name="URL_DefaultValue.Text" xml:space="preserve">
+    <value>Default Value:</value>
+  </data>
+  <data name="URL_DefaultValue.Help" xml:space="preserve">
+    <value>New records will use this value as the default value. Enter a valid URL.</value>
+  </data>
+  <data name="URL_NormalizeFlag.Text" xml:space="preserve">
+    <value>Abbreviated URL:</value>
+  </data>
+  <data name="URL_NormalizeFlag.Help" xml:space="preserve">
+    <value>Enable to display file or page name only.</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="PagingPage.Text" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="PagingOf.Text" xml:space="preserve">
+    <value> of </value>
+  </data>
+  <data name="PagingFirst.Text" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="PagingPrevious.Text" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="PagingNext.Text" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="PagingLast.Text" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="Separator_IsCollapsible.Help" xml:space="preserve">
+    <value>Collapsible Area</value>
+  </data>
+  <data name="Separator_IsCollapsible.Text" xml:space="preserve">
+    <value>Collapsible Area</value>
+  </data>
+  <data name="Attachment.Text" xml:space="preserve">
+    <value>Attachment</value>
+  </data>
+  <data name="ShowList.Permission" xml:space="preserve">
+    <value>In&amp;#160;form&amp;#160;mode permit&amp;#160;list&amp;#160;as&amp;#160;well</value>
+  </data>
+  <data name="Boolean_OutputSetting.Help" xml:space="preserve">
+    <value>Text of the label to the RIGHT of checkbox</value>
+  </data>
+  <data name="Boolean_OutputSetting.Text" xml:space="preserve">
+    <value>Right label text:</value>
+  </data>
+  <data name="DateTime_ConvertToUserDateTime.Help" xml:space="preserve">
+    <value>By default the date time is returned in the server's time zone. If this setting is enabled, the value will be converted to the timezone of the user.</value>
+  </data>
+  <data name="DateTime_ConvertToUserDateTime.Text" xml:space="preserve">
+    <value>Convert to user's timezone</value>
+  </data>
+  <data name="Download_Abbreviate.Help" xml:space="preserve">
+    <value>By default, the caption of the file inludes path and filename. You can shorten the caption to only return the filename.</value>
+  </data>
+  <data name="Download_Abbreviate.Text" xml:space="preserve">
+    <value>Abbreviate caption</value>
+  </data>
+  <data name="Download_EnforceDownload.Help" xml:space="preserve">
+    <value>Enable to enforce a download</value>
+  </data>
+  <data name="Download_EnforceDownload.Text" xml:space="preserve">
+    <value>Enforce Download</value>
+  </data>
+  <data name="Download_ShowOpenInNewWindow.Help" xml:space="preserve">
+    <value>Enable "Open in new window" inside form.</value>
+  </data>
+  <data name="Download_ShowOpenInNewWindow.Text" xml:space="preserve">
+    <value>Enable "Open in new window"</value>
+  </data>
+  <data name="EMail_NoLink.Help" xml:space="preserve">
+    <value>If enabled, the email address is returned as plain text</value>
+  </data>
+  <data name="EMail_NoLink.Text" xml:space="preserve">
+    <value>No Link</value>
+  </data>
+  <data name="Expression_HideOnEdit.Help" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="Expression_HideOnEdit.Text" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="Expression_RenderInForm.Help" xml:space="preserve">
+    <value>The expression gets executed based on the current data. Doesn't work with all expressions.</value>
+  </data>
+  <data name="Expression_RenderInForm.Text" xml:space="preserve">
+    <value>Render in form</value>
+  </data>
+  <data name="Image_AltCaption.Help" xml:space="preserve">
+    <value>"Alt" caption of the image. [Tokens] are supported here.</value>
+  </data>
+  <data name="Image_AltCaption.Text" xml:space="preserve">
+    <value>Alt caption</value>
+  </data>
+  <data name="Image_AsLink.Help" xml:space="preserve">
+    <value>Link the thumbnail to the original image.</value>
+  </data>
+  <data name="Image_AsLink.Text" xml:space="preserve">
+    <value>Thumbnail As Link</value>
+  </data>
+  <data name="Image_Height.Help" xml:space="preserve">
+    <value>Heigth of thumbnail. Set width and height blank to use original size.</value>
+  </data>
+  <data name="Image_Height.Text" xml:space="preserve">
+    <value>Thumbnail Heigtht</value>
+  </data>
+  <data name="Image_Width.Help" xml:space="preserve">
+    <value>Width of thumbnail. Set width and height blank to use original size.</value>
+  </data>
+  <data name="Image_Width.Text" xml:space="preserve">
+    <value>Thumbnail Width</value>
+  </data>
+  <data name="URL_Abbreviate.Help" xml:space="preserve">
+    <value>By default, the caption of the link inludes path and filename. You can shorten the caption to only return the filename.</value>
+  </data>
+  <data name="URL_Abbreviate.Text" xml:space="preserve">
+    <value>Abbreviate caption</value>
+  </data>
+  <data name="URL_EnforceDownload.Help" xml:space="preserve">
+    <value>Enable to enforce a download</value>
+  </data>
+  <data name="URL_EnforceDownload.Text" xml:space="preserve">
+    <value>Enforce Download</value>
+  </data>
+  <data name="URL_ShowOpenInNewWindow.Help" xml:space="preserve">
+    <value>Enable "Open in new window" inside form.</value>
+  </data>
+  <data name="URL_ShowOpenInNewWindow.Text" xml:space="preserve">
+    <value>Enable "Open in new window"</value>
+  </data>
+  <data name="URL_TrackDownloads.Help" xml:space="preserve">
+    <value>Decide whther the link should use linkclick.aspx instead a direct link.</value>
+  </data>
+  <data name="URL_TrackDownloads.Text" xml:space="preserve">
+    <value>Track Number of Downloads</value>
+  </data>
+  <data name="UserLink_OpenInNewWindow.Help" xml:space="preserve">
+    <value>Link opens a new window/tab</value>
+  </data>
+  <data name="UserLink_OpenInNewWindow.Text" xml:space="preserve">
+    <value>Open in new Window</value>
+  </data>
+  <data name="UserLink_ShowUserName.Help" xml:space="preserve">
+    <value>If enabled, the username will be shown, otherwise the displayname.</value>
+  </data>
+  <data name="UserLink_ShowUserName.Text" xml:space="preserve">
+    <value>Show Username</value>
+  </data>
+  <data name="UserLink_TokenText.Help" xml:space="preserve">
+    <value>Expression based on [Tokens]. If empty, the displayname or username of the user will be returned.</value>
+  </data>
+  <data name="UserLink_TokenText.Text" xml:space="preserve">
+    <value>Expression</value>
+  </data>
+  <data name="String_MultipleValues.Help" xml:space="preserve">
+    <value>This setting will replace radio buttons with checkboxes. Selected values are stored as string separated by semicolons (";")</value>
+  </data>
+  <data name="String_MultipleValues.Text" xml:space="preserve">
+    <value>Multiple Values</value>
+  </data>
+  <data name="ChangedAt_ConvertToUserDateTime.Help" xml:space="preserve">
+    <value>By default the date time is returned in the server's time zone. If this setting is enabled, the value will be converted to the timezone of the user.</value>
+  </data>
+  <data name="ChangedAt_ConvertToUserDateTime.Text" xml:space="preserve">
+    <value>Convert to user's timezone</value>
+  </data>
+  <data name="ChangedAt_HideOnEdit.Help" xml:space="preserve">
+    <value>If enabled, value will be displayed to all users when editing.</value>
+  </data>
+  <data name="ChangedAt_HideOnEdit.Text" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="ChangedBy_AsLink.Help" xml:space="preserve">
+    <value>As Link to User Profile</value>
+  </data>
+  <data name="ChangedBy_AsLink.Text" xml:space="preserve">
+    <value>As Link:</value>
+  </data>
+  <data name="ChangedBy_HideOnEdit.Help" xml:space="preserve">
+    <value>If enabled, value will be displayed to all users when editing.</value>
+  </data>
+  <data name="ChangedBy_HideOnEdit.Text" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="ChangedBy_OpenInNewWindow.Help" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
+  <data name="ChangedBy_OpenInNewWindow.Text" xml:space="preserve">
+    <value>New window:</value>
+  </data>
+  <data name="ChangedBy_PreferDisplayName.Help" xml:space="preserve">
+    <value>Prefer Displayname over user name</value>
+  </data>
+  <data name="ChangedBy_PreferDisplayName.Text" xml:space="preserve">
+    <value>Prefer Displayname</value>
+  </data>
+  <data name="CreatedAt_ConvertToUserDateTime.Help" xml:space="preserve">
+    <value>By default the date time is returned in the server's time zone. If this setting is enabled, the value will be converted to the timezone of the user.</value>
+  </data>
+  <data name="CreatedAt_ConvertToUserDateTime.Text" xml:space="preserve">
+    <value>Convert to user's timezone</value>
+  </data>
+  <data name="CreatedAt_HideOnEdit.Help" xml:space="preserve">
+    <value>If enabled, value will be displayed to all users when editing.</value>
+  </data>
+  <data name="CreatedAt_HideOnEdit.Text" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="CreatedBy_AsLink.Help" xml:space="preserve">
+    <value>As Link to User Profile</value>
+  </data>
+  <data name="CreatedBy_AsLink.Text" xml:space="preserve">
+    <value>As Link:</value>
+  </data>
+  <data name="CreatedBy_HideOnEdit.Help" xml:space="preserve">
+    <value>If enabled, value will be displayed to all users when editing.</value>
+  </data>
+  <data name="CreatedBy_HideOnEdit.Text" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="CreatedBy_OpenInNewWindow.Help" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
+  <data name="CreatedBy_OpenInNewWindow.Text" xml:space="preserve">
+    <value>New window:</value>
+  </data>
+  <data name="CreatedBy_PreferDisplayName.Help" xml:space="preserve">
+    <value>Prefer Displayname over user name</value>
+  </data>
+  <data name="CreatedBy_PreferDisplayName.Text" xml:space="preserve">
+    <value>Prefer Displayname</value>
+  </data>
+</root>

@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DDE04CE2-57E6-4B1C-BF12-C36FCC7B7333}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DotNetNuke.Modules.UserDefinedTable</RootNamespace>
+    <AssemblyName>DotNetNuke.Modules.UserDefinedTable</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DocumentationFile>DotNetNuke.Modules.UserDefinedTable.xml</DocumentationFile>
+    <NOWARN>1591,660,661</NOWARN>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DocumentationFile>DotNetNuke.Modules.UserDefinedTable.xml</DocumentationFile>
+    <NOWARN>1591,660,661</NOWARN>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetNuke">
+      <HintPath>..\..\lib\DotNetNuke.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.Web, Version=7.2.2.303, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\DotNetNuke.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.Web.Client, Version=7.2.2.303, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\DotNetNuke.Web.Client.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.WebUtility">
+      <HintPath>..\..\lib\DotNetNuke.WebUtility.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>..\..\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI, Version=2013.2.717.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Telerik.Web.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessController.cs" />
+    <Compile Include="Components\BaseController.cs" />
+    <Compile Include="Components\DataProvider.cs" />
+    <Compile Include="Components\DataTableExtensions.cs" />
+    <Compile Include="Components\DnnExtensionMethods.cs" />
+    <Compile Include="Components\DownloadPropertyAccess.cs" />
+    <Compile Include="Components\EditControls.cs" />
+    <Compile Include="Components\FieldController.cs" />
+    <Compile Include="Components\FieldSettingsController.cs" />
+    <Compile Include="Components\FilteredNameValueCollectionPropertyAccess.cs" />
+    <Compile Include="Components\FormColumnInfo.cs" />
+    <Compile Include="Components\GlobalConstants.cs" />
+    <Compile Include="Components\GravatarPropertyAccess.cs" />
+    <Compile Include="Components\ModuleSecurity.cs" />
+    <Compile Include="Components\Settings.cs" />
+    <Compile Include="Components\TokenReplace.cs" />
+    <Compile Include="Components\TrackingController.cs" />
+    <Compile Include="Components\Utilities.cs" />
+    <Compile Include="Components\XSLTemplatingUtilities.cs" />
+    <Compile Include="Controls\Field.ascx.cs">
+      <DependentUpon>Field.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Field.ascx.designer.cs">
+      <DependentUpon>Field.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Fields.ascx.cs">
+      <DependentUpon>Fields.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Fields.ascx.designer.cs">
+      <DependentUpon>Fields.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FieldSettings.ascx.cs">
+      <DependentUpon>FieldSettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\FieldSettings.ascx.designer.cs">
+      <DependentUpon>FieldSettings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="CSV\CSVWriter.cs" />
+    <Compile Include="DataTypes\Abstract\DataType.cs" />
+    <Compile Include="DataTypes\FieldSettingType.cs" />
+    <Compile Include="DataTypes\Abstract\EditControl.cs" />
+    <Compile Include="ExportCSV.ascx.designer.cs">
+      <DependentUpon>ExportCSV.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ExportCSV.ascx.cs">
+      <DependentUpon>ExportCSV.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FieldEditor.ascx.cs">
+      <DependentUpon>FieldEditor.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FieldEditor.ascx.designer.cs">
+      <DependentUpon>FieldEditor.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ImportCSV.ascx.designer.cs">
+      <DependentUpon>ImportCSV.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ImportCSV.ascx.cs">
+      <DependentUpon>ImportCSV.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IEmailAdressSource.cs" />
+    <Compile Include="Interfaces\IFormEvents.cs" />
+    <Compile Include="Interfaces\IPortable2.cs" />
+    <Compile Include="Interfaces\IUserSource.cs" />
+    <Compile Include="MakeThumbnail.ashx.cs">
+      <DependentUpon>MakeThumbnail.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Serialization\ModuleSerializationController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTypes\Boolean.cs" />
+    <Compile Include="DataTypes\ChangedAt.cs" />
+    <Compile Include="DataTypes\ChangedBy.cs" />
+    <Compile Include="DataTypes\CreatedAt.cs" />
+    <Compile Include="DataTypes\CreatedBy.cs" />
+    <Compile Include="DataTypes\Currency.cs" />
+    <Compile Include="DataTypes\Date.cs" />
+    <Compile Include="DataTypes\DateTime.cs" />
+    <Compile Include="DataTypes\Decimal.cs" />
+    <Compile Include="DataTypes\Download.cs" />
+    <Compile Include="DataTypes\EMail.cs" />
+    <Compile Include="DataTypes\Expression.cs" />
+    <Compile Include="DataTypes\Image.cs" />
+    <Compile Include="DataTypes\LookUp.cs" />
+    <Compile Include="DataTypes\Int32.cs" />
+    <Compile Include="DataTypes\Separator.cs" />
+    <Compile Include="DataTypes\String.cs" />
+    <Compile Include="DataTypes\TextHtml.cs" />
+    <Compile Include="DataTypes\Time.cs" />
+    <Compile Include="DataTypes\URL.cs" />
+    <Compile Include="DataTypes\UserLink.cs" />
+    <Compile Include="Default.ascx.designer.cs">
+      <DependentUpon>Default.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.ascx.cs">
+      <DependentUpon>Default.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Form.ascx.designer.cs">
+      <DependentUpon>Form.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Form.ascx.cs">
+      <DependentUpon>Form.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HelpPopup.aspx.designer.cs">
+      <DependentUpon>HelpPopup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HelpPopup.aspx.cs">
+      <DependentUpon>HelpPopup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Configuration.ascx.designer.cs">
+      <DependentUpon>Configuration.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration.ascx.cs">
+      <DependentUpon>Configuration.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Providers\DataProviders\sqldataprovider\sqldataprovider.cs" />
+    <Compile Include="Settings.ascx.designer.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.ascx.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowXml.ashx.cs">
+      <DependentUpon>ShowXml.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Template.ascx.designer.cs">
+      <DependentUpon>Template.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Template.ascx.cs">
+      <DependentUpon>Template.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TemplateList.ascx.designer.cs">
+      <DependentUpon>TemplateList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateList.ascx.cs">
+      <DependentUpon>TemplateList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Templates\TemplateValueInfo.cs" />
+    <Compile Include="Templates\TemplateController.cs" />
+    <Compile Include="Templates\TemplateInfo.cs" />
+    <Compile Include="Token2Xsl.ascx.designer.cs">
+      <DependentUpon>Token2Xsl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Token2Xsl.ascx.cs">
+      <DependentUpon>Token2Xsl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="List.ascx.designer.cs">
+      <DependentUpon>List.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="List.ascx.cs">
+      <DependentUpon>List.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\UserDefinedTableController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Form.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\HelpPopup.aspx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\Configuration.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\Settings.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\SharedResources.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\Template.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\TemplateList.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\Token2Xsl.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\List.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="CaptionValueEditor.js" />
+    <Content Include="Cleanup_06.00.00.txt" />
+    <Content Include="Controls\Field.ascx" />
+    <Content Include="Controls\Fields.ascx" />
+    <Content Include="Controls\FieldSettings.ascx" />
+    <Content Include="FieldEditor.ascx" />
+    <Content Include="Form.ascx" />
+    <Content Include="HelpPopup.aspx" />
+    <Content Include="Configuration.ascx" />
+    <Content Include="License.htm" />
+    <Content Include="module.css" />
+    <Content Include="releasenotes.htm" />
+    <Content Include="Settings.ascx" />
+    <Content Include="XslStyleSheets\Tracking\Auto.xsl" />
+    <Content Include="XslStyleSheets\XSLScripts.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Template.ascx" />
+    <Content Include="TemplateList.ascx" />
+    <Content Include="Token2Xsl.ascx" />
+    <Content Include="List.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Datatypes.Config" />
+    <Content Include="Default.ascx" />
+    <Content Include="MakeThumbnail.ashx" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.01.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.01.01.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.02.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.03.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.03.04.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.03.05.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.03.06.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.03.07.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.04.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\03.05.00.SqlDataProvider" />
+    <None Include="Providers\DataProviders\sqldataprovider\04.05.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\05.00.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\05.00.02.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\06.00.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\05.02.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\06.00.03.sqldataprovider" />
+    <Content Include="Providers\DataProviders\sqldataprovider\06.00.04.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\uninstall.sqldataprovider" />
+    <Content Include="ShowXml.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Default.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExportCSV.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\ExportCSV.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\ImportCSV.ascx.resx" />
+    <Content Include="ImportCSV.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Providers\DataProviders\sqldataprovider\05.01.00.sqldataprovider" />
+    <None Include="Providers\DataProviders\sqldataprovider\05.01.01.sqldataprovider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\FieldEditor.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FormAndList.dnn" />
+  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <Extension>zip</Extension>
+    <DNNFileName>FormAndList</DNNFileName>
+    <PackageName>FormAndList</PackageName>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\BuildScripts</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Target Name="AfterBuild" DependsOnTargets="PackageModule">
+  </Target>
+  <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <Extension>zip</Extension>
+    <DNNFileName>FormAndList</DNNFileName>
+    <PackageName>FormAndList</PackageName>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\BuildScripts</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="BuildScripts\ModulePackage.Targets" />
+  <Target Name="AfterBuild" DependsOnTargets="PackageModule">
+  </Target>
+</Project>

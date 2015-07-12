@@ -1,0 +1,86 @@
+﻿/************************************************************/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for UserDefinedTable 3.3.5 *****/
+/*****       [sleupold] 08/19/2006                      *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+/** check for compatible DNN version **/
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UDT_Install_Semaphore') AND OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP Table UDT_Install_Semaphore
+GO
+
+CREATE TABLE UDT_Install_Semaphore (value INT PRIMARY KEY)
+GO
+
+DECLARE @dnnVer INT 
+SET @dnnver = (SELECT TOP 1 Major*10000+Minor*100+Build FROM {databaseOwner}[{objectQualifier}Version] ORDER BY Major DESC, Minor DESC, Build DESC)
+IF @dnnver < 30203 OR ( @dnnver >= 40000 AND @dnnver <40004)
+    BEGIN
+        INSERT INTO UDT_Install_Semaphore (value) VALUES (0)
+        RAISERROR ('Incompatible DotNetNuke framework version installed. Please upgrade to V. 3.3.x or V. 4.3.x or re-install previous version of this module!', 16, 1)
+    END
+ ELSE
+    INSERT INTO UDT_Install_Semaphore (value) VALUES (1)
+GO
+
+/** Convert DataType for FieldValue from NVARCHAR to NTEXT in order to allow large Texts **/
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND (SELECT Type FROM syscolumns WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedData]') AND Name = 'FieldValue')<>35
+    ALTER TABLE {databaseOwner}{objectQualifier}UserDefinedData
+    ALTER COLUMN FieldValue NTEXT NOT NULL
+GO
+
+--Remove this value (06.00.05) because it is not compatible with SQL Azure and 06.00.03 changes to nvarchar(max) instead
+--sp_tableoption N'{databaseOwner}[{objectQualifier}UserDefinedData]', 'text in row', 'ON'
+
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddData]
+GO
+
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_AddData
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int,
+@FieldValue          nText
+AS
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedData 
+			( UserDefinedFieldId,  UserDefinedRowId,  FieldValue)
+	 VALUES (@UserDefinedFieldId, @UserDefinedRowId, @FieldValue)
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int,
+@FieldValue          nText
+AS
+	DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedData] 
+	WHERE UserDefinedFieldId = @UserDefinedFieldId
+	AND UserDefinedRowId = @UserDefinedRowId
+
+	IF @FieldValue NOT LIKE ''
+		INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedData] 
+			   ( UserDefinedFieldId,  UserDefinedRowId, FieldValue)
+		VALUES (@UserDefinedFieldId, @UserDefinedRowId,@FieldValue)
+GO
+
+
+/** delete version table **/
+DROP TABLE UDT_Install_Semaphore 
+GO

@@ -1,0 +1,23 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 5.1.0 *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+   
+    /* Change Host Settings: Add csv extension to allowed file extensions */
+	UPDATE       {databaseOwner}[{objectQualifier}HostSettings]
+	SET          SettingValue = SettingValue + N',csv'
+	WHERE        (SettingName = N'FileExtensions') 
+		   	AND (SettingValue Not like N'csv,%') 
+	        AND (SettingValue Not like N'%,csv,%') 
+	        AND (SettingValue Not like N'%,csv')
+    GO
+    

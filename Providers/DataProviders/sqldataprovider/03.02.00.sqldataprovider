@@ -1,0 +1,333 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for UserDefinedTable 3.2.0 *****/
+/*****       [mhamburger 11/20/2005                     *****/
+/*****       [sleupold]  04/25/2006                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****       or use 'SQL' from Host Menu and run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/** Remove obsolete stored procedures from previous versions **/
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}AddUserDefinedData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}AddUserDefinedData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}AddUserDefinedField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}AddUserDefinedField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}AddUserDefinedRow]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}AddUserDefinedRow]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}DeleteUserDefinedData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}DeleteUserDefinedField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedRow]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}DeleteUserDefinedRow]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}GetUserDefinedData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}GetUserDefinedField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedFields]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}GetUserDefinedFields]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedRow]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}GetUserDefinedRow]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedRows]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}GetUserDefinedRows]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UpdateUserDefinedData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UpdateUserDefinedData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UpdateUserDefinedField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UpdateUserDefinedField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UpdateUserDefinedFieldOrder]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UpdateUserDefinedFieldOrder]
+GO
+
+/** Remove existing stored PROCEDURE **/
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddRow]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddRow]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_DeleteData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_DeleteField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_DeleteRow]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteRow]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetRow]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRow]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetRows]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRows]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]') AND OBJECTPROPERTY(id, N'IsPROCEDURE') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]
+GO
+
+/** UPDATE tables **/
+
+IF (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'Required','AllowsNull')) IS NULL 
+ALTER TABLE {databaseOwner}{objectQualifier}UserDefinedFields
+ADD Required bit NOT NULL DEFAULT (0), [Default] nvarchar(2000) DEFAULT ('') NOT NULL
+GO
+
+/** Create new stored PROCEDUREs **/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_AddData
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int,
+@FieldValue          nvarchar(2000)
+AS
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedData ( 
+  UserDefinedFieldId,
+  UserDefinedRowId,
+  FieldValue
+)
+VALUES (
+  @UserDefinedFieldId,
+  @UserDefinedRowId,
+  @FieldValue
+)
+SELECT SCOPE_IDENTITY()
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_AddField
+@ModuleId     int,
+@FieldTitle   varchar(50),
+@Required     bit,
+@FieldType    varchar(20),  
+@default      nvarchar(2000),
+@Visible      bit
+AS
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedFields ( 
+  ModuleId,
+  FieldTitle,
+  Required,
+  FieldType,
+  [Default],
+  Visible
+)
+VALUES (
+  @ModuleId,
+  @FieldTitle,
+  @Required,
+  @FieldType,
+  @default,
+  @Visible
+)
+SELECT SCOPE_IDENTITY()
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_AddRow
+@ModuleId         int
+AS
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedRows ( 
+  ModuleId
+)
+VALUES (
+  @ModuleId
+)
+SELECT SCOPE_IDENTITY()
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_DeleteData
+@UserDefinedRowId    int, 
+@UserDefinedFieldId  int
+AS
+DELETE 
+FROM {objectQualifier}UserDefinedData
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+AND    UserDefinedRowId = @UserDefinedRowId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_DeleteField
+@UserDefinedFieldId    int 
+AS
+DELETE 
+FROM {databaseOwner}{objectQualifier}UserDefinedFields
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_DeleteRow
+
+	@UserDefinedRowId    int,
+	@ModuleID    int
+AS
+DELETE 
+FROM {databaseOwner}{objectQualifier}UserDefinedRows
+WHERE  UserDefinedRowId = @UserDefinedRowId AND ModuleId=@ModuleID
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_GetData
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int
+AS
+SELECT * 
+FROM   {databaseOwner}{objectQualifier}UserDefinedData 
+WHERE  UserDefinedFieldId = @UserDefinedFieldId 
+AND    UserDefinedRowId = @UserDefinedRowId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_GetField
+@UserDefinedFieldId  int
+AS
+SELECT UserDefinedFieldId,
+		ModuleID,
+       FieldTitle,
+       Required,
+       FieldOrder,
+       FieldType,
+       [default],
+       Visible
+FROM {databaseOwner}{objectQualifier}UserDefinedFields
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_GetFields
+@ModuleId  int
+AS
+SELECT UserDefinedFieldId,
+       ModuleID,
+       FieldTitle,
+       Required,
+       FieldOrder,
+       FieldType,
+       [default],
+       Visible
+FROM {databaseOwner}{objectQualifier}UserDefinedFields
+WHERE  ModuleId = @ModuleId
+ORDER by FieldOrder
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_GetRow
+@UserDefinedRowId   int,
+@ModuleId           int
+AS
+SELECT F.FieldTitle,
+       D.FieldValue,
+       F.FieldType
+FROM {databaseOwner}{objectQualifier}UserDefinedData D
+INNER JOIN {databaseOwner}{objectQualifier}UserDefinedFields F on D.UserDefinedFieldId = F.UserDefinedFieldId
+WHERE  D.UserDefinedRowId = @UserDefinedRowId
+AND    F.ModuleId = @ModuleId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_GetRows
+@ModuleId    int 
+AS
+SELECT R.UserDefinedRowId,
+       F.FieldTitle,
+       D.FieldValue
+FROM {databaseOwner}{objectQualifier}UserDefinedRows R
+LEFT OUTER JOIN {databaseOwner}{objectQualifier}UserDefinedData D on R.UserDefinedRowId = D.UserDefinedRowId
+INNER JOIN {databaseOwner}{objectQualifier}UserDefinedFields F on D.UserDefinedFieldId = F.UserDefinedFieldId 
+WHERE  R.ModuleId = @ModuleId
+ORDER by R.UserDefinedRowID
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_UpdateData
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int,
+@FieldValue          nvarchar(2000)
+AS
+UPDATE {databaseOwner}{objectQualifier}UserDefinedData
+SET    FieldValue = @FieldValue
+WHERE UserDefinedFieldId = @UserDefinedFieldId
+AND UserDefinedRowId = @UserDefinedRowId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_UpdateField
+@UserDefinedFieldId   int,
+@FieldTitle           varchar(50),
+@Required             bit,
+@FieldType            varchar(20),
+@default             nvarchar(2000),
+@Visible              bit
+AS
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields
+SET    FieldTitle = @FieldTitle,
+       Required = @Required,
+       FieldType = @FieldType,
+       [default] = @default,
+       Visible = @Visible
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_UpdateFieldOrder
+@UserDefinedFieldId  int,
+@FieldOrder          int
+AS
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields
+SET    FieldOrder = @FieldOrder
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO

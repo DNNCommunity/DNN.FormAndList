@@ -1,0 +1,25 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 6.0.6 *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+
+
+begin transaction
+/* This code adds a dummy text column to the table, clears the 'text in row' table option
+  then removes the dummy column.  This is to allow removal of the 'text in row' option
+  which is not supported on SQL Azure */
+
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] ADD [dummy] text;
+EXECUTE sp_tableoption '{databaseOwner}[{objectQualifier}UserDefinedData]', 'text in row', 'OFF';
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] DROP COLUMN [dummy];
+
+commit transaction

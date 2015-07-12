@@ -1,0 +1,77 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 5.0.0 *****/
+    /*****       [scullmann]  03/03/2008                    *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+    SET QUOTED_IDENTIFIER ON 
+    GO
+    SET ANSI_NULLS ON 
+    GO
+
+
+
+   
+    /* replace stored procedures with updated versions: */
+
+    IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetRow]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRow]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRow]
+	@UserDefinedRowId   int,
+	@ModuleId           int
+	AS
+	SELECT 
+		D.UserDefinedRowId,
+		F.FieldTitle,
+		D.FieldValue
+	FROM {databaseOwner}[{objectQualifier}UserDefinedData] D
+	INNER JOIN {databaseOwner}[{objectQualifier}UserDefinedFields] F on D.UserDefinedFieldId = F.UserDefinedFieldId
+	WHERE  D.UserDefinedRowId = @UserDefinedRowId
+	AND    F.ModuleId = @ModuleId
+    GO
+    
+    
+    IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_DeleteField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteField]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteField]
+	@UserDefinedFieldId    int 
+	AS
+	DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedData]
+	WHERE (UserDefinedFieldId = @UserDefinedFieldId)
+	DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedFields]
+	WHERE  UserDefinedFieldId = @UserDefinedFieldId
+	GO
+	
+	IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_Reset]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_Reset]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_Reset]
+	@ModuleId  INT
+	AS
+	DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedRows]   WHERE (ModuleId = @ModuleId)
+	DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedFields] WHERE (ModuleId = @ModuleId)
+	GO
+   
+	/* User Defined Table is now "Form and List" */
+	UPDATE  MD
+	SET
+		FriendlyName = 'Form and List'
+	FROM	
+	     {databaseOwner}[{objectQualifier}DesktopModules] AS DM INNER JOIN
+	     {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD 
+	     ON DM.DesktopModuleID = MD.DesktopModuleID
+	WHERE        
+		(DM.ModuleName = N'DNN_UserDefinedTable') AND (MD.FriendlyName = N'User Defined Table')

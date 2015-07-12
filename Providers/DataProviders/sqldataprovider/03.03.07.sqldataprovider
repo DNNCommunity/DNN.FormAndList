@@ -1,0 +1,297 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 3.3.7 *****/
+    /*****       [sleupold]  10/23/2006                     *****/
+    /*****       [scullmann] 10/27/2006                     *****/
+    /*****       [sleupold]  12/16/2006                     *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+    SET QUOTED_IDENTIFIER ON 
+    GO
+    SET ANSI_NULLS ON 
+    GO
+
+
+    /** check for compatible DNN version **/
+    IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UDT_Install_Semaphore') AND OBJECTPROPERTY(id, N'IsTable') = 1)
+    DROP Table UDT_Install_Semaphore
+    GO
+
+    CREATE TABLE UDT_Install_Semaphore (value INT PRIMARY KEY)
+    GO
+
+    DECLARE @dnnVer INT 
+    SET @dnnver = (SELECT TOP 1 Major*10000+Minor*100+Build FROM {databaseOwner}[{objectQualifier}Version] ORDER BY Major DESC, Minor DESC, Build DESC)
+    IF @dnnver < 30305 OR ( @dnnver >= 40000 AND @dnnver < 40305)
+        BEGIN
+            INSERT INTO UDT_Install_Semaphore (value) VALUES (0)
+            RAISERROR ('Incompatible DotNetNuke framework version installed. Please upgrade to V. 3.3.5+ or V. 4.3.5+ or re-install previous version of this module!', 16, 1)
+        END
+     ELSE
+        INSERT INTO UDT_Install_Semaphore (value) VALUES (1)
+    GO
+
+    /* update table structure: */
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1   
+    ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] 
+    ALTER COLUMN [Default] nvarchar(2000) Null
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'OutputSettings','AllowsNull')) IS NULL 
+    EXECUTE sp_rename N'{databaseOwner}[{objectQualifier}UserDefinedFields].ExtendedSettings', N'OutputSettings', 'COLUMN' 
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND NOT (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'OutputSettings','AllowsNull')) IS NULL 
+    ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] 
+    ALTER COLUMN OutputSettings nvarchar(2000) Null
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1  AND (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'InputSettings','AllowsNull')) IS NULL 
+    ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] ADD
+     InputSettings nvarchar(2000), 
+     ValidationRule nvarchar(512) NULL,
+     ValidationMessage nvarchar(512) NULL
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1  AND (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'NormalizeFlag','AllowsNull')) IS NULL 
+    ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] ADD
+     NormalizeFlag Bit Not Null Default (0)
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1  AND (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'HelpText','AllowsNull')) IS NULL 
+    ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] ADD
+     HelpText nvarchar(512) NULL
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 
+    BEGIN
+        UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields]
+        SET InputSettings = OutputSettings,
+             OutputSettings= Null
+        WHERE FieldType IN ('Int32', 'Decimal', 'Currency', 'String')
+        AND InputSettings IS Null
+        AND NOT OutputSettings Is Null
+       
+        IF (SELECT value FROM UDT_Install_Semaphore) = 1 
+        UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields]
+        SET [Default] = OutputSettings,
+             OutputSettings= Null
+        WHERE FieldType = 'Expression'
+        AND InputSettings IS Null
+        AND NOT OutputSettings Is Null
+    END
+
+    GO
+
+
+    /* replace stored procedures with updated versions: */
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+    @ModuleId       INT,
+    @FieldTitle     NVARCHAR(50),
+    @BeforePos      INT,
+    @HelpText       NVARCHAR(512),
+    @Required       BIT,
+    @FieldType      VARCHAR(20),
+    @Default       NVARCHAR(2000),
+    @Visible        BIT, 
+    @InputSettings  NVARCHAR(2000),
+    @OutputSettings NVARCHAR(2000),
+    @NormalizeFlag  BIT, 
+    @ValidationRule NVARCHAR(512),
+    @ValidationMessage NVARCHAR(512)
+    AS
+    DECLARE @InsPos INT
+    /* find insert position and adjust field order of subsequent fields: */
+    SET @InsPos = (SELECT MAX(FieldOrder) AS MaxPos FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE ModuleID = @ModuleID GROUP BY ModuleID) + 1 
+    IF @InsPos IS Null SET @InsPos = 1
+    IF @BeforePos Is Null SET @BeforePos = @InsPos
+    IF @InsPos > @BeforePos BEGIN
+            UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields]
+            SET FieldOrder = FieldOrder + 1
+            WHERE ModuleID = @ModuleID AND FieldOrder >= @BeforePos
+            SET  @InsPos = @BeforePos 
+        END
+        
+    INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFields] ( 
+      ModuleId,
+      FieldTitle,
+      HelpText,
+      Required,
+      FieldType,
+      FieldOrder,
+      [Default],
+      Visible,
+      InputSettings,
+      OutputSettings, 
+      NormalizeFlag,
+      ValidationRule,
+      ValidationMessage 
+    )
+    VALUES (
+      @ModuleId,
+      @FieldTitle,
+      @HelpText,
+      @Required,
+      @FieldType,
+      @InsPos,
+      @Default,
+      @Visible,
+      @InputSettings,
+      @OutputSettings,
+      @NormalizeFlag,
+      @ValidationRule, 
+      @ValidationMessage
+    )
+    SELECT SCOPE_IDENTITY()
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+    @UserDefinedFieldId  INT
+    AS
+    SELECT UserDefinedFieldId,
+        ModuleID,
+        FieldTitle,
+        HelpText,
+        Required,
+        FieldOrder,
+        FieldType, 
+        [default],
+        Visible,
+        InputSettings,
+        OutputSettings, 
+        NormalizeFlag,
+        ValidationRule,
+        ValidationMessage
+    FROM {databaseOwner}[{objectQualifier}UserDefinedFields]
+    WHERE UserDefinedFieldId = @UserDefinedFieldId
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+    @ModuleId  INT
+    AS
+    SELECT UserDefinedFieldId,
+           ModuleID,
+           FieldTitle,
+           HelpText,
+           Required,
+           FieldOrder,
+           FieldType,
+           [default],
+           Visible,
+           InputSettings,
+           OutputSettings, 
+           NormalizeFlag,
+           ValidationRule,
+           ValidationMessage
+    FROM {databaseOwner}[{objectQualifier}UserDefinedFields]
+    WHERE  ModuleId = @ModuleId
+    ORDER BY FieldOrder
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+    GO
+
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+    @FirstUserDefinedFieldId   INT,
+    @SecndUserDefinedFieldId   INT
+    AS
+    DECLARE @Pos1 INT
+    DECLARE @Pos2 INT
+    SET @Pos1 = (SELECT FieldOrder FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE UserDefinedFieldId = @FirstUserDefinedFieldId)
+    SET @Pos2 = (SELECT FieldOrder FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE UserDefinedFieldId = @SecndUserDefinedFieldId)
+
+    UPDATE {objectQualifier}UserDefinedFields SET FieldOrder = -1    WHERE UserDefinedFieldId = @SecndUserDefinedFieldId
+    UPDATE {objectQualifier}UserDefinedFields SET FieldOrder = @Pos2 WHERE UserDefinedFieldId = @FirstUserDefinedFieldId
+    UPDATE {objectQualifier}UserDefinedFields SET FieldOrder = @Pos1 WHERE UserDefinedFieldId = @SecndUserDefinedFieldId
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+    @UserDefinedFieldId   INT,
+    @FieldTitle           NVARCHAR(50),
+    @HelpText             NVARCHAR(512),
+    @Required             BIT,
+    @FieldType            VARCHAR(20),
+    @default             NVARCHAR(2000), 
+    @Visible              BIT,
+    @InputSettings        NVARCHAR(2000),
+    @OutputSettings       NVARCHAR(2000),
+    @NormalizeFlag        BIT,
+    @ValidationRule       NVARCHAR(512),
+    @ValidationMessage    NVARCHAR(512)
+
+    AS
+    UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields]
+    SET    FieldTitle = @FieldTitle,
+           HelpText = @HelpText,
+           Required = @Required,
+           FieldType = @FieldType,
+           [default] = @default,
+           Visible = @Visible,
+           InputSettings = @InputSettings, 
+           OutputSettings = @OutputSettings, 
+           NormalizeFlag = @NormalizeFlag,
+           ValidationRule = @ValidationRule,
+           ValidationMessage = @ValidationMessage
+    WHERE UserDefinedFieldId = @UserDefinedFieldId
+    GO
+
+    /** Clean up settings. Move all TabSettings out of ModuleSettings if not present inside Tabsettings **/
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1
+    INSERT INTO {databaseOwner}{objectQualifier}TabModuleSettings (TabModuleID, SettingName, SettingValue)
+    SELECT     TM.TabModuleID, MS.SettingName, MS.SettingValue
+    FROM    {databaseOwner}{objectQualifier}TabModules AS TM INNER JOIN
+            {databaseOwner}{objectQualifier}ModuleSettings AS MS ON TM.ModuleID = MS.ModuleID LEFT OUTER JOIN
+            {databaseOwner}{objectQualifier}TabModuleSettings AS TS ON TM.TabModuleID = TS.TabModuleID AND MS.SettingName = TS.SettingName
+    WHERE   (TS.TabModuleID IS NULL) AND (TS.SettingName IS NULL) AND 
+            MS.SettingName IN ( N'UDT_SortField', N'UDT_SortOrder', N'UDT_Paging', N'UDT_Filter', N'UDT_Search', 
+            N'UDT_UsedCssClasses', N'UDT_XslPreDefinedStyleSheet', N'UDT_XslUserDefinedStyleSheet', N'UDT_RenderingMethod')
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1
+    UPDATE    {databaseOwner}{objectQualifier}UserDefinedFields
+    SET       NormalizeFlag = SettingValue
+    FROM      {databaseOwner}{objectQualifier}ModuleSettings AS MS INNER JOIN
+               {databaseOwner}{objectQualifier}UserDefinedFields AS UDF ON MS.ModuleID = UDF.ModuleId
+    WHERE     SettingName = N'UDT_URLFullPath' AND FieldType = 'URL' AND SettingValue = N'True'
+    GO
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1
+    DELETE FROM {databaseOwner}{objectQualifier}ModuleSettings
+    WHERE  SettingName IN ( N'UDT_SortField', N'UDT_SortOrder', N'UDT_Paging', N'UDT_Filter', N'UDT_Search', 
+            N'UDT_UsedCssClasses', N'UDT_XslPreDefinedStyleSheet', N'UDT_XslUserDefinedStyleSheet', N'UDT_RenderingMethod', N'UDT_URLFullPath')
+    GO
+
+    /** delete version table **/
+    DROP TABLE UDT_Install_Semaphore 
+    GO

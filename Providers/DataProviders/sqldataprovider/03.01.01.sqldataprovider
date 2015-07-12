@@ -1,0 +1,33 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/** Update stored procedure **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedRow]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}DeleteUserDefinedRow
+GO
+
+create procedure {databaseOwner}{objectQualifier}DeleteUserDefinedRow
+
+	@UserDefinedRowId    int,
+	@ModuleID    int
+ 
+
+as
+
+delete 
+from {objectQualifier}UserDefinedRows
+where  UserDefinedRowId = @UserDefinedRowId and ModuleId=@ModuleID
+
+GO
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

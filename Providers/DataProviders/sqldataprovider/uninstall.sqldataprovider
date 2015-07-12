@@ -1,0 +1,128 @@
+﻿/************************************************************/
+/*****       SqlDataProvider                            *****/
+/*****       Uninstall for Form and List               *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****       or use 'SQL' from Host Menu and run this.  *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/** Drop Tables **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'FK_{objectQualifier}UserDefinedFields_{objectQualifier}Modules') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] DROP CONSTRAINT [FK_{objectQualifier}UserDefinedFields_{objectQualifier}Modules]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'FK_{objectQualifier}UserDefinedRows_{objectQualifier}Modules') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedRows] DROP CONSTRAINT [FK_{objectQualifier}UserDefinedRows_{objectQualifier}Modules]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'FK_{objectQualifier}UserDefinedData_{objectQualifier}UserDefinedRows') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] DROP CONSTRAINT [FK_{objectQualifier}UserDefinedData_{objectQualifier}UserDefinedRows]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'FK_{objectQualifier}UserDefinedData_{objectQualifier}UserDefinedFields') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] DROP CONSTRAINT [FK_{objectQualifier}UserDefinedData_{objectQualifier}UserDefinedFields]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'FK_{objectQualifier}UserDefinedFieldSettings_{objectQualifier}UserDefinedFields') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] DROP CONSTRAINT [FK_{objectQualifier}UserDefinedFieldSettings_{objectQualifier}UserDefinedFields]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedData') and OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP TABLE {databaseOwner}[{objectQualifier}UserDefinedData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedFieldSettings') and OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP TABLE {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]  
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedFields') and OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP TABLE {databaseOwner}[{objectQualifier}UserDefinedFields]  
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedRows') and OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP TABLE {databaseOwner}[{objectQualifier}UserDefinedRows]
+GO
+
+/** Drop Stored Procedures **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_AddData') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_AddField') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_AddRow') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddRow]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_DeleteData') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_DeleteField') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteField]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_DeleteRow') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteRow]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_DeleteRows') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_DeleteRows]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetData') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetField') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetFields') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetRow') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRow]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetRows') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRows]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_SwapFieldOrder') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_UpdateData') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_UpdateField') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_Reset]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_Reset]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_FillDefaultData') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetFieldDataCount') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFieldDataCount]
+GO
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

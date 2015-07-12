@@ -1,0 +1,70 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 6.0.4 *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddData]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddData]
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int,
+@FieldValue          nvarchar(max)
+AS
+INSERT INTO {databaseOwner}[{objectQualifier}dbo.UserDefinedData]
+			( UserDefinedFieldId,  UserDefinedRowId,  FieldValue)
+	 VALUES (@UserDefinedFieldId, @UserDefinedRowId, @FieldValue)
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]
+@ModuleID         INT,
+@FieldId          INT, /* can be null for any field */
+@DefaultValue	  NVarChar(max) /*can be Null to copy default expression (no evaluation!) */
+AS
+IF @DefaultValue is Null
+	INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedData] (UserDefinedFieldId, UserDefinedRowId, FieldValue)
+	SELECT F.UserDefinedFieldId, R.UserDefinedRowId, [Default]
+	FROM ({databaseOwner}[{objectQualifier}UserDefinedFields] F       
+	INNER JOIN {databaseOwner}[{objectQualifier}UserDefinedRows] R ON F.ModuleId = R.ModuleId)      
+	LEFT JOIN  {databaseOwner}[{objectQualifier}UserDefinedData] D ON F.UserDefinedFieldId = D.UserDefinedFieldId AND R.UserDefinedRowId = D.UserDefinedRowId
+	WHERE (D.UserDefinedRowID Is Null) AND ([Default] IS Not Null) AND (@ModuleID = F.ModuleId) AND (@FieldId IS Null OR F.UserDefinedFieldId = @FieldId)
+ ELSE
+	INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedData] (UserDefinedFieldId, UserDefinedRowId, FieldValue)
+	SELECT @FieldId, R.UserDefinedRowId, @DefaultValue
+	FROM ({databaseOwner}[{objectQualifier}UserDefinedFields] F       
+	INNER JOIN {databaseOwner}[{objectQualifier}UserDefinedRows] R ON F.ModuleId = R.ModuleId)      
+	LEFT JOIN  {databaseOwner}[{objectQualifier}UserDefinedData] D ON F.UserDefinedFieldId = D.UserDefinedFieldId AND R.UserDefinedRowId = D.UserDefinedRowId
+	WHERE (D.UserDefinedRowID Is Null) AND (@ModuleID = F.ModuleId) AND (@FieldId IS Null OR F.UserDefinedFieldId = @FieldId)
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateData]
+@UserDefinedRowId    int,
+@UserDefinedFieldId  int,
+@FieldValue           NVarChar(max)
+AS
+	DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedData] 
+	WHERE UserDefinedFieldId = @UserDefinedFieldId
+	AND UserDefinedRowId = @UserDefinedRowId
+
+	IF @FieldValue NOT LIKE ''
+		INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedData] 
+			   ( UserDefinedFieldId,  UserDefinedRowId, FieldValue)
+		VALUES (@UserDefinedFieldId, @UserDefinedRowId,@FieldValue)
+GO

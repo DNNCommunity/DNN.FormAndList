@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;Specific Settings for Form and List Module&lt;/h1&gt;
+		&lt;p&gt;The Form and List Module allows you to define an individual table of data. &lt;/p&gt;
+&lt;p&gt;On the Module Settings page, you can grant extended &lt;strong&gt;permissions&lt;/strong&gt; for security roles, defined in your portal:&lt;/p&gt;
+		&lt;ul&gt;
+    &lt;li&gt;Use &lt;strong&gt;View Module&lt;/strong&gt;, to allow members of a role to&amp;#160;view&amp;#160;all existing records. (The check boxes are only active, if "Inherit view permissions from page" is unchecked).&lt;/li&gt;
+    &lt;li&gt;Select &lt;strong&gt;Edit Module&lt;/strong&gt;,&amp;#160;to grant permission to all members of the role&amp;#160;to define&amp;#160;columns and view options using &lt;em&gt;Manage Table.&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;Enable &lt;strong&gt;Edit Row, &lt;/strong&gt;to allow all members of a role to edit&amp;#160;records.&lt;/li&gt;
+    &lt;li&gt;Use &lt;strong&gt;Create New Row&lt;/strong&gt;,&amp;#160;to allow&amp;#160;role members to add rows.&lt;/li&gt;
+    &lt;li&gt;Enable &lt;strong&gt;Delete Row,&amp;#160; &lt;/strong&gt;if role members are allowed to delete rows.&lt;/li&gt;
+    &lt;li&gt;If there are Roles that should not&amp;#160;view data of specific columns, define these columns as hidden and enable &lt;strong&gt;Display All Columns&lt;/strong&gt; for all&amp;#160;other roles with view permission. Note:&amp;#160;Administrators always see all defined columns, except in preview mode.&lt;/li&gt;
+		&lt;/ul&gt;
+&lt;p&gt;On the &lt;strong&gt;Form and List Settings&amp;#160;&lt;/strong&gt;section, there&amp;#160;are these options:&lt;/p&gt;
+		&lt;ul&gt;
+    &lt;li&gt;By default all users are able to edit and delete all records. However, if users edit permissions are limited to rows, enable &lt;strong&gt;Users are&amp;#160;only allowed to manipulate their&amp;#160;own items&lt;/strong&gt;. Note: Administrators are always allowed to edit all records.&lt;/li&gt;
+    &lt;li&gt;Enable &lt;strong&gt;Force CAPTCHA&amp;#160;Control&lt;/strong&gt;, to allow users to add, edit or delete records even when they are not logged in. This ensures that data entries are not added by bots automatically.&lt;/li&gt;
+    &lt;li&gt;Enable &lt;strong&gt;Filter entry for markup code or script input,&lt;/strong&gt; to avoid harmful code from being input in the Form and List.&lt;/li&gt;
+    &lt;li&gt;Enable &lt;strong&gt;Negate permission/feature "Display All Columns" for Administrators,&lt;/strong&gt; to hide columns that would otherwise be displayed to Administrators.&lt;/li&gt;
+    &lt;li&gt;Enable &lt;strong&gt;Negate permission/feature "Edit Also Restricted Columns" for Administrators,&lt;/strong&gt; to hide Private Columns that would otherwise be displayed to Administrators.&lt;/li&gt;
+    &lt;li&gt;Enter &lt;strong&gt;Max. Records per User&lt;/strong&gt; to set a limit on the number of records any one user can create/edit; leave blank for no limit.&lt;/li&gt;
+&lt;/ul&gt;</value>
+  </data>
+  <data name="ControlTitle_settings.Text" xml:space="preserve">
+    <value>Form and List Settings</value>
+  </data>
+  <data name="EditOwnData.Text" xml:space="preserve">
+    <value>Users are only allowed to manipulate their own items.</value>
+  </data>
+  <data name="ForceCaptcha.Text" xml:space="preserve">
+    <value>Force CAPTCHA control during edit for Anonymous users.</value>
+  </data>
+  <data name="InputFiltering.Text" xml:space="preserve">
+    <value>Filter entry for markup code or script input. Note: filtering is always enabled for Anonymous users.</value>
+  </data>
+  <data name="DisplayColumns.Text" xml:space="preserve">
+    <value>Negate permission/feature "Display All Columns" for Administators.</value>
+  </data>
+  <data name="PrivateColumns.Text" xml:space="preserve">
+    <value>Negate permission/feature "Edit Also Restricted Columns" for Administators.</value>
+  </data>
+  <data name="plUserRecordQuota.Help" xml:space="preserve">
+    <value>Leave blank for no limit, or enter the maximum number of records each user can create.</value>
+  </data>
+  <data name="plUserRecordQuota.Text" xml:space="preserve">
+    <value>Max. Records per User</value>
+  </data>
+  <data name="DisplaySystemColumns.Text" xml:space="preserve">
+    <value>Hide System Fields even if "Display All Column" permission is set.</value>
+  </data>
+</root>

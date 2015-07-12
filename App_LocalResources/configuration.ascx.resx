@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Ascending.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="cmdAddField.Text" xml:space="preserve">
+    <value>Add New Column</value>
+  </data>
+  <data name="cmdApply.Text" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="cmdDownLoadStyleSheet.Text" xml:space="preserve">
+    <value>Show XSL source code</value>
+  </data>
+  <data name="cmdSaveAndBack.Text" xml:space="preserve">
+    <value>Save Configuration and Return</value>
+  </data>
+  <data name="cmdShowXmlData.Text" xml:space="preserve">
+    <value>Show Table Data as XML</value>
+  </data>
+  <data name="cmdShowXSLGenerator.Text" xml:space="preserve">
+    <value>Generate New</value>
+  </data>
+  <data name="cmdEditXSL.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ControlHelpText.Help" xml:space="preserve">
+    <value>This is the Help Text displayed to the user to explain this field.</value>
+  </data>
+  <data name="ControlHelpText.Text" xml:space="preserve">
+    <value>Help Text</value>
+  </data>
+  <data name="ControlTitle_manage.Text" xml:space="preserve">
+    <value>Form and List Configuration</value>
+  </data>
+  <data name="DataGrid.Text" xml:space="preserve">
+    <value>Default Grid Table</value>
+  </data>
+  <data name="DeleteField.Text" xml:space="preserve">
+    <value>Are you sure you wish to delete this column?</value>
+  </data>
+  <data name="Descending.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;Form and List Configuration&lt;/h1&gt;
+&lt;p&gt;The &lt;strong&gt;Form and List &lt;/strong&gt; module stores its data inside a table. The table and its columns are defined by the user, which is the origin of the former name for this module: "User Defined Table".  The following data types are available for defining columns:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Text&lt;/li&gt;
+    &lt;li&gt;Rich Text (HTML)&lt;/li&gt;
+    &lt;li&gt;Integer &lt;/li&gt;
+    &lt;li&gt;Decimal &lt;/li&gt;
+    &lt;li&gt;Date and Time &lt;/li&gt;
+    &lt;li&gt;Date &lt;/li&gt;
+    &lt;li&gt;Time &lt;/li&gt;
+    &lt;li&gt;True/false &lt;/li&gt;
+    &lt;li&gt;Email &lt;/li&gt;
+    &lt;li&gt;Currency &lt;/li&gt;
+    &lt;li&gt;URL Link&lt;/li&gt;
+    &lt;li&gt;Image &lt;/li&gt;
+    &lt;li&gt;User &lt;/li&gt;
+    &lt;li&gt;Download &lt;/li&gt;
+    &lt;li&gt;LookUp &lt;/li&gt;
+    &lt;li&gt;Calculated Column&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Individual columns can be configured&amp;#160;visible only&amp;#160;for site Administrator accounts&amp;#160;or&amp;#160;visible by specific&amp;#160;Roles&amp;#160;granted&amp;#160;permission to see all columns. You can specify a column default value and designate if a value is required or optional.&lt;/p&gt;
+&lt;p&gt;For the default Grid Table Display Setting, column headings are also links that when clicked, reorder the column&amp;#160;data alphanumerically from&amp;#160;A-Z or Z-A. You can predefine a sorting column,&amp;#160;and by specifying a page size, you may activate the built-in multi-paging controls. For&amp;#160;type URL column, you can specify static link text, and for images, you may preset&amp;#160;the maximum display size so all&amp;#160;images get scaled proportionally to fit.&lt;/p&gt;
+&lt;h1&gt;Quick Start: Setup Form and List&lt;/h1&gt;
+&lt;ol&gt;
+    &lt;li&gt;Add a new instance of Form and List to an existing page;&lt;/li&gt;
+    &lt;li&gt;Select &lt;strong&gt;Form and List Configuration &lt;/strong&gt;from the module's Action Menu;&lt;/li&gt;
+    &lt;li&gt;Click &lt;strong&gt;Add New Column&lt;/strong&gt;;&lt;/li&gt;
+    &lt;li&gt;Enter a &lt;strong&gt;Title&lt;/strong&gt; for the column that will be displayed as column header. Note&amp;#160;that some special characters are not allowed in Title names;&lt;/li&gt;
+    &lt;li&gt;Choose the desired data&lt;strong&gt; Type&lt;/strong&gt; for this column;&lt;/li&gt;
+    &lt;li&gt;(Optional) Enable &lt;strong&gt;Required&lt;/strong&gt; if every record should&amp;#160;contain&amp;#160;data for this column;&lt;/li&gt;
+    &lt;li&gt;(Optional) Enable &lt;strong&gt;Visible&lt;/strong&gt; if this column should be visible in List View&amp;#160;for all users.&amp;#160;If disabled,&amp;#160;only Administrators and&amp;#160;Roles granted module Permission Grid rights to&amp;#160;&lt;strong&gt;Display All Columns&lt;/strong&gt; will see this column in List View. Note that this setting only affects&amp;#160;List View.&lt;/li&gt;
+    &lt;li&gt;(Optional) Enable &lt;strong&gt;Searchable&lt;/strong&gt; if you wish the Module&amp;#160;Search function to search this column.&lt;/li&gt;
+    &lt;li&gt;(Optional) &lt;strong&gt;Advanced Column Options&lt;/strong&gt; allow you to specifically tailor each column with powerful added functionality. Click the Help tooltip (?) for more information on Advanced Column Options;&lt;/li&gt;
+    &lt;li&gt;Click &lt;strong&gt;Save Settings and Return&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;More Features&lt;/h1&gt;
+&lt;ul&gt;
+    &lt;li&gt;Use the&amp;#160;&lt;strong&gt;Move Column Up &lt;/strong&gt;and &lt;strong&gt;Move&amp;#160;Column Down&lt;/strong&gt; arrows to determine the order of&amp;#160;columns&lt;/li&gt;
+    &lt;li&gt;Specify &lt;strong&gt;Columns Settings&lt;/strong&gt; to manage popup browser windows and to control image sizing&lt;/li&gt;
+    &lt;li&gt;Access&amp;#160;&lt;strong&gt;Display Settings&lt;/strong&gt; to choose options for advanced&amp;#160;&lt;strong&gt;Rendering Method &lt;/strong&gt;options including build-in XSL Transformation templates, or even use your own self made XSLT stylesheets&amp;#160;&lt;/li&gt;
+    &lt;li&gt;Select the &lt;strong&gt;Sort&amp;#160;Column&lt;/strong&gt; and specific the &lt;strong&gt;Sort Direction&lt;/strong&gt; (ascending/descending)&lt;/li&gt;
+    &lt;li&gt;Activate multi-paging functionality by choosing a &lt;strong&gt;Paging&lt;/strong&gt; value from the dropdown list&lt;/li&gt;
+    &lt;li&gt;Select&amp;#160;which &lt;strong&gt;CSS Classes&lt;/strong&gt; should be applied to the Default Grid Display&lt;/li&gt;
+    &lt;li&gt;Using SQL, you may choose to&amp;#160;&lt;strong&gt;Filter&lt;/strong&gt; which records&amp;#160;will appear in this module instance&lt;/li&gt;
+    &lt;li&gt;You may&amp;#160;enable the &lt;strong&gt;Search&lt;/strong&gt; function. Enable &lt;strong&gt;Show Search Box&lt;/strong&gt;, then choose options to &lt;strong&gt;Show no records until Search&lt;/strong&gt; and enable&amp;#160;&lt;strong&gt;Simple Search&lt;/strong&gt; to display only&amp;#160;a Search Box (and help). Disable Simple Search for more detailed search&amp;#160;conditional&amp;#160;options&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can display Form and List data in any layout&amp;#160;or format&amp;#160;you choose using XML&amp;#160;and XSL style sheets. The module includes a set of built in XSL Transformation (XSLT) files that you may use as a starting point to creating more advanced and customized XSLT of your own. XSL Transformations offer you maximum&amp;#160;flexibility for presenting &amp;#160;your data.&lt;/p&gt;
+&lt;p&gt;Two very powerful options are available for helping you work with XSL transformations. These features are especially useful for debugging and learning more about XSL transformations syntax.&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Choose &lt;strong&gt;Display Settings&lt;/strong&gt; &amp;gt; Rendering Method: &lt;strong&gt;XSLT using built-in stylesheets&lt;/strong&gt;, then select a &lt;strong&gt;XSL File &lt;/strong&gt;from the dropdown list&lt;/li&gt;
+    &lt;li&gt;Click &lt;strong&gt;Show XSL source code &lt;/strong&gt;to view the XSL&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p align="center"&gt;-or-&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Choose &lt;strong&gt;Display Settings&lt;/strong&gt; &amp;gt; Rendering Method: &lt;strong&gt;XSLT using self made stylesheets&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Click &lt;strong&gt;Generate New&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;</value>
+  </data>
+  <data name="NoPaging.Text" xml:space="preserve">
+    <value>&lt;no paging&gt;</value>
+  </data>
+  <data name="plDnnCssClasses.Help" xml:space="preserve">
+    <value>Specify which CSS classes will be assigned to the Default Grid Table.</value>
+  </data>
+  <data name="plDnnCssClasses.Text" xml:space="preserve">
+    <value>CSS Classes </value>
+  </data>
+  <data name="plFilterDataSet.Help" xml:space="preserve">
+    <value>Enter a &lt;a href="http://msdn.microsoft.com/library/system.data.datacolumn.expression.aspx" target=”_blank"&gt;filter expression&lt;/a&gt; which a record must match to be displayed,. If your column name has spaces or special characters, surround the column name with [brackets]. Example: [fieldname] ='value'. </value>
+  </data>
+  <data name="plFilterDataSet.Text" xml:space="preserve">
+    <value>Filter statement</value>
+  </data>
+  <data name="plOrder.Help" xml:space="preserve">
+    <value>Specify the default sort order direction, either Ascending (low to high) or Descending (high to low).</value>
+  </data>
+  <data name="plOrder.Text" xml:space="preserve">
+    <value>Sort Direction</value>
+  </data>
+  <data name="plPaging.Help" xml:space="preserve">
+    <value>To enable paging, specify the number of items to display per page.</value>
+  </data>
+  <data name="plPaging.Text" xml:space="preserve">
+    <value>Paging</value>
+  </data>
+  <data name="plRenderMethod.Help" xml:space="preserve">
+    <value>Choose to display data using a Default Grid Table or by applying a self made or built-in XSL script.</value>
+  </data>
+  <data name="plRenderMethod.Text" xml:space="preserve">
+    <value>Rendering Method</value>
+  </data>
+  <data name="plShowSearchTextBox.Text" xml:space="preserve">
+    <value>Show Search Box</value>
+  </data>
+  <data name="plShowSearchTextBox.Help" xml:space="preserve">
+    <value>Display a text box above the data grid to allow users to search for data in the columns specified as Searchable.</value>
+  </data>
+  <data name="plSort.Help" xml:space="preserve">
+    <value>Specify a default sort column. This sort order is overridden when the user clicks the heading of another column.</value>
+  </data>
+  <data name="plSort.Text" xml:space="preserve">
+    <value>Sort Column</value>
+  </data>
+  <data name="plURLFullPath.Help" xml:space="preserve">
+    <value>Show full path, when displaying a link to an external URL, file with folders and tabs with path? Otherwise file name / page name is displayed only.</value>
+  </data>
+  <data name="plURLFullPath.Text" xml:space="preserve">
+    <value>Show full path?</value>
+  </data>
+  <data name="plUserDefinedStyleSheet.Help" xml:space="preserve">
+    <value>Specify the location of an XSL file or create a new one.</value>
+  </data>
+  <data name="plUserDefinedStyleSheet.Text" xml:space="preserve">
+    <value>XSL script</value>
+  </data>
+  <data name="FormSettings.Text" xml:space="preserve">
+    <value>Form Settings</value>
+  </data>
+  <data name="plUsage.Text" xml:space="preserve">
+    <value>Appearance:</value>
+  </data>
+  <data name="plUsage.Help" xml:space="preserve">
+    <value>List or Form mode, this setting applies to the current page only.</value>
+  </data>
+  <data name="plSubmissionText.Text" xml:space="preserve">
+    <value>Displayed text after form post:</value>
+  </data>
+  <data name="plSubmissionText.Help" xml:space="preserve">
+    <value>Enter text to display to the user after the Form "Submit" is clicked.</value>
+  </data>
+  <data name="ListMode.Text" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="FormMode.Text" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="Required.Header" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="cmdSave.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ShowOnEdit.Text" xml:space="preserve">
+    <value>Show on Edit Form?</value>
+  </data>
+  <data name="ShowOnEdit.Help" xml:space="preserve">
+    <value>If enabled, value will be displayed to all users when editing.</value>
+  </data>
+  <data name="SpecialCharactersInFieldTitle.ErrorMessage" xml:space="preserve">
+    <value>Column title contains special characters like "*", ":", "," or "?" </value>
+  </data>
+  <data name="Title.Header" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TrueFalse.Text" xml:space="preserve">
+    <value>True/False</value>
+  </data>
+  <data name="Type.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="UDT_InFieldTitle.ErrorMessage" xml:space="preserve">
+    <value>Column title contains "_UDT_"</value>
+  </data>
+  <data name="UniqueFieldName.ErrorMessage" xml:space="preserve">
+    <value>Column title has to be unique</value>
+  </data>
+  <data name="Visible.Header" xml:space="preserve">
+    <value>Display&lt;br/&gt;on List</value>
+  </data>
+  <data name="XslTrans.Text" xml:space="preserve">
+    <value>XSLT</value>
+  </data>
+  <data name="GenerateXsl.Action" xml:space="preserve">
+    <value>Generate XSL Stylesheet using a Token language</value>
+  </data>
+  <data name="Searchable.Header" xml:space="preserve">
+    <value>Searchable</value>
+  </data>
+  <data name="plShowNoRecordsUntilSearch.Text" xml:space="preserve">
+    <value>Show no records until Search</value>
+  </data>
+  <data name="plShowNoRecordsUntilSearch.Help" xml:space="preserve">
+    <value>Enable to display no records until a search is performed. Click the Search link with no criteria to display all records.</value>
+  </data>
+  <data name="plSimpleSearch.Text" xml:space="preserve">
+    <value>Simple Search</value>
+  </data>
+  <data name="plSimpleSearch.Help" xml:space="preserve">
+    <value>Enable a simple, single field search.</value>
+  </data>
+  <data name="cmdTokensHelp.Text" xml:space="preserve">
+    <value>Available Tokens Help</value>
+  </data>
+  <data name="cmdColumnsHelp.Text" xml:space="preserve">
+    <value>Hidden Columns Help</value>
+  </data>
+  <data name="cmdEditTrackingMessage.Help" xml:space="preserve">
+    <value>Edit Tracking Message</value>
+  </data>
+  <data name="cmdEditTrackingMessage.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="cmdGenerateTrackingMessage.Help" xml:space="preserve">
+    <value>Generate new Tracking Message</value>
+  </data>
+  <data name="cmdGenerateTrackingMessage.Text" xml:space="preserve">
+    <value>Generate New</value>
+  </data>
+  <data name="plTrackingEmailAddresses.Help" xml:space="preserve">
+    <value>Enter one or more email addresses, separated by semicolon ";" or enclosed in [brackets]. You may enter the column Title name for column types Email, Created By, Changed By, User Link, e.g. admin@domain.com;[Created By];[Secondary Email]</value>
+  </data>
+  <data name="plTrackingEmailAddresses.Text" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="plTrackingMessage.Help" xml:space="preserve">
+    <value>Enter the body of the notification email message.</value>
+  </data>
+  <data name="plTrackingMessage.Text" xml:space="preserve">
+    <value>Email Message</value>
+  </data>
+  <data name="plEmailSubject.Help" xml:space="preserve">
+    <value>Enter a Subject for the notification email. You can also use [field:&lt;em&gt;columnname&lt;/em&gt;]  or commen [tokens] within the Subject field.</value>
+  </data>
+  <data name="plEmailSubject.Text" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="SubmissionSuccess.Text" xml:space="preserve">
+    <value>Your submission was successful.</value>
+  </data>
+  <data name="DropDown.Text" xml:space="preserve">
+    <value>Drop Down List</value>
+  </data>
+  <data name="RadioButtons.Text" xml:space="preserve">
+    <value>Radio Button List (vertical)</value>
+  </data>
+  <data name="Bodytype_Auto.Text" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Bodytype_Xsl.Text" xml:space="preserve">
+    <value>XSL Script</value>
+  </data>
+  <data name="plBody.Help" xml:space="preserve">
+    <value>The body of the email can be created automatically using the message and text fields above or created by a self made customizable XSL script.</value>
+  </data>
+  <data name="plBody.Text" xml:space="preserve">
+    <value>Email Body Creation</value>
+  </data>
+  <data name="plTrackingOn.Help" xml:space="preserve">
+    <value>Choose which actions will trigger a notification email.</value>
+  </data>
+  <data name="plTrackingOn.Text" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="plTrackingScript.Help" xml:space="preserve">
+    <value>Specify the location of a XSL file or create a new one.</value>
+  </data>
+  <data name="plTrackingScript.Text" xml:space="preserve">
+    <value>Email XSL script</value>
+  </data>
+  <data name="TrackingOnDelete.Text" xml:space="preserve">
+    <value>On Delete</value>
+  </data>
+  <data name="TrackingOnNew.Text" xml:space="preserve">
+    <value>On New</value>
+  </data>
+  <data name="TrackingOnUpdate.Text" xml:space="preserve">
+    <value>On Update</value>
+  </data>
+  <data name="DeleteAll.Action" xml:space="preserve">
+    <value>Delete All Records</value>
+  </data>
+  <data name="DeleteAll.Confirm" xml:space="preserve">
+    <value>Are you sure you wish to delete all records stored in this table?</value>
+  </data>
+  <data name="ResetModuleTabSettings.Action" xml:space="preserve">
+    <value>Reset to default Configuration</value>
+  </data>
+  <data name="ResetModuleTabSettings.Confirm" xml:space="preserve">
+    <value>Are you sure you wish to reset all page related settings for this module?</value>
+  </data>
+  <data name="SaveSettingsAsDefault.Action" xml:space="preserve">
+    <value>Save Configuration as default</value>
+  </data>
+  <data name="plURLSearch.Help" xml:space="preserve">
+    <value>Enable this setting to include URL paths in search.</value>
+  </data>
+  <data name="plURLSearch.Text" xml:space="preserve">
+    <value>Search URL Paths</value>
+  </data>
+  <data name="plTopCount.Help" xml:space="preserve">
+    <value>If you want to limit the number of records returned, enter a number between 1 and 1000 and only the first records will be displayed (according to Sorting Options).</value>
+  </data>
+  <data name="plTopCount.Text" xml:space="preserve">
+    <value>Records Returned</value>
+  </data>
+  <data name="ErrTopCount.Text" xml:space="preserve">
+    <value>Please enter a valid integer number between 1 and 1000!</value>
+  </data>
+  <data name="SearchAndFilter.Text" xml:space="preserve">
+    <value>Search and Filter Options:</value>
+  </data>
+  <data name="Sorting.Text" xml:space="preserve">
+    <value>Sorting Options:</value>
+  </data>
+  <data name="RememberSettings.Text" xml:space="preserve">
+    <value>Please apply also "Create Record/Submit Form" permissions in Module Settings!</value>
+  </data>
+  <data name="plOnDelete.Help" xml:space="preserve">
+    <value>Optional message to display in the body of the notification email, on Delete.</value>
+  </data>
+  <data name="plOnDelete.Text" xml:space="preserve">
+    <value>On Delete Text</value>
+  </data>
+  <data name="plOnNew.Help" xml:space="preserve">
+    <value>Optional message to display in the body of the notification email, on New.</value>
+  </data>
+  <data name="plOnNew.Text" xml:space="preserve">
+    <value>On New Text</value>
+  </data>
+  <data name="plOnUpdate.Help" xml:space="preserve">
+    <value>Optional message to display in the body of the notification email, on Update.</value>
+  </data>
+  <data name="plOnUpdate.Text" xml:space="preserve">
+    <value>On Update Text</value>
+  </data>
+  <data name="RadioButtonsHorizontal.Text" xml:space="preserve">
+    <value>RBL (horizontal) </value>
+  </data>
+  <data name="NotEmailSource.Text" xml:space="preserve">
+    <value>Tracking/Notification issue: Field {0} is either not a valid source for email adresses or it was not found inside fields definitions.</value>
+  </data>
+  <data name="UdtSettings.Text" xml:space="preserve">
+    <value>Data Table Setup</value>
+  </data>
+  <data name="UdtTeaser.Text" xml:space="preserve">
+    <value>Specify the "User Defined Table" columns you wish to include in your Form or List.</value>
+  </data>
+  <data name="lblOnSubmissionRedirect.Help" xml:space="preserve">
+    <value>Page or URL you want to redirect the user after submission</value>
+  </data>
+  <data name="lblOnSubmissionRedirect.Text" xml:space="preserve">
+    <value>Redirect upon submit</value>
+  </data>
+  <data name="OnSubmissionForm.Text" xml:space="preserve">
+    <value>Show Form and Text</value>
+  </data>
+  <data name="OnSubmissionRedirect.Text" xml:space="preserve">
+    <value>Redirect to another page</value>
+  </data>
+  <data name="OnSubmissionText.Text" xml:space="preserve">
+    <value>Show Text only</value>
+  </data>
+  <data name="rblOnSubmission.Help" xml:space="preserve">
+    <value>Action upon submit</value>
+  </data>
+  <data name="rblOnSubmission.Text" xml:space="preserve">
+    <value>Action upon submit:</value>
+  </data>
+  <data name="NotEmailAddress.Text" xml:space="preserve">
+    <value>Tracking/Notification issue: {0} is not a valid email address. If you want to add a field, please surround your input with square brackets. </value>
+  </data>
+  <data name="Private.Header" xml:space="preserve">
+    <value>Restricted&lt;br/&gt;Form Field</value>
+  </data>
+  <data name="FormAndListMode.Text" xml:space="preserve">
+    <value>Form above List</value>
+  </data>
+  <data name="ListAndFormMode.Text" xml:space="preserve">
+    <value>Form below List</value>
+  </data>
+  <data name="plEnableListViewPermission.Help" xml:space="preserve">
+    <value>By default, List is shown if "Form above List" or "Form below List" is selected. If this setting is enabled, it is controlled by "List View" permission. In "Form" mode, the permission will control also the module action "Show Records". </value>
+  </data>
+  <data name="plEnableListViewPermission.Text" xml:space="preserve">
+    <value>Is List view restricted by Permission?</value>
+  </data>
+  <data name="plTrackingEmail_BCC.Help" xml:space="preserve">
+    <value>Enter one or more email addresses, separated by semicolon ";" or enclosed in [brackets]. You may enter the column Title name for column types Email, Created By, Changed By, User Link, e.g. admin@domain.com;[Created By];[Secondary Email]</value>
+  </data>
+  <data name="plTrackingEmail_BCC.Text" xml:space="preserve">
+    <value>BCC</value>
+  </data>
+  <data name="plTrackingEmail_CC.Help" xml:space="preserve">
+    <value>Enter one or more email addresses, separated by semicolon ";" or enclosed in [brackets]. You may enter the column Title name for column types Email, Created By, Changed By, User Link, e.g. admin@domain.com;[Created By];[Secondary Email]</value>
+  </data>
+  <data name="plTrackingEmail_CC.Text" xml:space="preserve">
+    <value>CC</value>
+  </data>
+  <data name="FnlSchema.Text" xml:space="preserve">
+    <value>Schema Definition </value>
+  </data>
+  <data name="BehaviorSettings.Text" xml:space="preserve">
+    <value>Page Related Settings</value>
+  </data>
+  <data name="cmdCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EmailSettings.Text" xml:space="preserve">
+    <value>Email Settings</value>
+  </data>
+  <data name="ListSettings.Text" xml:space="preserve">
+    <value>List Settings</value>
+  </data>
+  <data name="plPrivacy.Help" xml:space="preserve">
+    <value>Enable this setting to keep the data of this modul confidential, When enabled, data will be excluded from the website search index. </value>
+  </data>
+  <data name="plPrivacy.Text" xml:space="preserve">
+    <value>Exclude module content from search:</value>
+  </data>
+  <data name="DataTypeNotInstalled.Text" xml:space="preserve">
+    <value>DataType "{0}" is not installed. Please either check DataTypes.Config or change the type of the matching fields. </value>
+  </data>
+  <data name="EditStyle.Help" xml:space="preserve">
+    <value>Style which is applied on text box or list control in form, e.g. "width:300px"</value>
+  </data>
+  <data name="EditStyle.Text" xml:space="preserve">
+    <value>CSS Style</value>
+  </data>
+  <data name="plTrackingEmail_from.Help" xml:space="preserve">
+    <value>Sender email address for the notification message. Only set a value if you know exactly what you are doing! Customizing this setting, you risk the chance that notification emails will be treated as unsolicited SPAM. ReplyTo is the safest option to customize for most situations. If you are unsure, leave this setting blank and the email address of the portal administrator will be used.</value>
+  </data>
+  <data name="plTrackingEmail_from.Text" xml:space="preserve">
+    <value>From (overrides default)</value>
+  </data>
+  <data name="plTrackingEmail_replyto.Help" xml:space="preserve">
+    <value>Email address used to reply to the notification message. If you are unsure, leave this setting blank and the email address of the portal administrator will be used.</value>
+  </data>
+  <data name="plTrackingEmail_replyto.Text" xml:space="preserve">
+    <value>ReplyTo (overrides default)</value>
+  </data>
+  <data name="AddButtonText.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CancelButtonText.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CaptionHeaderText.Text" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="EditCaptionTitle.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditLinkText.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="RemoveButtonText.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SaveButtonText.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ValueHeaderText.Text" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="plUseButtons.Help" xml:space="preserve">
+    <value>Actions  as Buttons instead of ActionMenu commands </value>
+  </data>
+  <data name="plUseButtons.Text" xml:space="preserve">
+    <value>Actions  as Buttons</value>
+  </data>
+  <data name="DisplaySettings.Text" xml:space="preserve">
+    <value>Current View Options </value>
+  </data>
+  <data name="noFormSettings.Text" xml:space="preserve">
+    <value>No settings for this configuration</value>
+  </data>
+</root>

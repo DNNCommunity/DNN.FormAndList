@@ -1,0 +1,8 @@
+syntax: glob
+Backup/*
+_ReSharper.*/*
+obj/*
+_UpgradeReport_Files/*
+*suo
+*csproj.user
+DotNetNuke.Modules.UserDefinedTable.xml

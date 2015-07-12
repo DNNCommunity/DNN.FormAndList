@@ -1,0 +1,370 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/** Create UserDefinedTable Tables **/
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedRows]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}UserDefinedRows]
+		(
+			[UserDefinedRowId] [int] NOT NULL IDENTITY(1, 1),
+			[ModuleId] [int] NOT NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedRows] ADD CONSTRAINT [PK_{objectQualifier}UserDefinedRows] PRIMARY KEY CLUSTERED  ([UserDefinedRowId])
+		CREATE NONCLUSTERED INDEX [IX_{objectQualifier}UserDefinedRows] ON {databaseOwner}[{objectQualifier}UserDefinedRows] ([ModuleId])
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedRows] WITH NOCHECK ADD CONSTRAINT [FK_{objectQualifier}UserDefinedRows_{objectQualifier}Modules] FOREIGN KEY ([ModuleId]) REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID]) ON DELETE CASCADE 
+	END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedFields]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}UserDefinedFields]
+		(
+			[UserDefinedFieldId] [int] NOT NULL IDENTITY(1, 1),
+			[ModuleId] [int] NOT NULL,
+			[FieldTitle] [varchar] (50) NOT NULL,
+			[Visible] [bit] NOT NULL,
+			[FieldOrder] [int] NOT NULL DEFAULT (0),
+			[FieldType] [varchar] (20) NOT NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] ADD CONSTRAINT [PK_{objectQualifier}UserDefinedTable] PRIMARY KEY CLUSTERED  ([UserDefinedFieldId])
+		CREATE NONCLUSTERED INDEX [IX_{objectQualifier}UserDefinedFields] ON {databaseOwner}[{objectQualifier}UserDefinedFields] ([ModuleId])
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] WITH NOCHECK ADD CONSTRAINT [FK_{objectQualifier}UserDefinedFields_{objectQualifier}Modules] FOREIGN KEY ([ModuleId]) REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID]) ON DELETE CASCADE 
+
+	END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedData]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}UserDefinedData]
+		(
+			[UserDefinedDataId] [int] NOT NULL IDENTITY(1, 1),
+			[UserDefinedFieldId] [int] NOT NULL,
+			[UserDefinedRowId] [int] NOT NULL,
+			[FieldValue] [nvarchar] (2000) NOT NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] ADD CONSTRAINT [PK_{objectQualifier}UserDefinedData] PRIMARY KEY CLUSTERED  ([UserDefinedDataId])
+		CREATE NONCLUSTERED INDEX [IX_{objectQualifier}UserDefinedData] ON {databaseOwner}[{objectQualifier}UserDefinedData] ([UserDefinedFieldId])
+		CREATE NONCLUSTERED INDEX [IX_{objectQualifier}UserDefinedData_1] ON {databaseOwner}[{objectQualifier}UserDefinedData] ([UserDefinedRowId])
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] WITH NOCHECK ADD CONSTRAINT [FK_{objectQualifier}UserDefinedData_{objectQualifier}UserDefinedFields] FOREIGN KEY ([UserDefinedFieldId]) REFERENCES {databaseOwner}[{objectQualifier}UserDefinedFields] ([UserDefinedFieldId]) 
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] WITH NOCHECK ADD CONSTRAINT [FK_{objectQualifier}UserDefinedData_{objectQualifier}UserDefinedRows] FOREIGN KEY ([UserDefinedRowId]) REFERENCES {databaseOwner}[{objectQualifier}UserDefinedRows] ([UserDefinedRowId]) ON DELETE CASCADE 
+	END
+GO
+
+
+/** Drop Existing Stored Procedures **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}AddUserDefinedRow]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}AddUserDefinedRow
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}AddUserDefinedData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}AddUserDefinedData
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}AddUserDefinedField]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}AddUserDefinedField
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedRow]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}DeleteUserDefinedRow
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}DeleteUserDefinedData
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}DeleteUserDefinedField]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}DeleteUserDefinedField
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedRow]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetUserDefinedRow
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetUserDefinedData
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedField]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetUserDefinedField
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedRows]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetUserDefinedRows
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetUserDefinedFields]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetUserDefinedFields
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UpdateUserDefinedData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}UpdateUserDefinedData
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UpdateUserDefinedField]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}UpdateUserDefinedField
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UpdateUserDefinedFieldOrder]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}UpdateUserDefinedFieldOrder
+GO
+
+
+/** Create Stored Procedures **/
+
+create procedure {databaseOwner}{objectQualifier}AddUserDefinedRow
+
+	@ModuleId         int
+
+as
+
+insert into {databaseOwner}{objectQualifier}UserDefinedRows ( 
+	ModuleId
+)
+values (
+	@ModuleId
+)
+
+select SCOPE_IDENTITY()
+
+GO
+
+
+create procedure {databaseOwner}{objectQualifier}AddUserDefinedData
+
+	@UserDefinedRowId    int,
+	@UserDefinedFieldId  int,
+	@FieldValue          nvarchar(2000)
+
+as
+
+insert into {databaseOwner}{objectQualifier}UserDefinedData ( 
+	UserDefinedFieldId,
+	UserDefinedRowId,
+	FieldValue
+)
+values (
+	@UserDefinedFieldId,
+	@UserDefinedRowId,
+	@FieldValue
+)
+
+select SCOPE_IDENTITY()
+
+GO
+
+
+create procedure {databaseOwner}{objectQualifier}AddUserDefinedField
+
+	@ModuleId     int,
+	@FieldTitle   varchar(50),
+	@Visible      bit,
+	@FieldType    varchar(20)
+
+as
+
+insert into {databaseOwner}{objectQualifier}UserDefinedFields ( 
+	ModuleId,
+	FieldTitle,
+	Visible,
+	FieldType
+	)
+values (
+	@ModuleId,
+	@FieldTitle,
+	@Visible,
+	@FieldType
+)
+
+select SCOPE_IDENTITY()
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}DeleteUserDefinedRow
+
+	@UserDefinedRowId    int 
+
+as
+
+delete 
+from {databaseOwner}{objectQualifier}UserDefinedRows
+where  UserDefinedRowId = @UserDefinedRowId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}DeleteUserDefinedData
+
+	@UserDefinedRowId    int, 
+	@UserDefinedFieldId  int
+
+as
+
+delete 
+from {databaseOwner}{objectQualifier}UserDefinedData
+where  UserDefinedFieldId = @UserDefinedFieldId
+and    UserDefinedRowId = @UserDefinedRowId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}DeleteUserDefinedField
+
+	@UserDefinedFieldId    int 
+
+as
+
+delete 
+from {databaseOwner}{objectQualifier}UserDefinedFields
+where  UserDefinedFieldId = @UserDefinedFieldId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}GetUserDefinedRow
+
+	@UserDefinedRowId   int,
+	@ModuleId           int
+
+as
+
+select 
+	 FieldTitle,
+    FieldValue
+from {databaseOwner}{objectQualifier}UserDefinedData
+inner join {databaseOwner}{objectQualifier}UserDefinedFields on {databaseOwner}{objectQualifier}UserDefinedData.UserDefinedFieldId = {objectQualifier}UserDefinedFields.UserDefinedFieldId
+where  {databaseOwner}{objectQualifier}UserDefinedData.UserDefinedRowId = @UserDefinedRowId
+and    {databaseOwner}{objectQualifier}UserDefinedFields.ModuleId = @ModuleId
+
+GO
+
+
+create procedure {databaseOwner}{objectQualifier}GetUserDefinedData
+
+	@UserDefinedRowId    int,
+	@UserDefinedFieldId  int
+
+as
+
+select * 
+from   {databaseOwner}{objectQualifier}UserDefinedData 
+where  UserDefinedFieldId = @UserDefinedFieldId 
+and    UserDefinedRowId = @UserDefinedRowId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}GetUserDefinedField
+
+	@UserDefinedFieldId  int
+
+as
+
+select 
+	UserDefinedFieldId,
+	ModuleID,
+    FieldTitle,
+    Visible,
+    FieldOrder,
+    FieldType
+from {objectQualifier}UserDefinedFields
+where  UserDefinedFieldId = @UserDefinedFieldId
+
+GO
+
+
+create procedure {databaseOwner}{objectQualifier}GetUserDefinedRows
+
+	@ModuleId    int 
+
+as
+
+select 
+	D.UserDefinedRowId,
+   FieldTitle,
+   FieldValue
+from {databaseOwner}{objectQualifier}UserDefinedRows R
+left outer join {databaseOwner}{objectQualifier}UserDefinedData D on R.UserDefinedRowId = D.UserDefinedRowId
+inner join {databaseOwner}{objectQualifier}UserDefinedFields F on D.UserDefinedFieldId = F.UserDefinedFieldId 
+where  R.ModuleId = @ModuleId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}GetUserDefinedFields
+
+@ModuleId  int
+
+as
+
+select 
+	UserDefinedFieldId,
+	ModuleID,
+    FieldTitle,
+    Visible,
+    FieldOrder,
+    FieldType
+from {databaseOwner}{objectQualifier}UserDefinedFields
+where  ModuleId = @ModuleId
+order by FieldOrder
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}UpdateUserDefinedData
+
+	@UserDefinedRowId    int,
+	@UserDefinedFieldId  int,
+	@FieldValue          nvarchar(2000)
+
+as
+
+update {databaseOwner}{objectQualifier}UserDefinedData
+set    FieldValue = @FieldValue
+where UserDefinedFieldId = @UserDefinedFieldId
+and UserDefinedRowId = @UserDefinedRowId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}UpdateUserDefinedField
+
+	@UserDefinedFieldId   int,
+	@FieldTitle           varchar(50),
+	@Visible              bit,
+	@FieldType            varchar(20)
+
+as
+
+update {databaseOwner}{objectQualifier}UserDefinedFields
+set    FieldTitle = @FieldTitle,
+       Visible = @Visible,
+       FieldType = @FieldType
+where  UserDefinedFieldId = @UserDefinedFieldId
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}UpdateUserDefinedFieldOrder
+
+	@UserDefinedFieldId  int,
+	@FieldOrder           int
+
+as
+
+update {databaseOwner}{objectQualifier}UserDefinedFields
+set    FieldOrder = @FieldOrder
+where  UserDefinedFieldId = @UserDefinedFieldId
+
+GO
+
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

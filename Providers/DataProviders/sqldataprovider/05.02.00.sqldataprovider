@@ -1,0 +1,216 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 5.2.0 *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields]
+ALTER COLUMN [InputSettings] NVARCHAR(MAX)
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields]
+ALTER COLUMN [HelpText] NVARCHAR(MAX)
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ALTER  COLUMN [FieldTitle] NVARCHAR(2000)
+GO
+
+ IF (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'MultipleValues','AllowsNull')) IS NULL 
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ADD MultipleValues bit NOT NULL DEFAULT 0
+GO
+
+
+/* replace stored procedures with updated versions: */
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+@ModuleId       INT,
+@FieldTitle     NVARCHAR(2000),
+@BeforePos      INT,
+@HelpText       NVARCHAR(MAX),
+@Required       BIT,
+@FieldType      VARCHAR(20),
+@Default       NVARCHAR(2000),
+@Visible        BIT,
+@ShowOnEdit     BIT,
+@Searchable     BIT,
+@Private        BIT,
+@MultipleValues BIT,
+@InputSettings  NVARCHAR(MAX),
+@OutputSettings NVARCHAR(2000),
+@NormalizeFlag  BIT, 
+@ValidationRule NVARCHAR(512),
+@ValidationMessage NVARCHAR(512),
+@EditStyle NVarChar(512)
+AS
+DECLARE @InsPos INT
+/* find insert position and adjust field order of subsequent fields: */
+SET @InsPos = (SELECT MAX(FieldOrder) AS MaxPos FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE ModuleID = @ModuleID GROUP BY ModuleID) + 1 
+IF @InsPos IS Null SET @InsPos = 1
+IF @BeforePos Is Null SET @BeforePos = @InsPos
+IF @InsPos > @BeforePos BEGIN
+        UPDATE [{objectQualifier}UserDefinedFields]
+        SET FieldOrder = FieldOrder + 1
+        WHERE ModuleID = @ModuleID AND FieldOrder >= @BeforePos
+        SET  @InsPos = @BeforePos 
+    END
+        
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFields] ( 
+    ModuleId,
+    FieldTitle,
+    HelpText,
+    Required,
+    FieldType,
+    FieldOrder,
+    [Default],
+    Visible,
+    ShowOnEdit,
+    Searchable,
+    PrivateField,
+	MultipleValues,
+    InputSettings,
+    OutputSettings, 
+    NormalizeFlag,
+    ValidationRule,
+    ValidationMessage,
+    EditStyle 
+)
+VALUES (
+    @ModuleId,
+    @FieldTitle,
+    @HelpText,
+    @Required,
+    @FieldType,
+    @InsPos,
+    @Default,
+    @Visible,
+    @ShowOnEdit,
+    @Searchable,
+    @Private,
+	@MultipleValues,
+    @InputSettings,
+    @OutputSettings,
+    @NormalizeFlag,
+    @ValidationRule, 
+    @ValidationMessage,
+    @EditStyle
+)
+SELECT SCOPE_IDENTITY()
+GO
+
+IF  exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+@UserDefinedFieldId   INT,
+@FieldTitle           NVARCHAR(2000),
+@HelpText             NVARCHAR(512),
+@Required             BIT,
+@FieldType            VARCHAR(20),
+@default			  NVARCHAR(2000), 
+@Visible              BIT,
+@ShowOnEdit           BIT,
+@Searchable			  BIT,
+@Private              BIT,
+@MultipleValues		  BIT,
+@InputSettings        NVARCHAR(2000),
+@OutputSettings       NVARCHAR(2000),
+@NormalizeFlag        BIT,
+@ValidationRule       NVARCHAR(512),
+@ValidationMessage    NVARCHAR(512),
+@EditStyle NVarChar(512)
+
+AS
+UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields]
+SET    FieldTitle = @FieldTitle,
+        HelpText = @HelpText,
+        Required = @Required,
+        FieldType = @FieldType,
+        [default] = @default,
+        Visible = @Visible,
+        ShowOnEdit = @ShowOnEdit,
+        Searchable = @Searchable,
+        PrivateField = @Private,
+		MultipleValues = @MultipleValues,
+        InputSettings = @InputSettings, 
+        OutputSettings = @OutputSettings, 
+        NormalizeFlag = @NormalizeFlag,
+        ValidationRule = @ValidationRule,
+        ValidationMessage = @ValidationMessage,
+        EditStyle=@EditStyle
+WHERE UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+@UserDefinedFieldId  INT
+AS
+SELECT UserDefinedFieldId,
+    ModuleID,
+    FieldTitle,
+    HelpText,
+    Required,
+    FieldOrder,
+    FieldType, 
+    [default],
+    Visible,
+    ShowOnEdit,
+    Searchable,
+    PrivateField,
+	MultipleValues,
+    InputSettings,
+    OutputSettings, 
+    NormalizeFlag,
+    ValidationRule,
+    ValidationMessage,
+    EditStyle
+FROM {databaseOwner}[{objectQualifier}UserDefinedFields]
+WHERE UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+@ModuleId  INT
+AS
+SELECT UserDefinedFieldId,
+        ModuleID,
+        FieldTitle,
+        HelpText,
+        Required,
+        FieldOrder,
+        FieldType,
+        [default],
+        Visible,
+        ShowOnEdit,
+        Searchable,
+        PrivateField,
+		MultipleValues,
+        InputSettings,
+        OutputSettings, 
+        NormalizeFlag,
+        ValidationRule,
+        ValidationMessage,
+        EditStyle
+FROM {databaseOwner}[{objectQualifier}UserDefinedFields]
+WHERE  ModuleId = @ModuleId
+ORDER BY FieldOrder
+GO

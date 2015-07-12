@@ -1,0 +1,329 @@
+﻿/************************************************************/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for UserDefinedTable 3.3.0 *****/
+/*****       [sleupold] 04/25/2006                      *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/** Add extended settings for UDT fields **/
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddData]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+GO
+
+
+/** Optimize indexes AND PK **/
+
+IF EXISTS (SELECT name FROM  sys.indexes
+    WHERE name = 'IX_{objectQualifier}UserDefinedData')
+DROP INDEX [IX_{objectQualifier}UserDefinedData] on {objectQualifier}UserDefinedData
+GO
+
+IF EXISTS (SELECT name FROM  sys.indexes
+   WHERE name = 'IX_{objectQualifier}UserDefinedData_1') 
+DROP INDEX [IX_{objectQualifier}UserDefinedData_1] on {objectQualifier}UserDefinedData 
+GO
+
+IF EXISTS (SELECT name FROM  sys.indexes
+   WHERE name = 'PK_{objectQualifier}UserDefinedData') 
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] DROP CONSTRAINT [PK_{objectQualifier}UserDefinedData]
+GO
+
+IF NOT (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedData]'),'UserDefinedDataId','AllowsNull')) IS NULL 
+   ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] DROP COLUMN [UserDefinedDataId]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedData] WITH NOCHECK ADD 
+CONSTRAINT [PK_{objectQualifier}UserDefinedData] PRIMARY KEY CLUSTERED  ([UserDefinedFieldId], [UserDefinedRowId]) 
+GO
+
+IF EXISTS (SELECT name FROM  sys.indexes
+   WHERE name = 'IX_{objectQualifier}UserDefinedFields') 
+DROP INDEX [IX_{objectQualifier}UserDefinedFields] on {objectQualifier}UserDefinedFields 
+GO
+
+
+CREATE UNIQUE INDEX [IX_{objectQualifier}UserDefinedFields] ON {databaseOwner}[{objectQualifier}UserDefinedFields] (ModuleId, FieldOrder)
+GO
+
+/** update existing tables **/
+
+IF (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}UserDefinedFields]'),'ExtendedSettings','AllowsNull')) IS NULL 
+ALTER TABLE {databaseOwner}{objectQualifier}UserDefinedFields
+ADD ExtendedSettings nvarchar(2000) DEFAULT ('') NOT NULL
+GO
+
+/** add fields Created at/by & last updated at/by **/
+ INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ (ModuleID, FieldTitle, Visible, FieldOrder, FieldType, Required)
+ SELECT ModuleID, 
+        'Created by' AS fTitle, 
+        0 AS vis, 
+        MAX(FieldOrder) + 1 AS NewOrder, 
+        'CreatedBy' as fType, 
+        1 AS req 
+ FROM {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ WHERE NOT ModuleID IN (SELECT ModuleID FROM {databaseOwner}[{objectQualifier}UserDefinedFields] WHERE FieldType = 'CreatedBy')
+ GROUP BY ModuleID
+GO
+
+ INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ (ModuleID, FieldTitle, Visible, FieldOrder, FieldType, Required, [Default])
+ SELECT ModuleID, 
+        'Created at' ASfTitle, 
+        0 AS vis, 
+        MAX(FieldOrder) + 1 AS NewOrder, 
+        'CreatedAt' as fType, 
+        1 AS req, 
+        Convert(nVarChar, GetDate(), 126) AS now 
+ FROM {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ WHERE NOT ModuleID IN (SELECT ModuleID FROM {databaseOwner}[{objectQualifier}UserDefinedFields] WHERE FieldType = 'CreatedAt')
+ GROUP BY ModuleID
+GO
+
+ 
+ INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ (ModuleID, FieldTitle, Visible, FieldOrder, FieldType, Required)
+ SELECT ModuleID, 
+        'Last updated by' AS fTitle, 
+        0 AS vis, 
+        MAX(FieldOrder) + 1 AS NewOrder, 
+        'ChangedBy' as fType, 
+        1 AS req 
+ FROM {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ WHERE NOT ModuleID IN (SELECT ModuleID FROM {databaseOwner}[{objectQualifier}UserDefinedFields] WHERE FieldType = 'ChangedBy')
+ GROUP BY ModuleID
+GO
+
+
+ INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ (ModuleID, FieldTitle, Visible, FieldOrder, FieldType, Required, [Default])
+ SELECT ModuleID, 
+        'Last updated at' AS fTitle, 
+        0 AS vis, 
+        MAX(FieldOrder) + 1 AS NewOrder, 
+        'ChangedAt' as fType, 
+        1 AS req, 
+        Convert(nVarChar, GetDate(), 126) AS now 
+ FROM {databaseOwner}[{objectQualifier}UserDefinedFields] 
+ WHERE NOT ModuleID IN (SELECT ModuleID FROM {databaseOwner}[{objectQualifier}UserDefinedFields] WHERE FieldType = 'ChangedAt')
+GROUP BY ModuleID
+GO
+
+
+/** DROP rows without values **/
+ 
+ DELETE {databaseOwner}{objectQualifier}UserDefinedRows
+ FROM {databaseOwner}{objectQualifier}UserDefinedRows R 
+  LEFT JOIN {databaseOwner}{objectQualifier}UserDefinedData D
+  ON D.UserDefinedRowId = R.UserDefinedRowId 
+ WHERE D.UserDefinedRowId IS NUll
+GO
+
+/** add default values for existing records **/
+ 
+ INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedData] (UserDefinedFieldId, UserDefinedRowId, FieldValue) 
+ SELECT F.UserDefinedFieldId, R.UserDefinedRowId, 'UDT-Import' As aUserName
+ FROM ({databaseOwner}{objectQualifier}UserDefinedFields F 
+  INNER JOIN {databaseOwner}{objectQualifier}UserDefinedRows R ON F.ModuleID = R.ModuleID)
+  LEFT JOIN {databaseOwner}{objectQualifier}UserDefinedData D ON F.UserDefinedFieldId = D.UserDefinedFieldId  AND R.UserDefinedRowId = D.UserDefinedRowId
+ WHERE FieldType IN ('CreatedBy', 'ChangedBy') AND D.UserDefinedFieldId IS Null
+GO
+
+
+ INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedData] (UserDefinedFieldId, UserDefinedRowId, FieldValue) 
+ SELECT F.UserDefinedFieldId, R.UserDefinedRowId, Convert(nVarChar, GetDate(), 126) AS theDate
+ FROM ({databaseOwner}{objectQualifier}UserDefinedFields F 
+ INNER JOIN {databaseOwner}{objectQualifier}UserDefinedRows R ON F.ModuleID = R.ModuleID)
+ LEFT JOIN  {databaseOwner}{objectQualifier}UserDefinedData D ON F.UserDefinedFieldId = D.UserDefinedFieldId AND R.UserDefinedRowId = D.UserDefinedRowId
+ WHERE FieldType IN ('CreatedAt', 'ChangedAt') AND D.UserDefinedFieldId IS Null
+GO
+
+/** move AND rename Settings FROM ModuleSettings to TabModuleSettings **/
+ 
+INSERT INTO {databaseOwner}{objectQualifier}TabModuleSettings (TabModuleID, SettingName, SettingValue)
+SELECT  TM.TabModuleID, 'UDT_' + MS.SettingName AS SN, MS.SettingValue
+FROM {databaseOwner}{objectQualifier}TabModules TM
+INNER JOIN {databaseOwner}{objectQualifier}ModuleSettings MS
+INNER JOIN {databaseOwner}{objectQualifier}ModuleDefinitions MD
+INNER JOIN {databaseOwner}{objectQualifier}Modules M
+     ON MD.ModuleDefID = M.ModuleDefID 
+     ON MS.ModuleID = M.ModuleID 
+     ON TM.ModuleID = M.ModuleID
+WHERE MD.FriendlyName = N'User Defined Table' AND MS.SettingName IN (N'AlternatingItemStyleBackColor', N'sortfield', N'sortorder', N'Paging')
+GO
+
+ 
+DELETE MS
+FROM {databaseOwner}{objectQualifier}ModuleSettings MS
+INNER JOIN {databaseOwner}{objectQualifier}Modules M ON MS.ModuleID = M.ModuleID 
+INNER JOIN {databaseOwner}{objectQualifier}ModuleDefinitions MD ON M.ModuleDefID = MD.ModuleDefID
+WHERE MD.FriendlyName = N'User Defined Table' AND MS.SettingName IN (N'AlternatingItemStyleBackColor', N'sortfield', N'sortorder', N'Paging')
+GO
+
+ 
+UPDATE MS
+SET MS.SettingName = 'UDT_' + MS.SettingName
+FROM {databaseOwner}{objectQualifier}ModuleSettings MS
+INNER JOIN {databaseOwner}{objectQualifier}Modules  M ON MS.ModuleID = M.ModuleID 
+INNER JOIN {databaseOwner}{objectQualifier}ModuleDefinitions MD ON M.ModuleDefID = MD.ModuleDefID
+WHERE MD.FriendlyName = N'User Defined Table' 
+AND MS.SettingName IN (N'ImageWidth', N'URLFullPath')
+GO
+
+/** create new stored procedures **/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetField]
+@UserDefinedFieldId  INT
+AS
+SELECT UserDefinedFieldId,
+       ModuleID,
+       FieldTitle,
+       Required,
+       FieldOrder,
+       FieldType,
+       [default],
+       Visible,
+	   ExtendedSettings
+FROM UserDefinedFields
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFields]
+@ModuleId  INT
+AS
+SELECT UserDefinedFieldId,
+       ModuleID,
+       FieldTitle,
+       Required,
+       FieldOrder,
+       FieldType,
+       [default],
+       Visible,
+       ExtendedSettings
+FROM {objectQualifier}UserDefinedFields
+WHERE  ModuleId = @ModuleId
+ORDER BY FieldOrder
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+@ModuleId     INT,
+@FieldTitle   VARCHAR(50),
+@Required     BIT,
+@FieldType    VARCHAR(20),
+@default      NVARCHAR(2000),
+@Visible      BIT,
+@ExtendedSettings nvarchar(2000)
+AS
+DECLARE @InsPos INT
+SET @InsPos = (SELECT MAX(FieldOrder) AS MaxPos FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE ModuleID = @ModuleID GROUP BY ModuleID) + 1
+IF @insPos IS Null SET @InsPos = 1
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedFields ( 
+  ModuleId,
+  FieldTitle,
+  Required,
+  FieldType,
+  FieldOrder,
+  [Default],
+  Visible,
+  ExtendedSettings
+)
+VALUES (
+  @ModuleId,
+  @FieldTitle,
+  @Required,
+  @FieldType,
+  @InsPos,
+  @default,
+  @Visible,
+  @ExtendedSettings
+)
+SELECT SCOPE_IDENTITY()
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+@UserDefinedFieldId   INT,
+@FieldTitle           VARCHAR(50),
+@Required              BIT,
+@FieldType            VARCHAR(20),
+@default              NVARCHAR(2000),
+@Visible              BIT,
+@ExtendedSettings     NVARCHAR(2000)
+AS
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields
+SET    FieldTitle = @FieldTitle,
+       Required = @Required,
+       FieldType = @FieldType,
+       [default] = @default,
+       Visible = @Visible,
+       ExtendedSettings = @ExtendedSettings
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+@FirstUserDefinedFieldId   INT,
+@SecndUserDefinedFieldId   INT
+AS
+DECLARE @Pos1 INT
+DECLARE @Pos2 INT
+SET @Pos1 = (SELECT FieldOrder FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE UserDefinedFieldId = @FirstUserDefinedFieldId)
+SET @Pos2 = (SELECT FieldOrder FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE UserDefinedFieldId = @SecndUserDefinedFieldId)
+
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields SET FieldOrder = -1    WHERE UserDefinedFieldId = @SecndUserDefinedFieldId
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields SET FieldOrder = @Pos2 WHERE UserDefinedFieldId = @FirstUserDefinedFieldId
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields SET FieldOrder = @Pos1 WHERE UserDefinedFieldId = @SecndUserDefinedFieldId
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UserDefinedTable_AddData
+@UserDefinedRowId    INT,
+@UserDefinedFieldId  INT,
+@FieldValue          nvarchar(2000)
+AS
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedData ( 
+  UserDefinedFieldId,
+  UserDefinedRowId,
+  FieldValue
+)
+VALUES (
+  @UserDefinedFieldId,
+  @UserDefinedRowId,
+  @FieldValue
+)
+GO
+

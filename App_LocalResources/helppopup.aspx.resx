@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Help_Tokens_6_Title.Text" xml:space="preserve">
+    <value>Available Tokens Reference</value>
+  </data>
+  <data name="Help_Tokens_6_Body.Text" xml:space="preserve">
+    <value>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" &gt;
+&lt;head&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;table cellspacing="3" cellpadding="2" width="100%" summary="" border="0"&gt;
+&lt;colgroup&gt;
+&lt;col class="UDT_Help_RowHead" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;td class="UDT_Help_ColHead"&gt;Token&lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;Description&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:Currency]&lt;/td&gt;
+&lt;td&gt;Currency String&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:Description]&lt;/td&gt;
+&lt;td&gt;Portal Description&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:Email]&lt;/td&gt;
+&lt;td&gt;Portal Admin Email&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:FooterText]&lt;/td&gt;
+&lt;td&gt;Portal Copyright Text&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:HomeDirectory]&lt;/td&gt;
+&lt;td&gt;Portal Path (relative) of Home Directory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:LogoFile]&lt;/td&gt;
+&lt;td&gt;Portal Path to Logo File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:PortalName]&lt;/td&gt;
+&lt;td&gt;Portal Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:PortalAlias]&lt;/td&gt;
+&lt;td&gt;Portal URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Portal:TimeZoneOffset]&lt;/td&gt;
+&lt;td&gt;Difference in Minutes between Portal Default Time and UTC&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[User:DisplayName]&lt;/td&gt;
+&lt;td&gt;User&amp;rsquo;s Display Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[User:Email]&lt;/td&gt;
+&lt;td&gt;User&amp;rsquo;s Email Address&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[User:FirstName]&lt;/td&gt;
+&lt;td&gt;User&amp;rsquo;s First Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[User:FullName]&lt;/td&gt;
+&lt;td&gt;[deprecated]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[User:LastName]&lt;/td&gt;
+&lt;td&gt;User&amp;rsquo;s Last Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[User:Username]&lt;/td&gt;
+&lt;td&gt;User&amp;rsquo;s Login User Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Membership:Approved]&lt;/td&gt;
+&lt;td&gt;Is User Approved?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Membership:CreatedDate] &lt;/td&gt;
+&lt;td&gt;User Signup Date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Membership:IsOnline]&lt;/td&gt;
+&lt;td&gt;Is User Currently Online?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Profile:&amp;lt;Property&amp;gt;]&lt;/td&gt;
+&lt;td&gt;Use any default or custom Profile Property as listed in Profile Property Definition section of Manage User Accounts. Use non-localized Property Name only.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:Description]&lt;/td&gt;
+&lt;td&gt;Page Description Text for Search Engine&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:EndDate]&lt;/td&gt;
+&lt;td&gt;Page Display Until Date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:FullUrl]&lt;/td&gt;
+&lt;td&gt;Page Full URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:IconFile]&lt;/td&gt;
+&lt;td&gt;Page Relative Path to Icon File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:KeyWords]&lt;/td&gt;
+&lt;td&gt;Page Keywords for Search Engine&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:PageHeadText]&lt;/td&gt;
+&lt;td&gt;Page Header Text&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:StartDate]&lt;/td&gt;
+&lt;td&gt;Page Display from Date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:TabName]&lt;/td&gt;
+&lt;td&gt;Page Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:TabPath]&lt;/td&gt;
+&lt;td&gt;Page Relative Path&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:Title]&lt;/td&gt;
+&lt;td&gt;Page Title (Window Title)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Tab:URL]&lt;/td&gt;
+&lt;td&gt;Page URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:Description]&lt;/td&gt;
+&lt;td&gt;Module Definition Description&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:EndDate]&lt;/td&gt;
+&lt;td&gt;Module Display Until Date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:Footer]&lt;/td&gt;
+&lt;td&gt;Module Footer Text&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:FriendlyName]&lt;/td&gt;
+&lt;td&gt;Module Definition Name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:Header]&lt;/td&gt;
+&lt;td&gt;Module Header Text&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:HelpURL]&lt;/td&gt;
+&lt;td&gt;Module Help URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:IconFile]&lt;/td&gt;
+&lt;td&gt;Module Path to Icon File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:ModuleTitle]&lt;/td&gt;
+&lt;td&gt;Module Title&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:PaneName]&lt;/td&gt;
+&lt;td&gt;Module Name of Pane (where the module resides)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Module:StartDate]&lt;/td&gt;
+&lt;td&gt;Module Display from Date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[DateTime:Now]&lt;/td&gt;
+&lt;td&gt;Current Date and Time (User Time)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[DateTime:UTC]&lt;/td&gt;
+&lt;td&gt;Current Date and Time (UTC)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[DateTime:System]&lt;/td&gt;
+&lt;td&gt;Current Date and Time (Server Time)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Ticks:Now]&lt;/td&gt;
+&lt;td&gt;CPU Tick Count for Current Second (Server Time)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Ticks:Today]&lt;/td&gt;
+&lt;td&gt;CPU Tick Count since Midnight (Server Time)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Ticks:TicksPerDay] &lt;/td&gt;
+&lt;td&gt;CPU Ticks per Day (for calculations)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Server:&lt;i&gt;Name&lt;/i&gt;]&lt;/td&gt;
+&lt;td&gt;Server &lt;i&gt;Name&lt;/i&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Querystring:&lt;i&gt;Name&lt;/i&gt;]&lt;/td&gt;
+&lt;td&gt;Value of Querystring &lt;i&gt;Name&lt;/i&gt; &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Form:&lt;i&gt;Name&lt;/i&gt;]&lt;/td&gt;
+&lt;td&gt;Form Posted Value of &lt;i&gt;Name&lt;/i&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan="2"&gt;Data Type &amp;quot;Look-Up&amp;quot; to Source Column Type &amp;quot;Download&amp;quot; or &amp;quot;URL&amp;quot; 
+    also supports:&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:Name]&lt;/td&gt;
+&lt;td&gt;Name of File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:Folder]&lt;/td&gt;
+&lt;td&gt;Folder of File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:Path]&lt;/td&gt;
+&lt;td&gt;Complete Path to File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:Size]&lt;/td&gt;
+&lt;td&gt;File Size in Bytes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:SizeMB]&lt;/td&gt;
+&lt;td&gt;File Size in Megabytes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:Clicks]&lt;/td&gt;
+&lt;td&gt;Number of Downloads&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[File:Extension]&lt;/td&gt;
+&lt;td&gt;File Extension&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan="2"&gt;Data Type &amp;quot;Look-Up&amp;quot; to Type &amp;quot;Email&amp;quot;, &amp;quot;Created by&amp;quot;, &amp;quot;Changed by&amp;quot; or &amp;quot;Link to User&amp;rsquo;s Profile&amp;quot;
+    also supports:&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Gravatar:MD5Hash]&lt;/td&gt;
+&lt;td&gt;MD5 Hash of the Email Address (if available)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Gravatar:URL]&lt;/td&gt;
+&lt;td&gt;URL to the Gravatar Image&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[Gravatar:Image]&lt;/td&gt;
+&lt;td&gt;Gravatar Image&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="UDT_Help_Text"&gt;&lt;br /&gt;
+For Date/Time and numeric values, you can also append a &amp;lt;format&amp;gt; string defined by the .NET framework, for example: [DateTime:Now|&amp;lt;format&amp;gt;] current Date/Time formatted according to &amp;lt;format&amp;gt;, e.g. [DateTime:Now|f] displays current date in short format (does not apply to Calculated Column expressions)&lt;br /&gt;
+    &lt;br /&gt;
+    You can also add alternative text that gets returned if the requested value is 
+    null or empty: [Token:Property|Format|Alternative]&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="Help_HiddenColumns_Title.Text" xml:space="preserve">
+    <value>Hidden Columns Reference</value>
+  </data>
+  <data name="Help_HiddenColumns_Body.Text" xml:space="preserve">
+    <value>&lt;table cellspacing="3" cellpadding="2" width="100%" summary="" border="0"&gt;
+&lt;colgroup&gt;
+&lt;col class="UDT_Help_RowHead" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;col class="UDT_Help_Row" /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;td class="UDT_Help_ColHead"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;ColumnName&lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;+_UDT_Original &lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;+_UDT_Caption&lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;+_UDT_Value&lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;+_UDT_Ticks&lt;/td&gt;
+&lt;td class="UDT_Help_ColHead"&gt;+_UDT_Url&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Changed at&lt;/td&gt;
+&lt;td&gt;Date&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Localized Date&lt;/td&gt;
+&lt;td&gt;DateTime in Ticks&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Changed by&lt;/td&gt;
+&lt;td&gt;Display Name/ Link to Profile&lt;/td&gt;
+&lt;td&gt;User Name&lt;/td&gt;
+&lt;td&gt;Display Name&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Profile URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Created at&lt;/td&gt;
+&lt;td&gt;Date&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Localized Date&lt;/td&gt;
+&lt;td&gt;DateTime in Ticks&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Created by&lt;/td&gt;
+&lt;td&gt;Display Name/ Link to Profile&lt;/td&gt;
+&lt;td&gt;User Name&lt;/td&gt;
+&lt;td&gt;Display Name&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Profile URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Calculated Column&lt;/td&gt;
+&lt;td&gt;Result of Expression&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Currency&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Date&lt;/td&gt;
+&lt;td&gt;Date&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Localized Date&lt;/td&gt;
+&lt;td&gt;DateTime in Ticks&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Date and Time&lt;/td&gt;
+&lt;td&gt;DateTime&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Localized Date&lt;/td&gt;
+&lt;td&gt;DateTime in Ticks&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Decimal&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Download&lt;/td&gt;
+&lt;td&gt;HTML Link&lt;/td&gt;
+&lt;td&gt;FileID=&lt;/td&gt;
+&lt;td&gt;Filename&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;File URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Email&lt;/td&gt;
+&lt;td&gt;HTML Link&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td&gt;Caption&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Image&lt;/td&gt;
+&lt;td&gt;HTML Image&lt;/td&gt;
+&lt;td&gt;FileID=&lt;/td&gt;
+&lt;td&gt;Caption (Alt)&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Image URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Integer&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Link to User&amp;rsquo;s Profile&lt;/td&gt;
+&lt;td&gt;Link to Profile&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td&gt;Display Name&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;Profile URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Look-Up&lt;/td&gt;
+&lt;td&gt;Result of Look Up&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rich Text/HTML&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Separator&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Text&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Time&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;DateTime in Ticks&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;True/False&lt;/td&gt;
+&lt;td&gt;Image (un)checked.gif&lt;/td&gt;
+&lt;td align="center"&gt;[true|false]&lt;/td&gt;
+&lt;td align="center"&gt;[true|false]&lt;/td&gt;
+&lt;td align="center"&gt;[1|0]&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;URL&lt;/td&gt;
+&lt;td&gt;HTML Link&lt;/td&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td&gt;Caption&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td align="center"&gt;-&lt;/td&gt;
+&lt;td&gt;URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</value>
+  </data>
+</root>

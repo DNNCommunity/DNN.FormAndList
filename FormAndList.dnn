@@ -1,0 +1,297 @@
+﻿<dotnetnuke type="Package" version="5.0">
+  <packages>
+    <package name="DNN_UserDefinedTable" type="Module" version="06.01.00">
+      <friendlyName>Form and List</friendlyName>
+      <description>Create a simple form or a view of repetitive and simple data.</description>
+      <iconFile>desktopmodules/userdefinedtable/icon_fnl_32px.gif</iconFile>
+      <owner>
+        <name>DotNetNuke</name>
+        <organization>DotNetNuke Corporation</organization>
+        <url>http://www.dotnetnuke.com</url>
+        <email>support@dotnetnuke.com</email>
+      </owner>
+      <license src="License.htm"/>
+      <releaseNotes src="ReleaseNotes.htm" />
+      <dependencies>
+        <dependency type="CoreVersion">06.01.00</dependency>
+      </dependencies>
+      <azureCompatible>true</azureCompatible>
+      <components>
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\UserDefinedTable</basePath>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.01.00.sqldataprovider</name>
+              <version>03.01.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.01.01.sqldataprovider</name>
+              <version>03.01.01</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.02.00.sqldataprovider</name>
+              <version>03.02.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.03.00.sqldataprovider</name>
+              <version>03.03.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.03.04.sqldataprovider</name>
+              <version>03.03.04</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.03.05.sqldataprovider</name>
+              <version>03.03.05</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.03.06.sqldataprovider</name>
+              <version>03.03.06</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.03.07.sqldataprovider</name>
+              <version>03.03.07</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.04.00.sqldataprovider</name>
+              <version>03.04.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>03.05.00.sqldataprovider</name>
+              <version>03.05.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>04.05.00.sqldataprovider</name>
+              <version>04.05.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>05.00.00.sqldataprovider</name>
+              <version>05.00.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>05.00.02.sqldataprovider</name>
+              <version>05.00.02</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>05.01.00.sqldataprovider</name>
+              <version>05.01.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>05.01.01.sqldataprovider</name>
+              <version>05.01.01</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>05.02.00.sqldataprovider</name>
+              <version>05.02.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>06.00.00.sqldataprovider</name>
+              <version>06.00.00</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>06.00.03.sqldataprovider</name>
+              <version>06.00.03</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>06.00.04.sqldataprovider</name>
+              <version>06.00.04</version>
+            </script>
+            <script type="Install">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>06.00.06.sqldataprovider</name>
+              <version>06.00.06</version>
+            </script>
+            <script type="UnInstall">
+              <path>providers\dataproviders\sqldataprovider</path>
+              <name>uninstall.sqldataprovider</name>
+              <version>06.00.03</version>
+            </script>         
+          </scripts>
+        </component>
+        <component type="Module">
+          <desktopModule>
+            <moduleName>DNN_UserDefinedTable</moduleName>
+            <foldername>UserDefinedTable</foldername>
+            <businessControllerClass>DotNetNuke.Modules.UserDefinedTable.BusinessController, DotNetNuke.Modules.UserDefinedTable</businessControllerClass>
+            <supportedFeatures>
+              <supportedFeature type="Portable" />
+              <supportedFeature type="Searchable" />
+            </supportedFeatures>
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>Form and List</friendlyName>
+                <defaultCacheTime>-1</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/UserDefinedTable/Default.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl>http://www.dotnetnuke.com/default.aspx?tabid=787</helpUrl>
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>CreateTemplate</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/Template.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>Admin</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Edit</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/Form.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Edit User Defined Table</controlTitle>
+                    <controlType>Anonymous</controlType>
+                    <iconFile />
+                    <helpUrl>http://www.dotnetnuke.com/default.aspx?tabid=787</helpUrl>
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>EditField</controlKey>
+                    <controlSrc>DesktopModules/UserdefinedTable/FieldEditor.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <supportsPopUps>False</supportsPopUps>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>ExportCSV</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/ExportCSV.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Export to CSV</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>GenerateXsl</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/Token2Xsl.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Generate XSL</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl>http://www.dotnetnuke.com/default.aspx?tabid=787</helpUrl>
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>ImportCSV</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/ImportCSV.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Import from CSV</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>List</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/List.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Manage</controlKey>
+                    <controlSrc>DesktopModules/UserdefinedTable/Configuration.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Manage UDT</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl>http://www.dotnetnuke.com/default.aspx?tabid=787</helpUrl>
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Settings</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/Settings.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>More Permission Settings</controlTitle>
+                    <controlType>Admin</controlType>
+                    <iconFile />
+                    <helpUrl>http://www.dotnetnuke.com/default.aspx?tabid=787</helpUrl>
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>TemplateList</controlKey>
+                    <controlSrc>DesktopModules/UserDefinedTable/TemplateList.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <supportsPopUps>False</supportsPopUps>
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                </moduleControls>
+                <permissions>
+                  <permission code="UDTEDIT" key="ROWEDIT" name="Edit Row" />
+                  <permission code="UDTEDIT" key="ROWDELETE" name="Delete Row" />
+                  <permission code="UDTEDIT" key="ROWADD" name="Create New Row" />
+                  <permission code="UDTEDIT" key="COLUMNVISIBLE" name="ShowColumns" />
+                  <permission code="UDTEDIT" key="PRIVATECOLUMNS" name="PrivateColumns" />
+                  <permission code="UDTEDIT" key="SHOWLIST" name="ShowList" />
+                </permissions>
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <path>bin</path>
+              <name>dotnetnuke.modules.userdefinedtable.dll</name>
+            </assembly>
+          </assemblies>
+        </component>
+        <component type="Cleanup" version="06.00.00" fileName="Cleanup_06.00.00.txt" />
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>DesktopModules/UserDefinedTable</basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>

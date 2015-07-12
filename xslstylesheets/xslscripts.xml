@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<data name="XSLT">
+		<value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:udt="DotNetNuke/UserDefinedTable" exclude-result-prefixes ="udt"&gt;
+  &lt;xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/&gt;
+  &lt;!--
+  This prefix is used to generate module specific query strings
+  Each querystring or form value that starts with udt_{ModuleId}_param 
+  will be added as parameter starting with param
+  --&gt;
+  &lt;xsl:variable name="prefix_param"&gt;udt_&lt;xsl:value-of select="//udt:Context/udt:ModuleId"/&gt;_param&lt;/xsl:variable&gt;
+{SEARCHING0}
+{PAGING0}
+{SORTING0}
+{DETAIL0}
+  &lt;xsl:template match="udt:Data" mode="list"&gt;
+      {PAGING5}
+      [LISTVIEW]
+      {PAGING6}
+      &lt;/xsl:template&gt;
+  &lt;xsl:template match="/udt:UserDefinedTable"&gt;
+{DETAIL1}
+{SEARCHING1}
+&lt;xsl:variable name="currentData" select="udt:Data{SEARCHING2}" /&gt;
+{PAGING1}
+&lt;xsl:if test="$currentData"&gt;
+        [OPENTAG]
+        {SORTING1}
+        [HEADERVIEW]
+          &lt;xsl:apply-templates select="$currentData" mode="list"&gt;
+            {SORTING2}
+            {PAGING2}
+          &lt;/xsl:apply-templates&gt;
+        [/OPENTAG] 
+&lt;/xsl:if&gt;
+{PAGING3}
+{DETAIL2}
+  &lt;/xsl:template&gt;
+{SEARCHING3}
+{SORTING3}
+{PAGING4}
+  &lt;xsl:template name="EditLink"&gt;
+    &lt;xsl:if test="udt:EditLink"&gt;
+      &lt;a href="{udt:EditLink}"&gt;&lt;img border="0" alt="edit" src="{//udt:Context/udt:ApplicationPath}/images/edit.gif" /&gt;&lt;/a&gt;
+    &lt;/xsl:if&gt;
+  &lt;/xsl:template&gt;
+{DETAIL3}
+&lt;/xsl:stylesheet&gt;</value>
+	</data>
+	<data name="detail" number="0">
+		<value>&lt;xsl:param name="param_detail" /&gt;
+  &lt;xsl:template match="udt:Data" mode="detail"&gt;
+    [DETAILVIEW]
+  &lt;/xsl:template&gt;</value>
+	</data>
+	<data name="detail" number="1">
+		<value>&lt;xsl:choose&gt;
+  &lt;xsl:when test="$param_detail"&gt;
+	&lt;!--master-detail view--&gt;
+	&lt;xsl:apply-templates select="udt:Data[udt:UserDefinedRowId=$param_detail]" mode="detail" /&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;</value>
+	</data>
+	<data name="detail" number="2">
+		<value>&lt;/xsl:otherwise&gt;
+&lt;/xsl:choose&gt;</value>
+	</data>
+	<data name="detail" number="3">
+		<value>&lt;xsl:template name="ListView"&gt;
+&lt;a href="{//udt:Context/udt:ApplicationPath}/tabid/{//udt:Context/udt:TabId}/Default.aspx"&gt;&lt;img border="0" alt="Back" src="{//udt:Context/udt:ApplicationPath}/images/lt.gif" /&gt;&lt;/a&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template name="DetailView"&gt;
+&lt;a href="?{$prefix_param}_detail={udt:UserDefinedRowId}"&gt;&lt;img border="0" alt="detail" src="{//udt:Context/udt:ApplicationPath}/images/view.gif" /&gt;&lt;/a&gt;
+&lt;/xsl:template&gt;</value>
+	</data>
+	<data name="sorting" number="0">
+		<value>
+&lt;xsl:param name="param_orderby" select="//udt:Fields[udt:UserDefinedFieldId=//udt:Context/udt:OrderBy]/udt:SortColumn"/&gt;
+&lt;xsl:param name="param_direction" select="//udt:Context/udt:OrderDirection"/&gt;
+&lt;!--wrong string would break stylesheet, so fallback to ascending if userinput is wrong--&gt;
+&lt;xsl:variable name="orderDirection"&gt;
+  &lt;xsl:choose&gt;
+    &lt;xsl:when test="$param_direction='descending'"&gt;
+      &lt;xsl:text&gt;descending&lt;/xsl:text&gt;
+    &lt;/xsl:when&gt;
+    &lt;xsl:otherwise&gt;
+      &lt;xsl:text&gt;ascending&lt;/xsl:text&gt;
+    &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+&lt;/xsl:variable&gt;
+&lt;xsl:variable name="orderType"&gt;
+&lt;xsl:variable name="DataType" select="//udt:Fields[udt:SortColumn=$param_orderby]/udt:FieldType" /&gt;
+  &lt;xsl:choose&gt;
+    &lt;xsl:when test="$DataType='Int32' or $DataType='Decimal' or $DataType='Currency'"&gt;number&lt;/xsl:when&gt;
+    &lt;xsl:otherwise&gt;text&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+&lt;/xsl:variable&gt;
+</value>
+	</data>
+  <data name="sorting" number="1">
+    <value> &lt;!-- DEFINE ANY HEADERS HERE, EXAMPLE IS FOR TABLE TYPE LISTING --&gt;
+      &lt;!-- Parameter header is optional! --&gt;
+      &lt;!--
+      &lt;tr class="dnnGridHeader"&gt;
+        &lt;td/&gt;
+        &lt;td&gt;
+          &lt;xsl:apply-templates select ="udt:Fields[udt:FieldTitle='NameOfColumn']"&gt;
+            &lt;xsl:with-param name ="header" select ="NewHeaderName"/&gt;
+          &lt;/xsl:apply-templates&gt;
+        &lt;/td&gt;...
+      &lt;/tr&gt;
+      --&gt;</value>
+  </data>
+	<data name="sorting" number="2">
+		<value>&lt;xsl:sort select="*[name()=$param_orderby]" order="{$orderDirection}" data-type="{$orderType}" /&gt;</value>
+	</data>
+  <data name="sorting" number="3">
+    <value>&lt;xsl:template match="udt:Fields" name ="SortingHeader"&gt;
+    &lt;xsl:param name ="header" select ="udt:FieldTitle"/&gt;
+    &lt;xsl:if test="udt:Visible='true' or udt:Visible='True'"&gt;
+      &lt;a&gt;
+        &lt;xsl:attribute name ="href"&gt;
+          &lt;xsl:choose &gt;
+            &lt;xsl:when test="udt:ValueColumn=$param_orderby"&gt;
+              &lt;xsl:variable name="flippedDirection"&gt;
+                &lt;xsl:choose&gt;
+                  &lt;xsl:when test="$orderDirection='ascending'"&gt;
+                    &lt;xsl:text&gt;descending&lt;/xsl:text&gt;
+                  &lt;/xsl:when&gt;
+                  &lt;xsl:otherwise&gt;
+                    &lt;xsl:text&gt;ascending&lt;/xsl:text&gt;
+                  &lt;/xsl:otherwise&gt;
+                &lt;/xsl:choose&gt;
+              &lt;/xsl:variable&gt;
+      ?&lt;xsl:value-of select="$prefix_param"/&gt;_orderby=&lt;xsl:value-of select="udt:ValueColumn"/&gt;&amp;amp;amp;&lt;xsl:value-of select="$prefix_param"/&gt;_direction=&lt;xsl:value-of select="$flippedDirection"/&gt;{SEARCHING4}
+      &lt;/xsl:when&gt;
+            &lt;xsl:otherwise&gt;
+              ?&lt;xsl:value-of select="$prefix_param"/&gt;_orderby=&lt;xsl:value-of select="udt:ValueColumn"/&gt;&amp;amp;amp;&lt;xsl:value-of select="$prefix_param"/&gt;_direction=&lt;xsl:value-of select="$orderDirection"/&gt;{SEARCHING4}
+      &lt;/xsl:otherwise&gt;
+          &lt;/xsl:choose&gt;
+        &lt;/xsl:attribute&gt;
+        &lt;!--flipped order direction--&gt;
+        &lt;xsl:value-of select ="$header"/&gt;
+        &lt;xsl:if test="udt:ValueColumn=$param_orderby"&gt;
+          &lt;img src="{//udt:Context/udt:ApplicationPath}/images/sort{$orderDirection}.gif" border="0" /&gt;
+        &lt;/xsl:if&gt;
+      &lt;/a&gt;
+    &lt;/xsl:if&gt;
+  &lt;/xsl:template&gt;</value>
+  </data>
+	<data name="paging" number="0">
+		<value>&lt;xsl:param name="param_page" select="1" /&gt;
+&lt;xsl:variable name="paging" select="//udt:Context/udt:Paging" /&gt;
+</value>
+	</data>
+	<data name="paging" number="1">
+		<value>&lt;xsl:variable name="from"&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test="$paging"&gt;
+	  &lt;xsl:value-of select="$paging * number($param_page) - $paging" /&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;0&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+&lt;/xsl:variable&gt;
+&lt;xsl:variable name="to"&gt;
+  &lt;xsl:choose&gt;
+	&lt;xsl:when test="$paging"&gt;
+	  &lt;xsl:value-of select="$paging * number($param_page) +1" /&gt;
+	&lt;/xsl:when&gt;
+	&lt;xsl:otherwise&gt;
+	  &lt;xsl:value-of select="count($currentData)+1" /&gt;
+	&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+&lt;/xsl:variable&gt;
+</value>
+	</data>
+	<data name="paging" number="2">
+		<value>&lt;xsl:with-param name ="from" select ="$from"/&gt;
+&lt;xsl:with-param name ="to" select ="$to"/&gt;
+</value>
+	</data>
+	<data name="paging" number="3">
+		<value>&lt;xsl:if test="$paging"&gt;
+&lt;xsl:call-template name="renderPaging"&gt;
+&lt;xsl:with-param name="maxPages" select="ceiling(count($currentData) div $paging)" /&gt;
+&lt;/xsl:call-template&gt;
+&lt;/xsl:if&gt;</value>
+	</data>
+	<data name="paging" number="4">
+		<value>&lt;xsl:template name="pagingSinglePages"&gt;
+&lt;!--renders paging links--&gt;
+  &lt;xsl:param name="pageNumber" select="1" /&gt;
+  &lt;xsl:param name="maxPages" select="ceiling(count(//udt:Data) div $paging)" /&gt;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test="number($param_page)=$pageNumber"&gt;
+  &lt;span class="NormalDisabled"&gt;[&lt;xsl:value-of select="$pageNumber" /&gt;]&lt;/span&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+  &lt;a href="?{$prefix_param}_page={$pageNumber}{SEARCHING4}" class="CommandButton"&gt;&lt;xsl:value-of select="$pageNumber" /&gt;&lt;/a&gt;
+  &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;&amp;#160;
+  &lt;xsl:if test="$pageNumber &amp;amp;lt; $maxPages"&gt;
+  &lt;xsl:call-template name="pagingSinglePages"&gt;
+  &lt;xsl:with-param name="pageNumber" select="$pageNumber +1" /&gt;
+  &lt;xsl:with-param name="maxPages" select="$maxPages"/&gt;
+  &lt;/xsl:call-template&gt;
+  &lt;/xsl:if&gt;
+  &lt;/xsl:template&gt;
+  &lt;xsl:template name="renderPaging"&gt;
+  &lt;xsl:param name="maxPages" select="ceiling(count(//udt:Data) div $paging)" /&gt;
+  &lt;xsl:variable name="previous" select="number($param_page) - 1" /&gt;
+  &lt;xsl:variable name="next" select="number($param_page) + 1" /&gt;
+  &lt;table class="dnnFormItem" bordercolor="Gray" border="0" style="border-color:Gray;border-width:1px;border-style:Solid;width:100%;"&gt;
+  &lt;tr&gt;
+  &lt;td class="Normal" align="Left"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Page"/&gt;&amp;amp;#160;&lt;xsl:value-of select="number($param_page)"/&gt;&amp;amp;#160;&lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Of"/&gt;&amp;amp;#160;&lt;xsl:value-of select="$maxPages"/&gt;
+  &lt;/td&gt;
+  &lt;td class="Normal" align="Right" &gt;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test="number($param_page)&amp;gt;1"&gt;
+  &lt;a href="?{SEARCHING4}" class="CommandButton"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_First"/&gt;
+  &lt;/a&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+  &lt;span class="NormalDisabled"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_First"/&gt;
+  &lt;/span&gt;
+  &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;&amp;#160;&amp;#160;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test="number($param_page)&amp;gt;1"&gt;
+  &lt;a href="?{$prefix_param}_page={$previous}{SEARCHING4}" class="CommandButton"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Previous"/&gt;
+  &lt;/a&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+  &lt;span class="NormalDisabled"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Previous"/&gt;
+  &lt;/span&gt;
+  &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;&amp;#160;&amp;#160;
+  &lt;xsl:variable name ="startpage"&gt;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test ="number($param_page)&amp;amp;gt;5"&gt;
+  &lt;xsl:value-of select="number($param_page) -4"/&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;1&lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  &lt;/xsl:variable&gt;
+  &lt;xsl:variable name ="endpage"&gt;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test="$startpage+9&amp;amp;gt;$maxPages"&gt;
+  &lt;xsl:value-of select ="$maxPages"/&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+  &lt;xsl:value-of select ="$startpage +9"/&gt;
+  &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;
+  &lt;/xsl:variable&gt;
+  &lt;xsl:call-template name="pagingSinglePages"&gt;
+  &lt;xsl:with-param name="pageNumber" select="$startpage"/&gt;
+  &lt;xsl:with-param name="maxPages" select="$endpage"/&gt;
+  &lt;/xsl:call-template&gt;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test="number($param_page)&amp;amp;lt;$maxPages"&gt;
+  &lt;a href="?{$prefix_param}_page={$next}{SEARCHING4}" class="CommandButton"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Next"/&gt;
+  &lt;/a&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+  &lt;span class="NormalDisabled"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Next"/&gt;
+  &lt;/span&gt;
+  &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;&amp;#160;&amp;#160;
+  &lt;xsl:choose&gt;
+  &lt;xsl:when test="number($param_page)&amp;amp;lt;$maxPages"&gt;
+  &lt;a href="?{$prefix_param}_page={$maxPages}{SEARCHING4}" class="CommandButton"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Last"/&gt;
+  &lt;/a&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+  &lt;span class="NormalDisabled"&gt;
+  &lt;xsl:value-of select ="//udt:Context/udt:LocalizedString_Last"/&gt;
+  &lt;/span&gt;
+  &lt;/xsl:otherwise&gt;
+  &lt;/xsl:choose&gt;&amp;#160;&amp;#160;
+  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/xsl:template&gt;</value>
+	</data>
+  <data name="paging" number="5">
+    <value>
+      &lt;xsl:param name="from" select="1"/&gt;
+      &lt;xsl:param name="to" select="count(*)"/&gt;
+      &lt;xsl:if test="position() &amp;amp;gt; $from and position() &amp;amp;lt; $to"&gt;
+    </value>
+  </data>
+<data name="paging" number="6">
+      <value>&lt;/xsl:if&gt;
+      </value>
+    </data>
+  
+	<data name="searching" number="0">
+		<value>&lt;xsl:param name="param_search" /&gt;
+&lt;xsl:param name="param_searchpostback" /&gt;
+&lt;xsl:param name="param_ispostback" /&gt;
+&lt;xsl:variable name="search"&gt;
+&lt;xsl:choose&gt;
+  &lt;xsl:when test="$param_ispostback"&gt;
+	&lt;xsl:value-of select="$param_searchpostback" /&gt;
+  &lt;/xsl:when&gt;
+  &lt;xsl:otherwise&gt;
+	&lt;xsl:value-of select="$param_search" /&gt;
+  &lt;/xsl:otherwise&gt;
+&lt;/xsl:choose&gt;
+&lt;/xsl:variable&gt;
+</value>
+	</data>
+	<data name="searching" number="1">
+		<value>&lt;xsl:variable name="searchColumns" select="//udt:Fields[udt:Searchable='true']/udt:ValueColumn" /&gt;
+&lt;xsl:if test="//udt:Fields[udt:Searchable='true']"&gt;      
+&lt;xsl:call-template name="SearchForm" /&gt;
+&lt;/xsl:if&gt;
+</value>
+  </data>
+	<data name="searching" number="2">
+		<value>[contains(*[name()=$searchColumns][1],$search) or contains(*[name()=$searchColumns][2],$search) or contains(*[name()=$searchColumns][3],$search) or contains(*[name()=$searchColumns][4],$search) or contains(*[name()=$searchColumns][5],$search)]</value>
+	</data>
+	<data name="searching" number="3">
+		<value>&lt;xsl:template name="SearchForm"&gt;
+&lt;input type="text" name="{$prefix_param}_searchPostback" value="{$search}" /&gt;
+&lt;input type="submit" name="go" value="{//udt:Context/udt:LocalizedString_Search}" /&gt;
+&lt;input type="hidden" name="{$prefix_param}_ispostback" value="true" /&gt;
+&lt;/xsl:template&gt;
+</value>
+	</data>
+	<data name="searching" number="4">
+		<value>&amp;amp;amp;{$prefix_param}_search={$search}</value>
+	</data>
+</root>

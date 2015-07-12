@@ -1,0 +1,119 @@
+﻿/************************************************************/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for UserDefinedTable 3.3.4 *****/
+/*****       [sleupold] 08/06/2006                      *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+/** check for compatible DNN version **/
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UDT_Install_Semaphore') AND OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP Table UDT_Install_Semaphore
+GO
+
+CREATE TABLE UDT_Install_Semaphore (value INT PRIMARY KEY)
+GO
+
+DECLARE @dnnVer INT 
+SET @dnnver = (SELECT TOP 1 Major*10000+Minor*100+Build FROM {databaseOwner}[{objectQualifier}Version] ORDER BY Major DESC, Minor DESC, Build DESC)
+IF @dnnver < 30203 OR ( @dnnver >= 40000 AND @dnnver <40004)
+    BEGIN
+        INSERT INTO UDT_Install_Semaphore (value) VALUES (0)
+        RAISERROR ('Incompatible DotNetNuke framework version installed. Please upgrade to V. 3.3 or V. 4.1 or re-install previous version of this module!', 16, 1)
+    END
+ ELSE
+    INSERT INTO UDT_Install_Semaphore (value) VALUES (1)
+GO
+
+/** Convert DataType for FieldTitle from VARCHAR to NVARCHAR in order to allow usage of Unicode characters **/
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND (SELECT UserType FROM syscolumns WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedFields]') AND Name = 'FieldTitle')=2
+    ALTER TABLE {databaseOwner}{objectQualifier}UserDefinedFields
+    ALTER COLUMN FieldTitle NVARCHAR(50)
+GO
+
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_AddField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+GO
+
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+GO
+
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldOrder]
+GO
+
+IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_AddField]
+@ModuleId     INT,
+@FieldTitle   NVARCHAR(50),
+@Required     BIT,
+@FieldType    VARCHAR(20),
+@default     NVARCHAR(2000),
+@Visible      BIT,
+@ExtendedSettings NVARCHAR(2000)
+AS
+DECLARE @InsPos INT
+SET @InsPos = (SELECT MAX(FieldOrder) AS MaxPos FROM {databaseOwner}{objectQualifier}UserDefinedFields WHERE ModuleID = @ModuleID GROUP BY ModuleID) + 1
+IF @insPos IS Null SET @InsPos = 1
+INSERT INTO {databaseOwner}{objectQualifier}UserDefinedFields ( 
+  ModuleId,
+  FieldTitle,
+  Required,
+  FieldType,
+  FieldOrder,
+  [Default],
+  Visible,
+  ExtendedSettings
+)
+VALUES (
+  @ModuleId,
+  @FieldTitle,
+  @Required,
+  @FieldType,
+  @InsPos,
+  @default,
+  @Visible,
+  @ExtendedSettings
+)
+SELECT SCOPE_IDENTITY()
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateField]
+@UserDefinedFieldId   INT,
+@FieldTitle           NVARCHAR(50),
+@Required              BIT,
+@FieldType            VARCHAR(20),
+@default              NVARCHAR(2000),
+@Visible              BIT,
+@ExtendedSettings     NVARCHAR(2000)
+AS
+UPDATE {databaseOwner}{objectQualifier}UserDefinedFields
+SET    FieldTitle = @FieldTitle,
+       Required = @Required,
+       FieldType = @FieldType,
+       [default] = @default,
+       Visible = @Visible,
+       ExtendedSettings = @ExtendedSettings
+WHERE  UserDefinedFieldId = @UserDefinedFieldId
+GO
+
+
+/** delete version table **/
+DROP TABLE UDT_Install_Semaphore 
+GO

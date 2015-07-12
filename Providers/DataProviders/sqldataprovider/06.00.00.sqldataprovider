@@ -1,0 +1,343 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 6.0.0 *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_SetFieldOrder]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SetFieldOrder]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SetFieldOrder]
+	  @UserDefinedFieldId   INT,
+      @FieldOrder   INT
+    as 
+	DECLARE @id INT
+    DECLARE @Pos INT
+    SET @id =  (SELECT        UDF.UserDefinedFieldId
+                FROM          {databaseOwner}[{objectQualifier}UserDefinedFields] AS UDF INNER JOIN
+                                          {databaseOwner}[{objectQualifier}UserDefinedFields] AS ModuleFields ON UDF.ModuleId = ModuleFields.ModuleId
+                WHERE        (UDF.FieldOrder = @FieldOrder) AND (ModuleFields.UserDefinedFieldId = @UserDefinedFieldId))
+    SET @Pos = (SELECT FieldOrder FROM {databaseOwner}[{objectQualifier}UserDefinedFields] WHERE UserDefinedFieldId = @UserDefinedFieldId)
+
+    UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields] SET FieldOrder = -1    WHERE UserDefinedFieldId = @id
+    UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields] SET FieldOrder = @FieldOrder    WHERE UserDefinedFieldId = @UserDefinedFieldId
+    UPDATE {databaseOwner}[{objectQualifier}UserDefinedFields] SET FieldOrder = @Pos WHERE UserDefinedFieldId = @Id
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedFieldSettings]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+		(
+		FieldId int NOT NULL,
+    SettingName nvarchar(50) NOT NULL,
+    SettingValue nvarchar(MAX) NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] ADD CONSTRAINT 
+      [PK_{objectQualifier}UserDefinedFieldSettings] PRIMARY KEY CLUSTERED  
+      (FieldId,	SettingName)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] 
+      ADD CONSTRAINT [FK_{objectQualifier}UserDefinedFieldSettings_{objectQualifier}UserDefinedFields] FOREIGN KEY
+      (FieldId) REFERENCES {databaseOwner}[{objectQualifier}UserDefinedFields] (UserDefinedFieldId) ON DELETE CASCADE 
+	END
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_GetFieldSettings]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFieldSettings]
+GO
+
+IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldSetting]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldSetting]
+GO
+
+Create PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetFieldSettings]
+@ModuleId   int
+AS
+SELECT        UDFS.FieldId, UDFS.SettingName, UDFS.SettingValue
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] UDF INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] UDFS ON UDF.UserDefinedFieldId = UDFS.FieldId
+WHERE        (UDF.ModuleId = @ModuleId)
+GO
+
+Create PROCEDURE  {databaseOwner}[{objectQualifier}UserDefinedTable_UpdateFieldSetting]
+@fieldId int, 
+@SettingName nvarchar(50), 
+@SettingValue nvarchar(max)
+AS
+DELETE FROM {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+WHERE        (FieldId = @fieldId) AND (SettingName = @SettingName)
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+           VALUES        (@fieldId,@SettingName,@SettingValue)
+GO
+
+
+
+--
+-- NormalizeFlag
+--
+
+/* Update NormalizeFlag for DateTime */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'ConvertToUserDateTime' AS name, 'True' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='ConvertToUserDateTime') as fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'DateTime') AND (fieldSettings.FieldId IS NULL)
+GO
+
+/* Update NormalizeFlag for Download */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'Abbreviate' AS name, 'True' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='Abbreviate') as fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'Download') AND (fieldSettings.FieldId IS NULL)
+GO
+
+/* Update NormalizeFlag for EMail */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'Abbreviate' AS name, 'False' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='Abbreviate') as fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'NoLink') AND (fieldSettings.FieldId IS NULL)
+GO
+
+/* Update NormalizeFlag for Image */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'AsLink' AS name, 'True' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='AsLink') as fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'Image') AND (fieldSettings.FieldId IS NULL)
+GO
+
+/* Update NormalizeFlag for Separator */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'IsCollapsible' AS name, 'True' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='IsCollapsible') AS fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'Separator') AND (fieldSettings.FieldId IS NULL)
+
+/* Update NormalizeFlag for TextHtml */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'PlainText' AS name, 'True' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                   (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='PlainText') AS fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'TextHtml') AND (fieldSettings.FieldId IS NULL)  
+GO
+
+/* Update NormalizeFlag for URL */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'Abbreviate' AS name, 'True' AS value
+FROM            {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='Abbreviate') as fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE        (NormalizeFlag = 1) AND (FieldType = 'URL') AND (fieldSettings.FieldId IS NULL)
+GO
+/* Update NormalizeFlag for UserLink */
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT     fields.UserDefinedFieldId, 'ShowUserName' AS name, 'True' AS value
+FROM         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields LEFT OUTER JOIN
+                      (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='ShowUsername') as fieldSettings ON fields.UserDefinedFieldId = fieldSettings.FieldId
+WHERE     (fields.NormalizeFlag = 1) AND (fields.FieldType = 'UserLink') AND (fieldSettings.FieldId IS NULL) 
+GO
+
+--
+--MODULE SETTINGS
+--
+--Image, UDT_ImageWidth -> Width
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'Width' AS name, 
+              settings.SettingValue AS value
+FROM           {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                        {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='Width') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'Image') AND (settings.SettingName = N'UDT_ImageWidth') AND (fieldsettings.FieldId IS NULL)  
+GO
+--Image, UDT_ImageHeigth -> Width
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'Heigth' AS name, 
+              settings.SettingValue AS value
+FROM           {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                        {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='Heigth') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'Image') AND (settings.SettingName = N'UDT_ImageHeigth') AND (fieldsettings.FieldId IS NULL)
+GO
+--Expression, CalculatedColumnsRenderExpressionInForm -> Render In Form
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'RenderInForm' AS name, 
+              settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='RenderInForm') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'Expression') AND (settings.SettingName = N'CalculatedColumnsRenderExpressionInForm') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--UserLink, UDT_UserLinkUserName -> ShowUserName
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'ShowUserName' AS name, 
+              CASE WHEN settings.SettingValue = 'UserName' THEN 'True' ELSE 'False' END AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='ShowUserName') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'UserLink') AND (settings.SettingName = N'UDT_UserLinkUserName') AND (fieldsettings.FieldId IS NULL)
+GO
+
+--CreatedBy, UDT_UserLinkUserName -->PreferDisplayName
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'PreferDisplayName' AS name, 
+              CASE WHEN settings.SettingValue = 'UserName' THEN 'True' ELSE 'False' END AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='PreferDisplayName') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'CreatedBy') AND (settings.SettingName = N'UDT_UserLinkUserName') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--ChangedBy, UDT_UserLinkUserName -->PreferDisplayName
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'PreferDisplayName' AS name, 
+              CASE WHEN settings.SettingValue = 'UserName' THEN 'True' ELSE 'False' END AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='PreferDisplayName') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'ChangedBy') AND (settings.SettingName = N'UDT_UserLinkUserName') AND (fieldsettings.FieldId IS NULL)
+GO
+
+
+--UserLink, UDT_UserLinkNewWindow ->OpenInNewWindow
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'OpenInNewWindow' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='OpenInNewWindow') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'UserLink') AND (settings.SettingName = N'UDT_UserLinkNewWindow') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--CreatedBy, UDT_UserLinkNewWindow ->OpenInNewWindow
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'OpenInNewWindow' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='OpenInNewWindow') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'CreatedBy') AND (settings.SettingName = N'UDT_UserLinkNewWindow') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--ChangedBy, UDT_UserLinkNewWindow ->OpenInNewWindow
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'OpenInNewWindow' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='OpenInNewWindow') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'ChangedBy') AND (settings.SettingName = N'UDT_UserLinkNewWindow') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--Download,UDT_URLNewWindow-->ShowOpenInNewWindow
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'ShowOpenInNewWindow' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='ShowOpenInNewWindow') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'Download') AND (settings.SettingName = N'UDT_URLNewWindow') AND (fieldsettings.FieldId IS NULL)
+GO
+
+--Url,UDT_URLNewWindow-->ShowOpenInNewWindow
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'ShowOpenInNewWindow' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='ShowOpenInNewWindow') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'URL') AND (settings.SettingName = N'UDT_URLNewWindow') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--Url,URLDownloadTracking-->TrackDownloads
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'TrackDownloads' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='TrackDownloads') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'URL') AND (settings.SettingName = N'UDT_ URLDownloadTracking') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--Url,UDT_ForceDownload-->EnforceDownload
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'EnforceDownload' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='EnforceDownload') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'URL') AND (settings.SettingName = N'UDT_ForceDownload') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--Url,UDT_ForceDownload-->EnforceDownload
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'EnforceDownload' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='EnforceDownload') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'Download') AND (settings.SettingName = N'UDT_ForceDownload') AND (fieldsettings.FieldId IS NULL) 
+GO
+
+--CreatedBy ,UDT_CnCLink-->AsLink
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'AsLink' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='AsLink') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'CreatedBy') AND (settings.SettingName = N'UDT_CnCLink') AND (fieldsettings.FieldId IS NULL)
+GO
+
+--ChangedBy ,UDT_CnCLink-->AsLink
+INSERT INTO {databaseOwner}[{objectQualifier}UserDefinedFieldSettings]
+                         (FieldId, SettingName, SettingValue)
+SELECT        fields.UserDefinedFieldId, 'AsLink' AS name, 
+            settings.SettingValue AS value
+FROM            {databaseOwner}[{objectQualifier}ModuleSettings] AS settings INNER JOIN
+                         {databaseOwner}[{objectQualifier}UserDefinedFields] AS fields ON settings.ModuleID = fields.ModuleId LEFT OUTER JOIN
+                         (Select FieldId from {databaseOwner}[{objectQualifier}UserDefinedFieldSettings] where settingname='AsLink') as fieldsettings ON fields.UserDefinedFieldId = fieldsettings.FieldId
+WHERE        (fields.FieldType = 'ChangedBy') AND (settings.SettingName = N'UDT_CnCLink') AND (fieldsettings.FieldId IS NULL)
+GO
+
+-- if email tracking has been disabled, all trigger actions should be disabled after upgrade
+UPDATE      {databaseOwner}[{objectQualifier}TabModuleSettings]
+SET              SettingValue = 'False'
+WHERE     (SettingName LIKE N'UDT_TriggerOn%') AND (TabModuleID IN
+                          (SELECT     TabModuleID
+                            FROM            {databaseOwner}[{objectQualifier}TabModuleSettings]
+                            WHERE      (SettingName = N'UDT_EnableTracking') AND (SettingValue = N'False')))
+GO

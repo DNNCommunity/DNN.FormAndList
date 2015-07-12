@@ -1,0 +1,68 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 3.4.1 *****/
+    /*****       [sleupold]  08/04/2007                     *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+    SET QUOTED_IDENTIFIER ON 
+    GO
+    SET ANSI_NULLS ON 
+    GO
+
+
+    /** check for compatible DNN version **/
+    IF exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UDT_Install_Semaphore') AND OBJECTPROPERTY(id, N'IsTable') = 1)
+    DROP Table UDT_Install_Semaphore
+    GO
+
+    CREATE TABLE UDT_Install_Semaphore (value INT PRIMARY KEY, flag BIT NOT Null)
+    GO
+
+    DECLARE @dnnVer INT 
+    SET @dnnver = (SELECT TOP 1 Major*10000+Minor*100+Build FROM {databaseOwner}[{objectQualifier}Version] ORDER BY Major DESC, Minor DESC, Build DESC)
+    IF @dnnver < 30305 OR ( @dnnver >= 40000 AND @dnnver < 40305)
+        BEGIN
+            INSERT INTO UDT_Install_Semaphore (value, Flag) VALUES (0, 0)
+            RAISERROR ('Incompatible DotNetNuke framework version installed. Please upgrade to V. 3.3.5+ or V. 4.3.5+ or re-install previous version of this module!', 16, 1)
+        END
+     ELSE
+        INSERT INTO UDT_Install_Semaphore (value, Flag) VALUES (1, 0)
+    GO
+
+    /* replace stored procedures with updated versions: */
+
+    IF (SELECT value FROM UDT_Install_Semaphore) = 1 AND exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]
+    GO
+
+    CREATE PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_FillDefaultData]
+    @ModuleID         INT,
+    @FieldId          INT, /* can be null for any field */
+    @DefaultValue	  NVarChar /*can be Null to copy default expression (no evaluation!) */
+    AS
+    IF @DefaultValue is Null
+		INSERT INTO {databaseOwner}{objectQualifier}UserDefinedData (UserDefinedFieldId, UserDefinedRowId, FieldValue)
+		SELECT F.UserDefinedFieldId, R.UserDefinedRowId, [Default]
+		FROM ({databaseOwner}{objectQualifier}UserDefinedFields F       
+		INNER JOIN {databaseOwner}{objectQualifier}UserDefinedRows R ON F.ModuleId = R.ModuleId)      
+		LEFT JOIN  {databaseOwner}{objectQualifier}UserDefinedData D ON F.UserDefinedFieldId = D.UserDefinedFieldId AND R.UserDefinedRowId = D.UserDefinedRowId
+		WHERE (D.UserDefinedRowID Is Null) AND ([Default] IS Not Null) AND (@ModuleID = F.ModuleId) AND (@FieldId IS Null OR F.UserDefinedFieldId = @FieldId)
+	 ELSE
+		INSERT INTO {databaseOwner}{objectQualifier}UserDefinedData (UserDefinedFieldId, UserDefinedRowId, FieldValue)
+		SELECT @FieldId, R.UserDefinedRowId, @DefaultValue
+		FROM ({databaseOwner}{objectQualifier}UserDefinedFields F       
+		INNER JOIN {databaseOwner}{objectQualifier}UserDefinedRows R ON F.ModuleId = R.ModuleId)      
+		LEFT JOIN  {databaseOwner}{objectQualifier}UserDefinedData D ON F.UserDefinedFieldId = D.UserDefinedFieldId AND R.UserDefinedRowId = D.UserDefinedRowId
+		WHERE (D.UserDefinedRowID Is Null) AND (@ModuleID = F.ModuleId) AND (@FieldId IS Null OR F.UserDefinedFieldId = @FieldId)
+    GO
+
+    /** delete version table **/
+    DROP TABLE UDT_Install_Semaphore 
+    GO
