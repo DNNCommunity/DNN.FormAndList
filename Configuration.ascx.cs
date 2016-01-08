@@ -488,16 +488,17 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             if (ValidateMailTo())
             {
+                /*
                 var dnn = DotNetNuke.Application.DotNetNukeContext.Current.Application;
                 string dnnVersion = String.Format("{0}.{1}.{2}", 
                     dnn.Version.Major.ToString("00"), 
                     dnn.Version.Minor.ToString("00"),
                     dnn.Version.Revision.ToString("00"));
-
                 if (System.String.Compare(dnnVersion, "07.02.02", System.StringComparison.Ordinal) < 0 && chkExcludeFromSearch.Checked)
                 {
                     DataProvider.Instance().DeleteSearchItems(ModuleContext.ModuleId);
                 }
+                */
                 SaveSettings();
                 Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
             }

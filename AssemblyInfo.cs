@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // übernehmen, indem Sie "*" eingeben:
 // <Assembly: AssemblyVersion("1.0.*")>
 
-[assembly: AssemblyVersion("06.01.00.*")]
+[assembly: AssemblyVersion("06.02.00.*")]
 [assembly: CLSCompliant(true)]
