@@ -16,7 +16,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>DotNetNuke.Modules.UserDefinedTable</RootNamespace>
     <AssemblyName>DotNetNuke.Modules.UserDefinedTable</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>On</OptionStrict>
@@ -45,6 +45,7 @@
     <DocumentationFile>DotNetNuke.Modules.UserDefinedTable.xml</DocumentationFile>
     <NOWARN>1591,660,661</NOWARN>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,6 +56,7 @@
     <DocumentationFile>DotNetNuke.Modules.UserDefinedTable.xml</DocumentationFile>
     <NOWARN>1591,660,661</NOWARN>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetNuke">
@@ -70,6 +72,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DotNetNuke.Web.Client.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.Web.Deprecated, Version=8.0.0.777, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Bin\DotNetNuke.Web.Deprecated.dll</HintPath>
     </Reference>
     <Reference Include="DotNetNuke.WebUtility">
       <HintPath>..\..\lib\DotNetNuke.WebUtility.dll</HintPath>
