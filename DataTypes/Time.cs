@@ -25,7 +25,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     public class EditTime : EditControl
     {
         DnnTimePicker _ctlTime;
-    
+
 
         public override string Value
         {
@@ -49,7 +49,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             {
                 if (value == string.Empty)
                 {
-                   
+
                 }
                 else
                 {
@@ -59,7 +59,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
         }
 
-     
+
 
         void EditTime_Init(object sender, EventArgs e)
         {

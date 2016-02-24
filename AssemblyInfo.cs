@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("DotNetNuke.Modules.UserDefinedTable")]
 [assembly: AssemblyDescription("ASP.NET Open Source Portal Application,Form and List Module")]
-[assembly: AssemblyCompany("DotNetNuke Inc")]
+[assembly: AssemblyCompany("DNN Corp")]
 [assembly: AssemblyProduct("http://www.dotnetnuke.com")]
 [assembly:
     AssemblyCopyright("Portal engine source code is copyright &copy; 2002-YYYY by DotNetNuke. All Rights Reserved")]
@@ -32,5 +32,7 @@ using System.Runtime.InteropServices;
 // übernehmen, indem Sie "*" eingeben:
 // <Assembly: AssemblyVersion("1.0.*")>
 
-[assembly: AssemblyVersion("06.02.00.*")]
+[assembly: AssemblyVersion("06.02.00.00")]
 [assembly: CLSCompliant(true)]
+[assembly: AssemblyFileVersion("06.02.00.00")]
+
