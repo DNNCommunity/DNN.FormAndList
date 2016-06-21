@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="CSV\CSVWriter.cs" />
     <Compile Include="DataTypes\Abstract\DataType.cs" />
+    <Compile Include="DataTypes\DataTypeExpessionEmail.cs" />
     <Compile Include="DataTypes\FieldSettingType.cs" />
     <Compile Include="DataTypes\Abstract\EditControl.cs" />
     <Compile Include="ExportCSV.ascx.designer.cs">
