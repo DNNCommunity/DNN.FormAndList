@@ -6,6 +6,7 @@ using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.UI.Utilities;
 
 
 namespace DotNetNuke.Modules.UserDefinedTable
@@ -16,6 +17,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             base.OnInit(e);
             InitViews();
+            
+            jQuery.RequestDnnPluginsRegistration();
+            ClientAPI.RegisterClientReference(this.Page, ClientAPI.ClientNamespaceReferences.dnn); 
         }
 
 
