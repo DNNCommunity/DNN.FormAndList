@@ -15,7 +15,7 @@
     </ul>
     <div id="ssSchemaSettings">
         <h2 class="dnnFormSectionHead"><a href="">
-            <asp:Label runat="server" ResourceKey="UdtSettings" /></a></h2>
+            <asp:Label runat="server" resourcekey="UdtSettings" /></a></h2>
         <fieldset>
             <div runat="server" id="udtSection" style="margin-top: 10px">
                 <div>
@@ -33,11 +33,11 @@
     </div>
     <div id="ssPageSettings" class="ssPageSettings">
         <h2 class="dnnFormSectionHead"><a href="">
-            <asp:Label runat="server" ResourceKey="DisplaySettings" /></a></h2>
+            <asp:Label runat="server" resourcekey="DisplaySettings" /></a></h2>
         <fieldset>
             <div>
                 <div class="dnnFormItem">
-                    <dnn:Label ID="lblList" runat="server" Suffix="" ResourceKey="plUsage" ControlName="rblList" />
+                    <dnn:Label ID="lblList" runat="server" Suffix="" resourcekey="plUsage" ControlName="rblList" />
 
                     <asp:RadioButtonList ID="rblUsageListForm" runat="server" AutoPostBack="true" RepeatDirection="Horizontal" CssClass="dnnFormRadioButtons">
                         <asp:ListItem Value="List" resourcekey="ListMode"></asp:ListItem>
@@ -62,11 +62,11 @@
         </fieldset>
 
         <h2 class="dnnFormSectionHead"><a href="">
-            <asp:Label runat="server" ResourceKey="FormSettings" /></a></h2>
+            <asp:Label runat="server" resourcekey="FormSettings" /></a></h2>
         <fieldset>
             <div id="plainFormSettingSet" runat="server">
                 <div class="dnnFormItem">
-                    <dnn:Label ID="lblOnSubmission" runat="server" Suffix="" ResourceKey="rblOnSubmission" ControlName="rblOnSubmission" />
+                    <dnn:Label ID="lblOnSubmission" runat="server" Suffix="" resourcekey="rblOnSubmission" ControlName="rblOnSubmission" />
                     <asp:RadioButtonList ID="rblOnSubmission" runat="server" CssClass="dnnFormRadioButtons" RepeatDirection="Vertical" AutoPostBack="true">
                         <asp:ListItem Value="Form" resourcekey="OnSubmissionForm" />
                         <asp:ListItem Value="Text" resourcekey="OnSubmissionText" />
@@ -74,38 +74,38 @@
                     </asp:RadioButtonList>
                 </div>
                 <div class="dnnFormItem" id="rowOnSubmissionRedirect" runat="server">
-                    <dnn:Label ID="lblOnSubmissionRedirect" runat="server" Suffix="" ResourceKey="lblOnSubmissionRedirect" ControlName="urlOnSubmissionRedirect" />
+                    <dnn:Label ID="lblOnSubmissionRedirect" runat="server" Suffix="" resourcekey="lblOnSubmissionRedirect" ControlName="urlOnSubmissionRedirect" />
                     <div class="pushRight">
                         <Portal:URL ID="urlOnSubmissionRedirect" runat="server" ShowTrack="False" ShowNewWindow="False" ShowLog="False" ShowFiles="false" ShowUrls="true" ShowTabs="true" Width="200" />
                     </div>
                 </div>
                 <div class="dnnFormItem" id="rowSubmissionText" runat="server">
-                    <dnn:Label ID="lblSub" runat="server" Suffix="" ResourceKey="plSubmissionText" ControlName="teSubmissionSuccess" />
+                    <dnn:Label ID="lblSub" runat="server" Suffix="" resourcekey="plSubmissionText" ControlName="teSubmissionSuccess" />
                     <div class="dnnLeft">
                         <dnn:TextEditor ID="teSubmissionSuccess" runat="server" Height="250" Width="400" />
                     </div>
                 </div>
             </div>
             <div class="dnnFormItem">
-                <dnn:Label runat="server" ID="lblEnableFormTemplate" ControlName="chkEnableFormTemplate" resourceKey="EnableFormTemplate" />
+                <dnn:Label runat="server" ID="lblEnableFormTemplate" ControlName="chkEnableFormTemplate" resourcekey="EnableFormTemplate" />
                 <asp:CheckBox ID="chkEnableFormTemplate" runat="server" AutoPostBack="True" />
             </div>
             <div class="dnnFormItem" runat="server" id="divFormTemplate">
-                <dnn:Label runat="server" ID="lblFormTemplate" ControlName="txtFormTemplate" resourceKey="FormTemplate" />
+                <dnn:Label runat="server" ID="lblFormTemplate" ControlName="txtFormTemplate" resourcekey="FormTemplate" />
 
 
                 <asp:TextBox runat="server" ID="txtFormTemplate" TextMode="MultiLine" Rows="15" Columns="180" />
                 <br />
                 <span class="CommandButton">
                     <asp:LinkButton ID="cmdGenerateFormTemplate" runat="server" CssClass="dnnSecondaryAction "
-                        ResourceKey="GenerateFormTemplate" />
+                        resourcekey="GenerateFormTemplate" />
                 </span>
             </div>
         </fieldset>
 
 
         <h2 class="dnnFormSectionHead"><a href="">
-            <asp:Label runat="server" ResourceKey="ListSettings" /></a></h2>
+            <asp:Label runat="server" resourcekey="ListSettings" /></a></h2>
         <fieldset>
             <div class="dnnFormItem">
                 <dnn:Label ID="plRenderMethod" runat="server" Suffix=":" ControlName="renderMethodRadioButtonList" />
@@ -190,7 +190,7 @@
         </fieldset>
 
         <h2 class="dnnFormSectionHead"><a href="">
-            <asp:Label runat="server" ResourceKey="EmailSettings" /></a></h2>
+            <asp:Label runat="server" resourcekey="EmailSettings" /></a></h2>
         <fieldset>
             <div class="dnnFormItem">
                 <dnn:Label ID="plTrackingOn" runat="server" Suffix=":" ControlName="txtTrackingTrigger" />
@@ -236,15 +236,15 @@
                 </div>
             </div>
             <div class="dnnFormItem">
-                <dnn:Label ID="plOnNew" runat="server" Suffix=":" ControlName="txtOnNew" ResourceKey="plOnNew" />
+                <dnn:Label ID="plOnNew" runat="server" Suffix=":" ControlName="txtOnNew" resourcekey="plOnNew" />
                 <asp:TextBox ID="txtOnNew" CssClass="NormalTextBox" runat="server" Width="400px" />
             </div>
             <div class="dnnFormItem">
-                <dnn:Label ID="plOnUpdate" runat="server" Suffix=":" ControlName="txtOnUpdate" ResourceKey="plOnUpdate" />
+                <dnn:Label ID="plOnUpdate" runat="server" Suffix=":" ControlName="txtOnUpdate" resourcekey="plOnUpdate" />
                 <asp:TextBox ID="txtOnUpdate" CssClass="NormalTextBox" runat="server" Width="400px" />
             </div>
             <div class="dnnFormItem">
-                <dnn:Label ID="plOnDelete" runat="server" Suffix=":" ControlName="txtOnDelete" ResourceKey="plOnDelete" />
+                <dnn:Label ID="plOnDelete" runat="server" Suffix=":" ControlName="txtOnDelete" resourcekey="plOnDelete" />
                 <asp:TextBox ID="txtOnDelete" CssClass="NormalTextBox" runat="server" Width="400px" />
             </div>
             <div class="dnnFormItem">
@@ -271,10 +271,10 @@
 
     <ul class="dnnActions dnnClear">
         <li>
-            <dnn:CommandButton ID="cmdUpdate" runat="server" CssClass="dnnPrimaryAction" ResourceKey="cmdSaveAndBack" />
+            <dnn:CommandButton ID="cmdUpdate" runat="server" CssClass="dnnPrimaryAction" resourcekey="cmdSaveAndBack" />
         </li>
         <li>
-            <dnn:CommandButton ID="cmdCancel" runat="server" CssClass="dnnSecondaryAction" ResourceKey="cmdCancel" />
+            <dnn:CommandButton ID="cmdCancel" runat="server" CssClass="dnnSecondaryAction" resourcekey="cmdCancel" />
         </li>
     </ul>
 
