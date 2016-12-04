@@ -54,7 +54,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
 
         public int Paging
         {
-            get { return _settings[SettingName.Paging ].AsInt(Null.NullInteger ); }
+            get { return _settings[SettingName.Paging].AsInt(Null.NullInteger); }
         }
 
         public string RenderingMethod
@@ -71,7 +71,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         {
             get { return _settings[SettingName.ShowNoRecordsUntilSearch].AsBoolean(); }
         }
-      
+
         public bool ShowSearchTextBox
         {
             get { return _settings[SettingName.ShowSearchTextBox].AsBoolean(); }
@@ -127,7 +127,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             get { return _settings[SettingName.TrackingEmailCc].AsString(); }
         }
 
-         public string TrackingEmailBcc
+        public string TrackingEmailBcc
         {
             get { return _settings[SettingName.TrackingEmailBcc].AsString(); }
         }
@@ -142,8 +142,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             get { return _settings[SettingName.TrackingEmailReplyTo].AsString(); }
         }
 
-      
-        
+
+
         public string TrackingSubject
         {
             get { return _settings[SettingName.TrackingSubject].AsString(); }
@@ -194,7 +194,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             {
                 var redirect = _settings[SettingName.UponSubmitRedirect].AsString();
                 return redirect == string.Empty ? null : redirect;
-            } 
+            }
         }
 
         public bool UrlSearch
@@ -210,6 +210,16 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public int UserRecordQuota
         {
             get { return _settings[SettingName.UserRecordQuota].AsInt(); }
+        }
+
+        public bool EnableFormTemplate
+        {
+            get { return _settings[SettingName.EnableFormTemplate].AsBoolean(); }
+        }
+
+        public string FormTemplate
+        {
+            get { return _settings[SettingName.FormTemplate].AsString(); }
         }
     }
 }

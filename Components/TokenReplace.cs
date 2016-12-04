@@ -1,4 +1,8 @@
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Services.Tokens;
+using System.Globalization;
 using System.Web;
+using System.Xml;
 
 namespace DotNetNuke.Modules.UserDefinedTable.Components
 {
@@ -30,6 +34,37 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
                 returnvalue = returnvalue.Replace("\'", "\'\'");
             }
             return returnvalue;
+        }
+    }
+
+    public class TokenReplaceForForms : Services.Tokens.BaseCustomTokenReplace
+    {
+        class PlaceHolderForControl_PropertyAccess : IPropertyAccess
+        {
+            readonly string _idprefix;
+            public PlaceHolderForControl_PropertyAccess(string idprefix)
+            {
+                _idprefix = idprefix;
+            }
+
+            public string GetProperty(string propertyName, string format, CultureInfo formatProvider, UserInfo accessingUser, Scope accessLevel, ref bool propertyNotFound)
+            {
+                return string.Format("  <asp:PlaceHolder runat=\"server\" ID=\"{0}_{1}\"/>", _idprefix, XmlConvert.EncodeName(propertyName));
+            }
+
+            public CacheLevel Cacheability
+            {
+                get { return CacheLevel.fullyCacheable; }
+            }
+        }
+        public TokenReplaceForForms()
+        {
+            PropertySource["label-for"] = new PlaceHolderForControl_PropertyAccess("label_for");
+            PropertySource["editor-for"] = new PlaceHolderForControl_PropertyAccess("editor_for");
+        }
+        public string GetControlTemplate(string input)
+        {
+            return this.ReplaceTokens(input);
         }
     }
 }

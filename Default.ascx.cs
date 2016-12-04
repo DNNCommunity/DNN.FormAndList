@@ -7,7 +7,7 @@ using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
-
+using DotNetNuke.Framework;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {

@@ -80,7 +80,37 @@ namespace DotNetNuke.Modules.UserDefinedTable
         }
 
         #region Private Methods
+        void BuildTemplateForm(IEnumerable<FormColumnInfo> editForm, string template)
+        {
+            var tr = new TokenReplaceForForms();
+            var controlstring = tr.GetControlTemplate(template);
+            var control = Page.ParseControl(controlstring);
+            foreach (var currentField in editForm)
+            {
+                var editcontrolPlaceholder = FindControlRecursive(control, "editor_for_" + XmlConvert.EncodeName(currentField.Title));
+                if (editcontrolPlaceholder != null && currentField.EditControl != null) editcontrolPlaceholder.Controls.Add(currentField.EditControl);
+                var labelPlaceholder = FindControlRecursive(control, "label_for_" + XmlConvert.EncodeName(currentField.Title));
+                if (labelPlaceholder != null) labelPlaceholder.Controls.Add(GetLabel(currentField.Title, currentField.Help, currentField.EditControl));
 
+            }
+            EditFormPlaceholder.Visible = true;
+            EditFormPlaceholder.Controls.Add(control);
+
+        }
+
+        private Control FindControlRecursive(Control rootControl, string controlID)
+        {
+            if (rootControl.ID == controlID)
+                return rootControl;
+
+            foreach (Control controlToSearch in rootControl.Controls)
+            {
+                Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
+                if (controlToReturn != null)
+                    return controlToReturn;
+            }
+            return null;
+        }
 
         void BuildCssForm (IEnumerable<FormColumnInfo> editForm)
         {
@@ -307,7 +337,14 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                    };
                 editForm.Add(currentField);
             }
-            BuildCssForm(editForm);
+
+            var enableFormTemplate =Settings.EnableFormTemplate; 
+            var formTemplate = Settings.FormTemplate;
+            if (enableFormTemplate && !string.IsNullOrEmpty(formTemplate))
+                BuildTemplateForm(editForm, formTemplate);
+            else
+                BuildCssForm(editForm);
+
             //Change captions of buttons in Form mode
             if (IsNewRow && Settings.ListOrForm.Contains("Form"))
             {

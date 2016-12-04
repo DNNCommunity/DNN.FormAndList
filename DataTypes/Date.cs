@@ -5,8 +5,8 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Modules.UserDefinedTable.Components;
-using DotNetNuke.Web.UI.WebControls;
 using Microsoft.VisualBasic;
+using DotNetNuke.Web.UI.WebControls;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {

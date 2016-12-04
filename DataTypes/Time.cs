@@ -9,8 +9,8 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Modules.UserDefinedTable.Components;
-using DotNetNuke.Web.UI.WebControls;
 using Microsoft.VisualBasic;
+using DotNetNuke.Web.UI.WebControls;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {

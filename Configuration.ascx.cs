@@ -24,6 +24,7 @@ using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.CompilerServices;
 using DataProvider = DotNetNuke.Data.DataProvider;
 using Globals = DotNetNuke.Common.Globals;
+using System.Linq;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -188,6 +189,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
             //form settings
             rblOnSubmission.SelectedValue = ModuleContext.Settings[SettingName.UponSubmitAction].AsString("Form");
             urlOnSubmissionRedirect.Url = ModuleContext.Settings[SettingName.UponSubmitRedirect].AsString();
+
+            chkEnableFormTemplate.Checked = ModuleContext.Settings[SettingName.EnableFormTemplate].AsBoolean();
+            txtFormTemplate.Text = ModuleContext.Settings[SettingName.FormTemplate].AsString();
         }
 
         bool ValidateMailTo()
@@ -262,7 +266,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var isFormMode = rblUsageListForm.SelectedValue == "Form";
             rememberSettings.Visible = rblUsageListForm.SelectedValue.Contains("Form");
             plainFormSettingSet.Visible = isFormMode;
-            noFormSettings.Visible = !isFormMode;
             rowOnSubmissionRedirect.Visible = rblOnSubmission.SelectedValue == "Redirect";
             rowSubmissionText.Visible = Convert.ToBoolean(! rowOnSubmissionRedirect.Visible);
         
@@ -409,6 +412,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 UpdateTabModuleSetting(SettingName.TrackingTextOnNew, txtOnNew.Text);
                 UpdateTabModuleSetting(SettingName.TrackingTextOnUpdate, txtOnUpdate.Text);
                 UpdateTabModuleSetting(SettingName.TrackingTextOnDelete, txtOnDelete.Text);
+                UpdateTabModuleSetting(SettingName.EnableFormTemplate, chkEnableFormTemplate.Checked.ToString(CultureInfo.InvariantCulture));
+                UpdateTabModuleSetting(SettingName.FormTemplate, txtFormTemplate.Text);
             }
             catch (Exception exc) //Module failed to load
             {
@@ -447,7 +452,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
             cmdGenerateXSL.Click += cmdGenerateXSL_Click;
             cmdUpdate.Click += cmdUpdate_Click;
             chkShowSearchTextBox.CheckedChanged += chkShowSearchTextBox_CheckedChanged;
-          
+            cmdGenerateFormTemplate.Click += cmdGenerateFormTemplate_Click;
+            chkEnableFormTemplate.CheckedChanged += ((sender, args) => divFormTemplate.Visible = chkEnableFormTemplate.Checked);
+
 
             Load += Page_Load;
             Fields.LocalizeString = LocalizeString;
@@ -457,6 +464,17 @@ namespace DotNetNuke.Modules.UserDefinedTable
             ClientAPI.RegisterClientReference(Page, ClientAPI.ClientNamespaceReferences.dnn);
         }
 
+        void cmdGenerateFormTemplate_Click(object sender, EventArgs e)
+        {
+            var fields = FieldController.GetFieldsTable(this.ModuleContext.ModuleId)
+                .Rows
+                .Cast<DataRow>()
+                .Select(r => new { Title = r[FieldsTableColumn.Title], IsVisible = r[FieldsTableColumn.Visible].AsBoolean() })
+                .Where(field => field.IsVisible);
+            const string fieldtemplate = "   <div class=\"form-group\">\r\n      <div class=\"col-md-2\">[label-for:{0}]</div>\r\n      <div class=\"col-md-10\">[editor-for:{0}]</div>\r\n  </div>\r\n";
+            var template = fields.Aggregate("", (current, field) => current + String.Format(fieldtemplate, field.Title));
+            txtFormTemplate.Text = $"<div class=\"form-horizontal\">\r\n{template}</div>";
+        }
 
         void Page_Load(object sender, EventArgs e)
         {
