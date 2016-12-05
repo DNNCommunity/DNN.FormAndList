@@ -13,7 +13,7 @@
       <license src="License.htm"/>
       <releaseNotes src="ReleaseNotes.htm" />
       <dependencies>
-        <dependency type="CoreVersion">08.00.00</dependency>
+        <dependency type="CoreVersion">08.00.04</dependency>
       </dependencies>
       <azureCompatible>true</azureCompatible>
       <components>
