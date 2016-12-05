@@ -6,6 +6,16 @@
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" %>
 <%@ Register Src="Controls/Fields.ascx" TagName="Fields" TagPrefix="fnl" %>
 
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
+<%-- Custom JavaScript Registration --%>
+<dnn:DnnCssInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/lib/codemirror.css" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/lib/codemirror.js" Priority="101" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/xml/xml.js" Priority="102" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/javascript/javascript.js" Priority="102" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/css/css.js" Priority="102" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/htmlmixed/htmlmixed.js" Priority="103" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/addon/display/autorefresh.js" Priority="103" />
+
 <div class="dnnForm dnnFormAndListConfig" id="dnnFormAndListConfig">
     <ul class="dnnAdminTabNav dnnClear">
         <li><a href="#ssSchemaSettings">
@@ -61,7 +71,7 @@
             </div>
         </fieldset>
 
-        <h2 class="dnnFormSectionHead"><a href="">
+        <h2 class="dnnFormSectionHead"><a href="" onclick="setTimeout(function() { editor.refresh();},100);">
             <asp:Label runat="server" resourcekey="FormSettings" /></a></h2>
         <fieldset>
             <div id="plainFormSettingSet" runat="server">
@@ -92,9 +102,8 @@
             </div>
             <div class="dnnFormItem" runat="server" id="divFormTemplate">
                 <dnn:Label runat="server" ID="lblFormTemplate" ControlName="txtFormTemplate" resourcekey="FormTemplate" />
-
-
-                <asp:TextBox runat="server" ID="txtFormTemplate" TextMode="MultiLine" Rows="15" Columns="180" />
+                <asp:TextBox runat="server" ID="txtFormTemplate" TextMode="MultiLine" Rows="15" Columns="90"  />
+   
                 <br />
                 <span class="CommandButton">
                     <asp:LinkButton ID="cmdGenerateFormTemplate" runat="server" CssClass="dnnSecondaryAction "
@@ -286,4 +295,32 @@
         window.open(url, '', 'width=800, height=800, location=no, menubar=no, resizable=yes, scrollbars=yes, status=no, toolbar=no');
         window.event.returnValue = false;
     }
+
+    var editor;
+
+
+    jQuery(function ($) {
+        var mimeType =  "text/xml";
+
+        var setupModule = function () {
+           editor = CodeMirror.fromTextArea($("textarea[id$='<%= txtFormTemplate.ClientID %>']")[0], {
+                lineNumbers: false,
+                matchBrackets: true,
+                lineWrapping: true,
+                autofocus: true,
+                mode: mimeType
+            });
+           
+        };
+
+        setupModule();
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+
+            // note that this will fire when _any_ UpdatePanel is triggered,
+            // which may or may not cause an issue
+            setupModule();
+
+        });
+    });
 </script>
