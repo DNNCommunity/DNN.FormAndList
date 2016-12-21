@@ -125,6 +125,7 @@
     <Compile Include="Components\GravatarPropertyAccess.cs" />
     <Compile Include="Components\ModuleSecurity.cs" />
     <Compile Include="Components\Settings.cs" />
+    <Compile Include="Components\StringExtensionMethods.cs" />
     <Compile Include="Components\TokenReplace.cs" />
     <Compile Include="Components\TrackingController.cs" />
     <Compile Include="Components\Utilities.cs" />

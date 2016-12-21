@@ -49,7 +49,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
 
             public string GetProperty(string propertyName, string format, CultureInfo formatProvider, UserInfo accessingUser, Scope accessLevel, ref bool propertyNotFound)
             {
-                return string.Format("  <asp:PlaceHolder runat=\"server\" ID=\"{0}_{1}\"/>", _idprefix, XmlConvert.EncodeName(propertyName));
+                return $"  <asp:PlaceHolder runat=\"server\" ID=\"{_idprefix}_{propertyName.SafeId()}\"/>";
             }
 
             public CacheLevel Cacheability

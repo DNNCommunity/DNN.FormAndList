@@ -21,18 +21,18 @@ using Globals = DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
-    public partial class EditForm : PortalModuleBase, IActionable, IFormEvents 
+    public partial class EditForm : PortalModuleBase, IActionable, IFormEvents
     {
-       
+
         EditControls _editControls;
         int _userDefinedRowId;
         CaptchaControl _ctlCaptcha;
         bool _hasUpdatePermission;
         bool _hasDeletePermission;
 
-        readonly IDictionary<Label,Control> _labelcontrols= new Dictionary<Label, Control>();
+        readonly IDictionary<Label, Control> _labelcontrols = new Dictionary<Label, Control>();
         readonly IDictionary<PropertyLabelControl, Control> _propertylabelcontrols = new Dictionary<PropertyLabelControl, Control>();
-        UserDefinedTableController  _udtController;
+        UserDefinedTableController _udtController;
         UserDefinedTableController UdtController
         {
             get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext)); }
@@ -45,9 +45,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
             {
                 if (_data == null)
                 {
-                    if (! int.TryParse(Request.QueryString[DataTableColumn.RowId], out _userDefinedRowId))
+                    if (!int.TryParse(Request.QueryString[DataTableColumn.RowId], out _userDefinedRowId))
                     {
-                        _userDefinedRowId = Convert.ToInt32(- 1);
+                        _userDefinedRowId = Convert.ToInt32(-1);
                     }
                     _data = UdtController.GetRow(_userDefinedRowId);
                 }
@@ -72,11 +72,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
         Components.Settings _settings;
         new Components.Settings Settings
         { get { return _settings ?? (_settings = new Components.Settings(ModuleContext.Settings)); } }
-        
+
 
         bool IsNewRow
         {
-            get { return _userDefinedRowId == - 1; }
+            get { return _userDefinedRowId == -1; }
         }
 
         #region Private Methods
@@ -87,9 +87,10 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var control = Page.ParseControl(controlstring);
             foreach (var currentField in editForm)
             {
-                var editcontrolPlaceholder = FindControlRecursive(control, "editor_for_" + XmlConvert.EncodeName(currentField.Title));
+                var controlId = currentField.Title.SafeId();
+                var editcontrolPlaceholder = FindControlRecursive(control, $"editor_for_{ controlId}");
                 if (editcontrolPlaceholder != null && currentField.EditControl != null) editcontrolPlaceholder.Controls.Add(currentField.EditControl);
-                var labelPlaceholder = FindControlRecursive(control, "label_for_" + XmlConvert.EncodeName(currentField.Title));
+                var labelPlaceholder = FindControlRecursive(control, $"label_for_{controlId}");
                 if (labelPlaceholder != null) labelPlaceholder.Controls.Add(GetLabel(currentField.Title, currentField.Help, currentField.EditControl));
 
             }
@@ -112,7 +113,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             return null;
         }
 
-        void BuildCssForm (IEnumerable<FormColumnInfo> editForm)
+        void BuildCssForm(IEnumerable<FormColumnInfo> editForm)
         {
             EditFormPlaceholder.Visible = true;
             Control currentContainer = EditFormPlaceholder;
@@ -147,9 +148,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 }
             }
         }
-     
 
-        Control GetLabel(string title, string help, Control  editcontrol)
+
+        Control GetLabel(string title, string help, Control editcontrol)
         {
 
             if (help == string.Empty)
@@ -168,17 +169,17 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 return d;
             }
             var label = new PropertyLabelControl
-                            {
-                                ID = string.Format("{0}_label", XmlConvert.EncodeName(title)),
-                                Caption = title,
-                                HelpText = help,
-                                EditControl = editcontrol,
-                            };
+            {
+                ID = string.Format("{0}_label", XmlConvert.EncodeName(title)),
+                Caption = title,
+                HelpText = help,
+                EditControl = editcontrol,
+            };
             _propertylabelcontrols.Add(label, editcontrol);
             return label;
         }
 
-        static Control GetSeparatorFormPattern(string title, bool expendable=false)
+        static Control GetSeparatorFormPattern(string title, bool expendable = false)
         {
             return title == string.Empty
                 ? new LiteralControl("<h2 class=\"dnnFormSectionHead\"/>")
@@ -190,13 +191,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             var security = new ModuleSecurity(ModuleContext);
             if (
-                !((! IsNewRow && security.IsAllowedToEditRow(isUsersOwnItem)) ||
-                  (IsNewRow && security.IsAllowedToAddRow() && (security.IsAllowedToAdministrateModule() || HasAddPermissonByQuota() ))))
+                !((!IsNewRow && security.IsAllowedToEditRow(isUsersOwnItem)) ||
+                  (IsNewRow && security.IsAllowedToAddRow() && (security.IsAllowedToAdministrateModule() || HasAddPermissonByQuota()))))
             {
                 if (IsNested())
                 {
                     cmdUpdate.Enabled = false;
-                
+
                     divForm.Visible = true;
                 }
                 else
@@ -208,19 +209,19 @@ namespace DotNetNuke.Modules.UserDefinedTable
             {
                 _hasUpdatePermission = true;
             }
-            _hasDeletePermission = Convert.ToBoolean(security.IsAllowedToDeleteRow(isUsersOwnItem) && ! IsNewRow);
+            _hasDeletePermission = Convert.ToBoolean(security.IsAllowedToDeleteRow(isUsersOwnItem) && !IsNewRow);
             cmdDelete.Visible = _hasDeletePermission;
         }
 
         bool IsNested()
         {
-            return (Parent.Parent ) is PortalModuleBase;
+            return (Parent.Parent) is PortalModuleBase;
         }
 
         bool HasAddPermissonByQuota()
         {
-            var userquota = Settings.UserRecordQuota ;
-            if (userquota > 0 && Request.IsAuthenticated )
+            var userquota = Settings.UserRecordQuota;
+            if (userquota > 0 && Request.IsAuthenticated)
             {
                 var ds = UdtController.GetDataSet(false);
                 return ModuleSecurity.HasAddPermissonByQuota(ds.Tables[DataSetTableName.Fields],
@@ -238,15 +239,15 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         bool CaptchaNeeded()
         {
-            return ModuleContext.PortalSettings.UserId == - 1 && Settings.ForceCaptchaForAnonymous ;
+            return ModuleContext.PortalSettings.UserId == -1 && Settings.ForceCaptchaForAnonymous;
         }
 
         void ShowUponSubmit()
         {
             var message = new HtmlGenericControl("div")
-                              {InnerHtml = Settings.SubmissionText };
+            { InnerHtml = Settings.SubmissionText };
             message.Attributes["class"] = "dnnFormMessage dnnFormSuccess";
-            MessagePlaceholder. Controls.Add(message);
+            MessagePlaceholder.Controls.Add(message);
         }
 
         void BuildEditForm()
@@ -265,19 +266,19 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 var dataType = DataType.ByName(dataTypeName);
 
                 var isColumnEditable =
-                    Convert.ToBoolean((! dataType.SupportsHideOnEdit ||
+                    Convert.ToBoolean((!dataType.SupportsHideOnEdit ||
                                        Convert.ToBoolean(dr[FieldsTableColumn.ShowOnEdit])) &&
-                                      (! Convert.ToBoolean(dr[FieldsTableColumn.IsPrivate]) ||
+                                      (!Convert.ToBoolean(dr[FieldsTableColumn.IsPrivate]) ||
                                        security.IsAllowedToEditAllColumns()));
 
                 //If Column is hidden, the Fieldtype falls back to "String" as the related EditControl works perfect even if it is not visibile
                 //EditControls of other user defined datatypes may use core controls (e.g. UrlControl or RTE) which are not rock solid regarding viewstate.
-                if (! isColumnEditable && dataType.IsUserDefinedField)
+                if (!isColumnEditable && dataType.IsUserDefinedField)
                 {
                     dataTypeName = "String";
                 }
 
-                currentField = new FormColumnInfo {IsUserDefinedField = dataType.IsUserDefinedField};
+                currentField = new FormColumnInfo { IsUserDefinedField = dataType.IsUserDefinedField };
 
                 if (dataType.IsSeparator)
                 {
@@ -312,7 +313,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                                                 dr[FieldsTableColumn.NormalizeFlag].AsBoolean(),
                                                                 dr[FieldsTableColumn.MultipleValues].AsBoolean(),
                                                                 fieldSettingsTable,
-                                                                this );
+                                                                this);
                     currentField.Visible = isColumnEditable;
                 }
                 editForm.Add(currentField);
@@ -321,24 +322,24 @@ namespace DotNetNuke.Modules.UserDefinedTable
             if (CaptchaNeeded())
             {
                 _ctlCaptcha = new CaptchaControl
-                                  {
-                                      ID = "Captcha",
-                                      CaptchaWidth = Unit.Pixel(130),
-                                      CaptchaHeight = Unit.Pixel(40),
-                                      ToolTip = Localization.GetString("CaptchaToolTip", LocalResourceFile),
-                                      ErrorMessage = Localization.GetString("CaptchaError", LocalResourceFile)
-                                  };
+                {
+                    ID = "Captcha",
+                    CaptchaWidth = Unit.Pixel(130),
+                    CaptchaHeight = Unit.Pixel(40),
+                    ToolTip = Localization.GetString("CaptchaToolTip", LocalResourceFile),
+                    ErrorMessage = Localization.GetString("CaptchaError", LocalResourceFile)
+                };
                 currentField = new FormColumnInfo
-                                   {
-                                       Title = Localization.GetString("Captcha", LocalResourceFile),
-                                       EditControl = _ctlCaptcha,
-                                       Visible = true,
-                                       IsUserDefinedField = false
-                                   };
+                {
+                    Title = Localization.GetString("Captcha", LocalResourceFile),
+                    EditControl = _ctlCaptcha,
+                    Visible = true,
+                    IsUserDefinedField = false
+                };
                 editForm.Add(currentField);
             }
 
-            var enableFormTemplate =Settings.EnableFormTemplate; 
+            var enableFormTemplate = Settings.EnableFormTemplate;
             var formTemplate = Settings.FormTemplate;
             if (enableFormTemplate && !string.IsNullOrEmpty(formTemplate))
                 BuildTemplateForm(editForm, formTemplate);
@@ -349,7 +350,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             if (IsNewRow && Settings.ListOrForm.Contains("Form"))
             {
                 cmdUpdate.Attributes["resourcekey"] = "cmdSend.Text";
-     }
+            }
         }
 
         #endregion
@@ -364,7 +365,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             cmdCancel.Click += cmdCancel_Click;
             cmdDelete.Click += cmdDelete_Click;
             cmdUpdate.Click += cmdUpdate_Click;
-           
+
             Load += Page_Load;
             PreRender += EditForm_PreRender;
         }
@@ -374,22 +375,22 @@ namespace DotNetNuke.Modules.UserDefinedTable
             foreach (var labelcontrol in _labelcontrols)
             {
                 var label = labelcontrol.Key;
-                var control = (EditControl) labelcontrol.Value;
+                var control = (EditControl)labelcontrol.Value;
                 if (control.ValueControl != null) label.AssociatedControlID = control.ValueControl.ID;
             }
-            foreach(var labelcontrol in _propertylabelcontrols )
+            foreach (var labelcontrol in _propertylabelcontrols)
             {
                 var label = labelcontrol.Key;
-                var control = labelcontrol.Value as EditControl ;
-                if (control!=null && control.ValueControl != null) label.EditControl  = control.ValueControl;
+                var control = labelcontrol.Value as EditControl;
+                if (control != null && control.ValueControl != null) label.EditControl = control.ValueControl;
             }
         }
-      
+
         void Page_Load(object sender, EventArgs e)
         {
             try
             {
-               
+
 
                 if (Page.IsPostBack == false)
                 {
@@ -397,9 +398,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     ClientAPI.AddButtonConfirm(cmdDelete, Localization.GetString("DeleteItem", LocalResourceFile));
                 }
 
-                if (! IsNewRow)
+                if (!IsNewRow)
                 {
-                    if (! Page.IsPostBack)
+                    if (!Page.IsPostBack)
                     {
                         //Clear all default values
                         foreach (var edit in _editControls.Values)
@@ -412,9 +413,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         var dataTypeName = field[FieldsTableColumn.Type].AsString();
                         var dataType = DataType.ByName(dataTypeName);
                         var value = CurrentRow[field[FieldsTableColumn.Title].ToString()].ToString();
-                        if (! dataType.IsSeparator)
+                        if (!dataType.IsSeparator)
                         {
-                            if (! Page.IsPostBack)
+                            if (!Page.IsPostBack)
                             {
                                 _editControls[field[FieldsTableColumn.Title].ToString()].Value = value;
                             }
@@ -430,7 +431,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     //Default Values already have been set in BuildEditForms
                     cmdDelete.Visible = false;
                     CheckPermission();
-                    if (! Page.IsPostBack && Request.QueryString["OnSubmit"].AsInt() == ModuleContext.ModuleId)
+                    if (!Page.IsPostBack && Request.QueryString["OnSubmit"].AsInt() == ModuleContext.ModuleId)
                     {
                         ShowUponSubmit();
                     }
@@ -447,7 +448,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             try
             {
-                if (Settings.ListOrForm.Contains("Form") && IsNewRow )
+                if (Settings.ListOrForm.Contains("Form") && IsNewRow)
                 {
                     Response.Redirect(Request.RawUrl);
                 }
@@ -470,13 +471,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 {
                     //warning message of validation has failed
                     var warningMessage = string.Empty;
-                    warningMessage = _editControls.Values.Where(edit => ! edit.IsValid())
-                        .Aggregate(warningMessage, 
+                    warningMessage = _editControls.Values.Where(edit => !edit.IsValid())
+                        .Aggregate(warningMessage,
                             (current, edit) => current + string.Format(
-                                                    "<li><b>{0}</b><br />{1}</li>", 
-                                                    edit.FieldTitle, 
+                                                    "<li><b>{0}</b><br />{1}</li>",
+                                                    edit.FieldTitle,
                                                     edit.ValidationMessage));
-                    if (CaptchaNeeded() && ! _ctlCaptcha.IsValid)
+                    if (CaptchaNeeded() && !_ctlCaptcha.IsValid)
                     {
                         warningMessage += string.Format("<li><b>{0}</b><br />{1}</li>",
                                                         Localization.GetString("Captcha.Text", LocalResourceFile),
@@ -502,14 +503,14 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                 break;
                             case "FormAndList":
                             case "ListAndForm":
-                                var url = IsNewRow 
-                                              ? Request.RawUrl 
+                                var url = IsNewRow
+                                              ? Request.RawUrl
                                               : Globals.NavigateURL(ModuleContext.TabId);
                                 Response.Redirect(url,
                                                   true);
                                 break;
                             case "Form":
-                                switch (Settings.UponSubmitAction )
+                                switch (Settings.UponSubmitAction)
                                 {
                                     case "Text":
                                         divForm.Visible = false;
@@ -531,7 +532,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     }
                     else
                     {
-                        var moduleControl = (PortalModuleBase) (((Parent.Parent) is PortalModuleBase) ? Parent.Parent : this);
+                        var moduleControl = (PortalModuleBase)(((Parent.Parent) is PortalModuleBase) ? Parent.Parent : this);
                         UI.Skins.Skin.AddModuleMessage(moduleControl, string.Format("<ul style=\"padding-left:1.6em;padding-bottom:0;\">{0}</ul>", warningMessage),
                                                        ModuleMessage.ModuleMessageType.RedError);
                     }
@@ -566,8 +567,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
         public void EnsureActionButton()
         {
             var useButtons = Settings.UseButtonsInForm;
-            var sec = new ModuleSecurity(ModuleId, TabId, Settings );
-            if (sec.IsAllowedToViewList() && Settings.OnlyFormIsShown )
+            var sec = new ModuleSecurity(ModuleId, TabId, Settings);
+            if (sec.IsAllowedToViewList() && Settings.OnlyFormIsShown)
             {
                 var url = Globals.NavigateURL(TabId, "", "show=records");
                 var title = Localization.GetString("List.Action", LocalResourceFile);
@@ -591,13 +592,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 var useButtons = Settings.UseButtonsInForm;
                 var cmdName = useButtons ? "" : ModuleActionType.AddContent;
                 var actions = new ModuleActionCollection();
-                var sec = new ModuleSecurity(ModuleId, TabId,Settings );
-                if (sec.IsAllowedToViewList() && Settings.OnlyFormIsShown )
+                var sec = new ModuleSecurity(ModuleId, TabId, Settings);
+                if (sec.IsAllowedToViewList() && Settings.OnlyFormIsShown)
                 {
                     var url = Globals.NavigateURL(TabId, "", "show=records");
                     var title = Localization.GetString("List.Action", LocalResourceFile);
                     actions.Add(ModuleContext.GetNextActionID(),
-                                title,cmdName,
+                                title, cmdName,
                                 "", Utilities.IconURL("View"), url, false, SecurityAccessLevel.View, true, false);
                 }
                 return actions;
