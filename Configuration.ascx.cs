@@ -469,15 +469,36 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var fields = FieldController.GetFieldsTable(this.ModuleContext.ModuleId)
                 .Rows
                 .Cast<DataRow>()
-                .Select(r => new { Title = r[FieldsTableColumn.Title], IsVisible = r[FieldsTableColumn.Visible].AsBoolean() })
+                .Select(r => new
+                {
+                    Title = r[FieldsTableColumn.Title],
+                    IsVisible = r[FieldsTableColumn.Visible].AsBoolean(),
+                    IsSeparator = r[FieldsTableColumn.Type].AsString() == "Separator"
+                })
                 .Where(field => field.IsVisible);
 
-            const string fieldtemplate = "   <div class=\"form-group\">\r\n" +
-                                         "      <div class=\"col-md-2\">[label-for:{0}]</div>\r\n" +
-                                         "      <div class=\"col-md-10\">[editor-for:{0}]</div>\r\n" +
-                                         "   </div>\r\n";
+            const string fieldtemplate = "    <div class=\"form-group\">\r\n" +
+                                         "        <div class=\"col-md-2\">[label-for:{0}]</div>\r\n" +
+                                         "        <div class=\"col-md-10\">[editor-for:{0}]</div>\r\n" +
+                                         "    </div>\r\n";
+            const string openFieldset =  "  <fieldset><legend>{0}</legend>\r\n";
+            const string closeFieldset = "   </fieldset>\r\n";
 
-            var template = fields.Aggregate("", (current, field) => current + String.Format(fieldtemplate, field.Title));
+            var trunk = fields.Aggregate(
+                    new
+                    {
+                        html = string.Empty,
+                        hasOpenFieldSet = false
+                    },
+                    (current, field) => new
+                    {
+                        html = current.html
+                            + (current.hasOpenFieldSet && field.IsSeparator ? "   </fieldset>\r\n" : "")
+                            + String.Format(field.IsSeparator ? openFieldset : fieldtemplate, field.Title),
+                        hasOpenFieldSet = field.IsSeparator || current.hasOpenFieldSet
+                    }
+                    );
+            var template = trunk.html + (trunk.hasOpenFieldSet ? closeFieldset : "");
             txtFormTemplate.Text = $"<div class=\"form-horizontal\">\r\n{template}</div>";
         }
 

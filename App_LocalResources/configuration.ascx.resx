@@ -630,7 +630,7 @@
     <value>Form Template</value>
   </data>
   <data name="GenerateFormTemplate.Text" xml:space="preserve">
-    <value>Generate</value>
+    <value>Generate Template (optimized for Bootstrap) </value>
   </data>
   <data name="EnableFormTemplate.Help" xml:space="preserve">
     <value>Override the rendering of the form.</value>
