@@ -6,7 +6,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
     {
         public static string SafeId(this string name)
         {
-            return new Regex("[^a-z_A-Z0-9 -]").Replace(name,"").Replace('-', '_');
+            return new Regex("[^a-z_A-Z0-9-]")
+                .Replace(name,"")
+                .Replace('-', '_');
         }
     }
 }
