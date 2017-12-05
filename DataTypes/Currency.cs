@@ -29,10 +29,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 try
                 {
                     returnValue = string.Empty;
-                    var culture = new CultureInfo("en-US");
                     if (base.Value != "")
                     {
-                        returnValue = (decimal.Parse(base.Value)).ToString(culture);
+                        returnValue = (decimal.Parse(base.Value)).ToString(CultureInfo.CurrentCulture);
                     }
                 }
                 catch
@@ -43,10 +42,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
             set
             {
-                var culture = new CultureInfo("en-US");
+                
                 if (value != "")
                 {
-                    value = (decimal.Parse(value, culture).ToString("#,###,##0.00"));
+                    value = (decimal.Parse(value).ToString(CultureInfo.InvariantCulture));
                 }
                 base.Value = value;
             }
