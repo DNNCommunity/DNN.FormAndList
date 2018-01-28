@@ -612,6 +612,13 @@
             </summary>
             -----------------------------------------------------------------------------
         </member>
+        <member name="T:DotNetNuke.Modules.UserDefinedTable.DataTypes.DataTypeExpessionEmail">
+            -----------------------------------------------------------------------------
+            <summary>
+              MetaData and Formating for DataType "DataTypeExpessionEmail"
+            </summary>
+            -----------------------------------------------------------------------------
+        </member>
         <member name="T:DotNetNuke.Modules.UserDefinedTable.DataTypes.EditBoolean">
             -----------------------------------------------------------------------------
             <summary>
