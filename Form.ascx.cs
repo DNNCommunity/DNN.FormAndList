@@ -18,6 +18,9 @@ using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
 using DotNetNuke.UI.WebControls;
 using Globals = DotNetNuke.Common.Globals;
+using DotNetNuke.Web.Client.ClientResourceManagement;
+using System.Text;
+using System.Globalization;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -208,7 +211,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         bool CaptchaNeeded()
         {
-            return ModuleContext.PortalSettings.UserId == - 1 && Settings.ForceCaptchaForAnonymous ;
+            return ModuleContext.PortalSettings.UserId == - 1 && Settings.ForceCaptchaForAnonymous && !Settings.PreferReCaptcha ;
         }
 
         void ShowUponSubmit()
@@ -290,22 +293,30 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
             if (CaptchaNeeded())
             {
-                _ctlCaptcha = new CaptchaControl
-                                  {
-                                      ID = "Captcha",
-                                      CaptchaWidth = Unit.Pixel(130),
-                                      CaptchaHeight = Unit.Pixel(40),
-                                      ToolTip = Localization.GetString("CaptchaToolTip", LocalResourceFile),
-                                      ErrorMessage = Localization.GetString("CaptchaError", LocalResourceFile)
-                                  };
-                currentField = new FormColumnInfo
-                                   {
-                                       Title = Localization.GetString("Captcha", LocalResourceFile),
-                                       EditControl = _ctlCaptcha,
-                                       Visible = true,
-                                       IsUserDefinedField = false
-                                   };
-                editForm.Add(currentField);
+                if (Settings.PreferReCaptcha)
+                {
+                    
+                }
+                else
+                {
+                    // use DnnCaptcha
+                    _ctlCaptcha = new CaptchaControl
+                    {
+                        ID = "Captcha",
+                        CaptchaWidth = Unit.Pixel(130),
+                        CaptchaHeight = Unit.Pixel(40),
+                        ToolTip = Localization.GetString("CaptchaToolTip", LocalResourceFile),
+                        ErrorMessage = Localization.GetString("CaptchaError", LocalResourceFile)
+                    };
+                    currentField = new FormColumnInfo
+                    {
+                        Title = Localization.GetString("Captcha", LocalResourceFile),
+                        EditControl = _ctlCaptcha,
+                        Visible = true,
+                        IsUserDefinedField = false
+                    };
+                    editForm.Add(currentField);
+                }
             }
             BuildCssForm(editForm);
             //Change captions of buttons in Form mode
@@ -352,12 +363,31 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             try
             {
-               
+                if (ModuleContext.PortalSettings.UserId == -1 && Settings.ForceCaptchaForAnonymous && Settings.PreferReCaptcha)
+                {
+                    cmdUpdate.Attributes["disabled"] = "disabled";
 
+                    DotNetNuke.Framework.CDefault page = (DotNetNuke.Framework.CDefault)this.Page;
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine(@"<script type=""text/javascript"">");
+                    sb.AppendLine("var onSubmit = function(token) {");
+                    sb.AppendLine("$('#" + cmdUpdate.ClientID + "').removeAttr('disabled');");
+                    sb.AppendLine("};");
+                    sb.AppendLine("var onloadCallback = function() {");
+                    sb.AppendLine("grecaptcha.render('" + gRecaptcha.ClientID + "', {");
+                    sb.AppendLine("'sitekey' : '" + Settings.ReCaptchaSiteKey + "',");
+                    sb.AppendLine("'callback' : onSubmit");
+                    sb.AppendLine("});");
+                    sb.AppendLine("};");
+                    sb.AppendLine("</script>");
+                    page.Header.Controls.Add(new LiteralControl(sb.ToString()));
+                    string languageCode = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    page.Header.Controls.Add(new LiteralControl(@"<script src=""https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=" + languageCode + @""" async defer ></script>"));
+                }
                 if (Page.IsPostBack == false)
                 {
                     EnsureActionButton();
-                    ClientAPI.AddButtonConfirm(cmdDelete, Localization.GetString("DeleteItem", LocalResourceFile));
+                    ClientAPI.AddButtonConfirm(cmdDelete, Localization.GetString("DeleteItem", LocalResourceFile));                    
                 }
 
                 if (! IsNewRow)
@@ -446,7 +476,17 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                                         Localization.GetString("CaptchaError.Text", LocalResourceFile));
                     }
 
-                    if (warningMessage == string.Empty)
+                    if (ModuleContext.PortalSettings.UserId == -1 && Settings.ForceCaptchaForAnonymous && Settings.PreferReCaptcha)
+                    {
+                        string encodedResponse = Request.Form["g-recaptcha-response"];
+                        if (!ReCaptcha.Validate(encodedResponse, Settings.ReCaptchaSecretKey))
+                        {
+                            warningMessage += string.Format("<li><b>{0}</b><br />{1}</li>",
+                                Localization.GetString("ReCaptcha.Text", LocalResourceFile), Localization.GetString("ReCaptchaError.Text", LocalResourceFile));
+                        }
+                    }
+
+                        if (warningMessage == string.Empty)
                     {
                         //'Save values for every field separately
                         foreach (var edit in _editControls.Values)
