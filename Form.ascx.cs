@@ -20,6 +20,7 @@ using DotNetNuke.UI.WebControls;
 using Globals = DotNetNuke.Common.Globals;
 using DotNetNuke.Web.Client.ClientResourceManagement;
 using System.Text;
+using System.Globalization;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -380,7 +381,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     sb.AppendLine("};");
                     sb.AppendLine("</script>");
                     page.Header.Controls.Add(new LiteralControl(sb.ToString()));
-                    page.Header.Controls.Add(new LiteralControl(@"<script src=""https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"" async defer ></script>"));
+                    string languageCode = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    page.Header.Controls.Add(new LiteralControl(@"<script src=""https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=" + languageCode + @""" async defer ></script>"));
                 }
                 if (Page.IsPostBack == false)
                 {
