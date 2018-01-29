@@ -1132,6 +1132,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.EditForm.gRecaptcha">
+            <summary>
+            gRecaptcha control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.EditForm.cmdUpdate">
             <summary>
             cmdUpdate control.
@@ -1950,15 +1959,6 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.chkCaptcha">
-            <summary>
-            chkCaptcha control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.chkInputFiltering">
             <summary>
             chkInputFiltering control.
@@ -2007,6 +2007,60 @@
         <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.txtUserRecordQuota">
             <summary>
             txtUserRecordQuota control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.lblForceCaptcha">
+            <summary>
+            lblForceCaptcha control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.ddlCaptcha">
+            <summary>
+            ddlCaptcha control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.lblSiteKey">
+            <summary>
+            lblSiteKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.txtSiteKey">
+            <summary>
+            txtSiteKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.lblSecretKey">
+            <summary>
+            lblSecretKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.txtSecretKey">
+            <summary>
+            txtSecretKey control.
             </summary>
             <remarks>
             Auto-generated field.

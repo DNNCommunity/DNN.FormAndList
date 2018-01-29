@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ModuleHelp.Text" xml:space="preserve">
     <value>&lt;h1&gt;Specific Settings for Form and List Module&lt;/h1&gt;
@@ -145,8 +145,8 @@
   <data name="EditOwnData.Text" xml:space="preserve">
     <value>Users are only allowed to manipulate their own items.</value>
   </data>
-  <data name="ForceCaptcha.Text" xml:space="preserve">
-    <value>Force CAPTCHA control during edit for Anonymous users.</value>
+  <data name="lblForceCaptcha.Text" xml:space="preserve">
+    <value>Force CAPTCHA for Anonymous users.</value>
   </data>
   <data name="InputFiltering.Text" xml:space="preserve">
     <value>Filter entry for markup code or script input. Note: filtering is always enabled for Anonymous users.</value>
@@ -165,5 +165,29 @@
   </data>
   <data name="DisplaySystemColumns.Text" xml:space="preserve">
     <value>Hide System Fields even if "Display All Column" permission is set.</value>
+  </data>
+  <data name="lblForceCaptcha.Help" xml:space="preserve">
+    <value>Select the captcha type to use for anonymous users.</value>
+  </data>
+  <data name="DnnCaptcha.Text" xml:space="preserve">
+    <value>DnnCaptcha</value>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ReCaptcha.Text" xml:space="preserve">
+    <value>ReCaptcha</value>
+  </data>
+  <data name="lblSecretKey.Help" xml:space="preserve">
+    <value>Obtain your secret key at &lt;a href="https://www.google.com/recaptcha" target="_blank"&gt;https://www.google.com/recaptcha&lt;/a&gt;</value>
+  </data>
+  <data name="lblSecretKey.Text" xml:space="preserve">
+    <value>ReCaptcha Secret Key</value>
+  </data>
+  <data name="lblSiteKey.Help" xml:space="preserve">
+    <value>Obtain your site key at &lt;a href="https://www.google.com/recaptcha" target="_blank"&gt;https://www.google.com/recaptcha&lt;/a&gt;</value>
+  </data>
+  <data name="lblSiteKey.Text" xml:space="preserve">
+    <value>ReCaptcha Site Key</value>
   </data>
 </root>

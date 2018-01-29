@@ -65,6 +65,11 @@
       <HintPath>..\..\lib\DotNetNuke.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DotNetNuke.Web.Client, Version=7.4.2.216, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\DotNetNuke.Web.Client.7.4.2.216\lib\net40\DotNetNuke.Web.Client.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DotNetNuke.Web.Deprecated, Version=8.0.0.777, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Bin\DotNetNuke.Web.Deprecated.dll</HintPath>
@@ -80,6 +85,11 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -119,6 +129,8 @@
     <Compile Include="Components\GlobalConstants.cs" />
     <Compile Include="Components\GravatarPropertyAccess.cs" />
     <Compile Include="Components\ModuleSecurity.cs" />
+    <Compile Include="Components\ReCaptcha.cs" />
+    <Compile Include="Components\ReCaptchaReply.cs" />
     <Compile Include="Components\Settings.cs" />
     <Compile Include="Components\TokenReplace.cs" />
     <Compile Include="Components\TrackingController.cs" />
@@ -232,12 +244,12 @@
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Providers\DataProviders\sqldataprovider\sqldataprovider.cs" />
-    <Compile Include="Settings.ascx.designer.cs">
-      <DependentUpon>Settings.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Settings.ascx.cs">
       <DependentUpon>Settings.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.ascx.designer.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
     </Compile>
     <Compile Include="ShowXml.ashx.cs">
       <DependentUpon>ShowXml.ashx</DependentUpon>
