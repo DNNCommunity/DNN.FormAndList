@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -33,10 +34,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
         readonly IDictionary<Label, Control> _labelcontrols = new Dictionary<Label, Control>();
         readonly IDictionary<PropertyLabelControl, Control> _propertylabelcontrols = new Dictionary<PropertyLabelControl, Control>();
         UserDefinedTableController _udtController;
-        UserDefinedTableController UdtController
-        {
-            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext)); }
-        }
+        UserDefinedTableController UdtController =>  _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext));
+
+        public string JsUiDatePattern => Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern
+                                     .ToLower()
+                                     .Replace("yyyy", "yy");
 
         DataSet _data;
         DataSet Data
@@ -70,14 +72,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
         }
 
         Components.Settings _settings;
-        new Components.Settings Settings
-        { get { return _settings ?? (_settings = new Components.Settings(ModuleContext.Settings)); } }
+        new Components.Settings Settings => _settings ?? (_settings = new Components.Settings(ModuleContext.Settings)); 
 
-
-        bool IsNewRow
-        {
-            get { return _userDefinedRowId == -1; }
-        }
+        bool IsNewRow => _userDefinedRowId == -1; 
 
         #region Private Methods
         void BuildTemplateForm(IEnumerable<FormColumnInfo> editForm, string template)

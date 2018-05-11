@@ -61,7 +61,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                  Text =
                                      string.Format("&nbsp;{0}",
                                                    OutputSettings == string.Empty
-                                                       ? PortalController.GetCurrentPortalSettings().Currency
+                                                       ? PortalController.Instance.GetCurrentPortalSettings().Currency
                                                        : OutputSettings)
                              };
             Controls.Add(ctlSym);
@@ -88,7 +88,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
         {
             base.SetStylesAndFormats(column, format);
             column.DataFormatString = string.Format("{{0:#,###,##0.00 \'{0}\'}}", 
-                format == string.Empty ? PortalController.GetCurrentPortalSettings().Currency : format);
+                format == string.Empty ? PortalController.Instance.GetCurrentPortalSettings().Currency : format);
         }
 
         public override string Name

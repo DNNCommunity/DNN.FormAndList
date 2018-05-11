@@ -16,64 +16,48 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
 
     #region EditControl
-
-    /// -----------------------------------------------------------------------------
-    /// <summary>
-    ///   Edit and Validation Control for DataType "Time"
-    /// </summary>
-    /// -----------------------------------------------------------------------------
     public class EditTime : EditControl
     {
-        DnnTimePicker _ctlTime;
+        TextBox _ctlTime;
 
 
         public override string Value
         {
             get
             {
-                string returnValue;
-                var selectedDate = _ctlTime.SelectedDate;
+                var selectedDate = _ctlTime.Text;
 
-                if (selectedDate.HasValue )
-                {
-                        var d = selectedDate.Value ;
-                        returnValue = d.ToString("s");
-                }
-                else
-                {
-                    returnValue = Null.NullString;
-                }
-                return returnValue;
+                DateTime d = DateTime.MinValue;
+                return DateTime.TryParse(selectedDate, out d)
+                       ? d.ToString("s")
+                       : ""; ;
+
             }
             set
             {
-                if (value == string.Empty)
-                {
-
-                }
-                else
+                if (Information.IsDate(value))
                 {
                     var d = DateTime.Parse(value);
-                    _ctlTime.SelectedDate = d;
+                    _ctlTime.Text = d.ToShortTimeString();
                 }
             }
         }
 
-
-
         void EditTime_Init(object sender, EventArgs e)
         {
             //Time-Textbox
-            _ctlTime = new DnnTimePicker
-                           {
-                               MinDate = DateTime.MinValue,
-                               ID = CleanID(string.Format("{0}_time", FieldTitle))
-                           };
+            _ctlTime = new TextBox
+            {
+                ID = CleanID(string.Format("{0}_time", FieldTitle))
+            };
 
-            if (! string.IsNullOrEmpty(Style))
+            if (!string.IsNullOrEmpty(Style))
             {
                 _ctlTime.Style.Value = Style;
             }
+            _ctlTime.CssClass = "fnl-timepicker";
+            if (Required) _ctlTime.CssClass += "dnnFormRequired";
+
             Controls.Add(_ctlTime);
             Value = DefaultValue;
             ValueControl = _ctlTime;
@@ -84,6 +68,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             Init += EditTime_Init;
         }
     }
+
 
     #endregion
 
@@ -136,8 +121,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
             if (HttpContext.Current != null)
             {
-                var serverTimeZone = PortalController.GetCurrentPortalSettings().TimeZone;
-                var userTimeZone = UserController.GetCurrentUserInfo().Profile.PreferredTimeZone;
+                var serverTimeZone = PortalController.Instance.GetCurrentPortalSettings().TimeZone;
+                var userTimeZone = UserController.Instance.GetCurrentUserInfo().Profile.PreferredTimeZone;
                 foreach (DataRow row in ds.Tables[DataSetTableName.Data].Rows)
                 {
                     foreach (FieldSetting field in fields)

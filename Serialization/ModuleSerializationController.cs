@@ -85,9 +85,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Serialization
 
         static void AddSettings(XmlNode nodeModule, ModuleInfo module)
         {
-            var objModuleController = new ModuleController();
-            var moduleSettings = objModuleController.GetModuleSettings(module.ModuleID);
-            var tabModuleSettings = objModuleController.GetTabModuleSettings(module.TabModuleID);
+            var moduleSettings = module.ModuleSettings;
+            var tabModuleSettings = module.TabModuleSettings;
 
             var handleModuleSettings = true;
             var handleTabModuleSettings = true;
@@ -315,7 +314,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Serialization
         static void DeserializeModuleSettings(XmlNodeList nodeModuleSettings, int moduleId)
         {
             var objModules = new ModuleController();
-            var applySettings = Convert.ToBoolean(objModules.GetModuleSettings(moduleId).Count == 0);
+            var applySettings = Convert.ToBoolean(objModules.GetModule(moduleId).ModuleSettings.Count == 0);
 
             foreach (XmlElement nodeSetting in nodeModuleSettings)
             {
@@ -331,9 +330,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.Serialization
         static void DeserializeTabModuleSettings(XmlNodeList nodeTabModuleSettings, int moduleId, int tabId)
         {
             var objModules = new ModuleController();
-            var tabModuleId = objModules.GetModule(moduleId, tabId).TabModuleID;
+            var module = objModules.GetModule(moduleId, tabId);
+            var tabModuleId = module.TabModuleID;
 
-            var applySettings = Convert.ToBoolean(objModules.GetTabModuleSettings(tabModuleId).Count == 0);
+            var applySettings = Convert.ToBoolean(module.TabModuleSettings.Count == 0);
             foreach (XmlElement nodeSetting in nodeTabModuleSettings)
             {
                 var name = nodeSetting.Attributes["name"].Value;

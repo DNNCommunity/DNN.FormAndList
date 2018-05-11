@@ -385,7 +385,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 //tracking
                 var strTrackingEmailSkript = "";
 
-                if (rblBodyType.SelectedValue == "XslScript" && XslTracking.Url != string.Empty)
+                if (rblBodyType.SelectedValue == "XslScript" &&  !string.IsNullOrWhiteSpace( XslTracking.Url))
                 {
                     var file = FileManager.Instance.GetFile(int.Parse(XslTracking.Url.Substring(7)));
                     if (file != null)
@@ -460,7 +460,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             Fields.LocalizeString = LocalizeString;
             Fields.LocalResourceFile = LocalResourceFile;
             Fields.ModuleContext = ModuleContext;
-            jQuery.RequestDnnPluginsRegistration();
+            Framework.JavaScriptLibraries.JavaScript.RequestRegistration(Framework.JavaScriptLibraries.CommonJs.DnnPlugins);
             ClientAPI.RegisterClientReference(Page, ClientAPI.ClientNamespaceReferences.dnn);
         }
 
@@ -634,11 +634,15 @@ namespace DotNetNuke.Modules.UserDefinedTable
             switch (eventArgument)
             {
                 case "ResetModuleTabSettings":
-                    ModulesController.DeleteTabModuleSettings(ModuleContext.TabModuleId);
+                    foreach (string key in ModuleContext.Configuration.TabModuleSettings.Keys)
+                    {
+                        ModulesController.DeleteTabModuleSetting(ModuleContext.TabModuleId, key);
+                    }
+               
                     break;
                 case "SaveSettingsAsDefault":
                     SaveSettings();
-                    var tabModuleSettings = ModulesController.GetTabModuleSettings(ModuleContext.TabModuleId);
+                    var tabModuleSettings = ModuleContext.Configuration.TabModuleSettings;
 
                     foreach (string key in tabModuleSettings.Keys)
                     {
