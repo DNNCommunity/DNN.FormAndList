@@ -3,7 +3,7 @@
 <%@ Import Namespace="DotNetNuke.Entities.Icons" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" %>
 <div class="dnnForm dnnClear">
-    <asp:Panel ID="panSearch" Width="100%" CssClass="Normal" runat="server" Visible="false" DefaultButton="cmdSearch">
+    <asp:Panel ID="panSearch" Width="100%" CssClass="Normal fnl-search" runat="server" Visible="false" DefaultButton="cmdSearch"  >
         <asp:PlaceHolder ID="phSearchSentence" runat="server"/>&nbsp;&nbsp;
         <asp:LinkButton ID="cmdSearch" CssClass="CommandButton" runat="server" resourcekey="cmdSearch" />&nbsp;&nbsp;
         <asp:LinkButton ID="cmdResetSearch" CssClass="CommandButton" runat="server" resourcekey="cmdResetSearch" />&nbsp;&nbsp;

@@ -42,10 +42,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
             set
             {
-                var culture = new CultureInfo("en-US");
+               
                 if (value != "")
                 {
-                    value = (int.Parse(value, culture).ToString("#,###,###,##0"));
+                    value = (int.Parse(value).ToString(CultureInfo.InvariantCulture));
                 }
                 base.Value = value;
             }

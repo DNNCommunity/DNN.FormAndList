@@ -84,7 +84,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 if (IsNotAListOfValues)
                 {
                     var mc = new ModuleController();
-                    var settings = mc.GetModuleSettings(ModuleId);
+                    var settings = mc.GetModule(ModuleId).ModuleSettings;
                     var showInNewWindow = settings[SettingName.URLNewWindow].AsBoolean();
                     //The following code must be executed during load, because the URLcontrol uses the viewstate
                     CtlUrl.UrlType = "M";
@@ -237,10 +237,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                         PortalSettings portalSettings = null;
                         if (HttpContext.Current != null)
                         {
-                            portalSettings = PortalController.GetCurrentPortalSettings();
+                            portalSettings = PortalController.Instance.GetCurrentPortalSettings();
                         }
                         var mc = new ModuleController();
-                        var settings = mc.GetModuleSettings(moduleId);
+                        var settings = mc.GetModule(moduleId).ModuleSettings;
              
                         foreach (DataRow row in tableData.Rows)
                         {

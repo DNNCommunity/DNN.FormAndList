@@ -69,3 +69,7 @@ margin: 1em auto 1em;
 .dnnFormItem textarea.dnn2rows {
     min-height: 1em;
 }
+
+.fnl-search{
+    margin-bottom:16px;
+}

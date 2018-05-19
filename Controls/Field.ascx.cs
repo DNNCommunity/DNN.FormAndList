@@ -64,8 +64,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
             {
                 if (Page.IsValid)
                 {
-                    UpdateField();  
-                    if (HideField != null) HideField();
+                    UpdateField();
+                    HideField?.Invoke();
                 }
             }
         
@@ -90,7 +90,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
 
         void cmdCancel_Click(object sender, EventArgs e)
         {
-            if (HideField != null) HideField();
+            HideField?.Invoke();
         }
 
         public event Action HideField;

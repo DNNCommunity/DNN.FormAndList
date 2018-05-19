@@ -1,19 +1,19 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_UserDefinedTable" type="Module" version="06.02.00">
+    <package name="DNN_UserDefinedTable" type="Module" version="06.04.00">
       <friendlyName>Form and List</friendlyName>
       <description>Create a simple form or a view of repetitive and simple data.</description>
       <iconFile>desktopmodules/userdefinedtable/icon_fnl_32px.gif</iconFile>
       <owner>
-        <name>DotNetNuke</name>
-        <organization>DotNetNuke Corporation</organization>
-        <url>http://www.dotnetnuke.com</url>
-        <email>support@dotnetnuke.com</email>
+        <name>DNNCorp</name>
+        <organization>DNNCorp</organization>
+        <url>http://www.dnnsoftware.com</url>
+        <email>support@dnnsoftware.com</email>
       </owner>
       <license src="License.htm"/>
       <releaseNotes src="ReleaseNotes.htm" />
       <dependencies>
-        <dependency type="CoreVersion">08.00.00</dependency>
+        <dependency type="CoreVersion">08.00.04</dependency>
       </dependencies>
       <azureCompatible>true</azureCompatible>
       <components>

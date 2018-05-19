@@ -157,13 +157,58 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         protected global::System.Web.UI.UserControl lblSub;
         
         /// <summary>
-        /// noFormSettings control.
+        /// lblEnableFormTemplate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noFormSettings;
+        protected global::System.Web.UI.UserControl lblEnableFormTemplate;
+        
+        /// <summary>
+        /// chkEnableFormTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableFormTemplate;
+        
+        /// <summary>
+        /// divFormTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFormTemplate;
+        
+        /// <summary>
+        /// lblFormTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblFormTemplate;
+        
+        /// <summary>
+        /// txtFormTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFormTemplate;
+        
+        /// <summary>
+        /// cmdGenerateFormTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton cmdGenerateFormTemplate;
         
         /// <summary>
         /// plRenderMethod control.

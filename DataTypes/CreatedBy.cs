@@ -51,7 +51,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 
         protected static string CurrentUserName()
         {
-            var result = UserController.GetCurrentUserInfo().Username;
+            var result = UserController.Instance.GetCurrentUserInfo().Username;
             if (string.IsNullOrEmpty(result))
             {
                 result = Definition.NameOfAnonymousUser;
@@ -142,7 +142,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 var tabId = Null.NullInteger; 
                 if (HttpContext.Current != null)
                 {
-                    var portalSettings = PortalController.GetCurrentPortalSettings();
+                    var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
                     portalId = portalSettings.PortalId;
                     tabId = portalSettings.ActiveTab.TabID;
                 }

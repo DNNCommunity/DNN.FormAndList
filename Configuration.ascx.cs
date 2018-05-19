@@ -24,6 +24,7 @@ using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.CompilerServices;
 using DataProvider = DotNetNuke.Data.DataProvider;
 using Globals = DotNetNuke.Common.Globals;
+using System.Linq;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -34,7 +35,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public partial class Configuration : ModuleUserControlBase, IActionable, IPostBackEventHandler
     {
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         protected LabelControl lblNormalizeFlag;
         protected Panel dshRendering;
         protected Panel dshFormsSettings;
@@ -76,7 +77,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             BindSettings();
         }
 
- 
+
 
         /// -----------------------------------------------------------------------------
         /// <summary>
@@ -109,11 +110,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 cboSortOrder.Items.FindByValue(sortOrderSetting).Selected = true;
             }
 
-         
+
             txtFilter.Text = ModuleContext.Settings[SettingName.Filter].AsString();
             txtTopCount.Text = ModuleContext.Settings[SettingName.TopCount].AsString();
             chkShowSearchTextBox.Checked = ModuleContext.Settings[SettingName.ShowSearchTextBox].AsBoolean();
-            chkUseButtons.Checked = ModuleContext.Settings[SettingName.UseButtonsInForm].AsBoolean(); 
+            chkUseButtons.Checked = ModuleContext.Settings[SettingName.UseButtonsInForm].AsBoolean();
             chkShowNoRecordsUntilSearch.Checked = ModuleContext.Settings[SettingName.ShowNoRecordsUntilSearch].AsBoolean();
             chkSimpleSearch.Checked = ModuleContext.Settings[SettingName.SimpleSearch].AsBoolean();
             chkURLSearch.Checked = ModuleContext.Settings[SettingName.URLSearch].AsBoolean();
@@ -142,9 +143,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         ModuleContext.Settings[SettingName.XslUserDefinedStyleSheet].AsString();
                 }
             }
-// ReSharper disable EmptyGeneralCatchClause
+            // ReSharper disable EmptyGeneralCatchClause
             catch
-// ReSharper restore EmptyGeneralCatchClause
+            // ReSharper restore EmptyGeneralCatchClause
             {
                 //Old StyleSheet removed
             }
@@ -177,9 +178,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 {
                     XslTracking.Url = strTrackingScript;
                 }
-// ReSharper disable EmptyGeneralCatchClause
+                // ReSharper disable EmptyGeneralCatchClause
                 catch
-// ReSharper restore EmptyGeneralCatchClause
+                // ReSharper restore EmptyGeneralCatchClause
                 {
                     //Old StyleSheet removed
                 }
@@ -188,6 +189,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
             //form settings
             rblOnSubmission.SelectedValue = ModuleContext.Settings[SettingName.UponSubmitAction].AsString("Form");
             urlOnSubmissionRedirect.Url = ModuleContext.Settings[SettingName.UponSubmitRedirect].AsString();
+
+            chkEnableFormTemplate.Checked = ModuleContext.Settings[SettingName.EnableFormTemplate].AsBoolean();
+            txtFormTemplate.Text = ModuleContext.Settings[SettingName.FormTemplate].AsString();
         }
 
         bool ValidateMailTo()
@@ -214,7 +218,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         var rows = fields.Select(string.Format("{0}=\'{1}\'", FieldsTableColumn.Title, fieldtitle));
                         if (rows.Length == 1)
                         {
-                            var type = DataType.ByName((string) (rows[0][FieldsTableColumn.Type]));
+                            var type = DataType.ByName((string)(rows[0][FieldsTableColumn.Type]));
                             if (!(type is IEmailAdressSource))
                             {
                                 UI.Skins.Skin.AddModuleMessage(this,
@@ -237,7 +241,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     }
                     else
                     {
-                        if (! Mail.IsValidEmailAddress(source, ModuleContext.PortalId))
+                        if (!Mail.IsValidEmailAddress(source, ModuleContext.PortalId))
                         {
                             UI.Skins.Skin.AddModuleMessage(this,
                                                            string.Format(
@@ -262,10 +266,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var isFormMode = rblUsageListForm.SelectedValue == "Form";
             rememberSettings.Visible = rblUsageListForm.SelectedValue.Contains("Form");
             plainFormSettingSet.Visible = isFormMode;
-            noFormSettings.Visible = !isFormMode;
             rowOnSubmissionRedirect.Visible = rblOnSubmission.SelectedValue == "Redirect";
-            rowSubmissionText.Visible = Convert.ToBoolean(! rowOnSubmissionRedirect.Visible);
-        
+            rowSubmissionText.Visible = Convert.ToBoolean(!rowOnSubmissionRedirect.Visible);
+
             rowTrackingScript.Visible = Convert.ToBoolean(rblBodyType.SelectedValue == "XslScript");
 
             switch (renderMethodRadioButtonList.SelectedValue)
@@ -273,7 +276,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 case RenderingMethod.GridRendering:
                     rowUserDefined.Visible = false;
                     break;
-             
+
                 case RenderingMethod.UserdefinedXSL:
                     rowUserDefined.Visible = true;
                     break;
@@ -291,7 +294,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     return fileId;
                 }
             }
-            return - 1;
+            return -1;
         }
 
         void UpdateModuleSetting(string name, string value)
@@ -343,7 +346,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         strUserDefinedXsl = file.Folder + file.FileName;
                     }
                 }
-                 UpdateTabModuleSetting(SettingName.XslUserDefinedStyleSheet, strUserDefinedXsl);
+                UpdateTabModuleSetting(SettingName.XslUserDefinedStyleSheet, strUserDefinedXsl);
                 UpdateTabModuleSetting(SettingName.RenderingMethod, strRenderingMethod);
                 //Paging
                 UpdateTabModuleSetting(SettingName.Paging, cboPaging.SelectedValue);
@@ -373,7 +376,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 UpdateTabModuleSetting(SettingName.SimpleSearch, chkSimpleSearch.Checked.ToString(CultureInfo.InvariantCulture));
                 UpdateTabModuleSetting(SettingName.UseButtonsInForm, chkUseButtons.Checked.ToString(CultureInfo.InvariantCulture));
                 UpdateTabModuleSetting(SettingName.URLSearch, chkURLSearch.Checked.ToString(CultureInfo.InvariantCulture));
-               //forms or list
+                //forms or list
                 UpdateTabModuleSetting(SettingName.ListOrForm, rblUsageListForm.SelectedValue);
                 //form
                 UpdateTabModuleSetting(SettingName.SubmissionText, HttpUtility.HtmlDecode(teSubmissionSuccess.Text));
@@ -382,7 +385,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 //tracking
                 var strTrackingEmailSkript = "";
 
-                if (rblBodyType.SelectedValue == "XslScript" && XslTracking.Url != string.Empty)
+                if (rblBodyType.SelectedValue == "XslScript" &&  !string.IsNullOrWhiteSpace( XslTracking.Url))
                 {
                     var file = FileManager.Instance.GetFile(int.Parse(XslTracking.Url.Substring(7)));
                     if (file != null)
@@ -409,6 +412,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 UpdateTabModuleSetting(SettingName.TrackingTextOnNew, txtOnNew.Text);
                 UpdateTabModuleSetting(SettingName.TrackingTextOnUpdate, txtOnUpdate.Text);
                 UpdateTabModuleSetting(SettingName.TrackingTextOnDelete, txtOnDelete.Text);
+                UpdateTabModuleSetting(SettingName.EnableFormTemplate, chkEnableFormTemplate.Checked.ToString(CultureInfo.InvariantCulture));
+                UpdateTabModuleSetting(SettingName.FormTemplate, txtFormTemplate.Text);
             }
             catch (Exception exc) //Module failed to load
             {
@@ -440,29 +445,68 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                                                                                    LocalResourceFile));
             teTrackingMessage.Text = ModuleContext.Settings[SettingName.TrackingMessage].AsString();
             cmdCancel.Click += cmdCancel_Click;
-           
+
             cmdEditEmail.Click += cmdEditEmail_Click;
             cmdEditXSL.Click += cmdEditXSL_Click;
             cmdGenerateEmail.Click += cmdGenerateEmail_Click;
             cmdGenerateXSL.Click += cmdGenerateXSL_Click;
             cmdUpdate.Click += cmdUpdate_Click;
             chkShowSearchTextBox.CheckedChanged += chkShowSearchTextBox_CheckedChanged;
-          
+            cmdGenerateFormTemplate.Click += cmdGenerateFormTemplate_Click;
+            chkEnableFormTemplate.CheckedChanged += ((sender, args) => divFormTemplate.Visible = chkEnableFormTemplate.Checked);
+
 
             Load += Page_Load;
             Fields.LocalizeString = LocalizeString;
             Fields.LocalResourceFile = LocalResourceFile;
             Fields.ModuleContext = ModuleContext;
-            jQuery.RequestDnnPluginsRegistration();
+            Framework.JavaScriptLibraries.JavaScript.RequestRegistration(Framework.JavaScriptLibraries.CommonJs.DnnPlugins);
             ClientAPI.RegisterClientReference(Page, ClientAPI.ClientNamespaceReferences.dnn);
         }
 
+        void cmdGenerateFormTemplate_Click(object sender, EventArgs e)
+        {
+            var fields = FieldController.GetFieldsTable(this.ModuleContext.ModuleId)
+                .Rows
+                .Cast<DataRow>()
+                .Select(r => new
+                {
+                    Title = r[FieldsTableColumn.Title],
+                    IsVisible = r[FieldsTableColumn.Visible].AsBoolean(),
+                    IsSeparator = r[FieldsTableColumn.Type].AsString() == "Separator"
+                })
+                .Where(field => field.IsVisible);
+
+            const string fieldtemplate = "    <div class=\"form-group\">\r\n" +
+                                         "        <div class=\"col-md-2\">[label-for:{0}]</div>\r\n" +
+                                         "        <div class=\"col-md-10\">[editor-for:{0}]</div>\r\n" +
+                                         "    </div>\r\n";
+            const string openFieldset =  "  <fieldset><legend>{0}</legend>\r\n";
+            const string closeFieldset = "   </fieldset>\r\n";
+
+            var trunk = fields.Aggregate(
+                    new
+                    {
+                        html = string.Empty,
+                        hasOpenFieldSet = false
+                    },
+                    (current, field) => new
+                    {
+                        html = current.html
+                            + (current.hasOpenFieldSet && field.IsSeparator ? "   </fieldset>\r\n" : "")
+                            + String.Format(field.IsSeparator ? openFieldset : fieldtemplate, field.Title),
+                        hasOpenFieldSet = field.IsSeparator || current.hasOpenFieldSet
+                    }
+                    );
+            var template = trunk.html + (trunk.hasOpenFieldSet ? closeFieldset : "");
+            txtFormTemplate.Text = $"<div class=\"form-horizontal\">\r\n{template}</div>";
+        }
 
         void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                if (! Page.IsPostBack)
+                if (!Page.IsPostBack)
                 {
                     //Localize Grid
                     BindData();
@@ -476,7 +520,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             }
         }
 
-    
+
 
         void cmdCancel_Click(object sender, EventArgs e)
         {
@@ -514,7 +558,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         void cmdEditXSL_Click(object sender, EventArgs e)
         {
             var fileId = GetEditableFileId(XslUserDefinedUrlControl.Url.ToLowerInvariant());
-            if (fileId > - 1)
+            if (fileId > -1)
             {
                 SaveSettings();
                 Response.Redirect(ModuleContext.EditUrl("FileID", fileId.ToString(CultureInfo.InvariantCulture), "GenerateXsl"), true);
@@ -527,7 +571,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             chkShowNoRecordsUntilSearch.Enabled = searchEnabled;
             chkSimpleSearch.Enabled = searchEnabled;
             chkURLSearch.Enabled = searchEnabled;
-            if (! searchEnabled)
+            if (!searchEnabled)
             {
                 chkShowNoRecordsUntilSearch.Checked = false;
                 chkSimpleSearch.Checked = false;
@@ -538,7 +582,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         protected void cmdEditEmail_Click(object sender, EventArgs e)
         {
             var fileId = GetEditableFileId(XslTracking.Url.ToLowerInvariant());
-            if (fileId > - 1)
+            if (fileId > -1)
             {
                 SaveSettings();
                 Response.Redirect(ModuleContext.EditUrl("FileID", fileId.ToString(CultureInfo.InvariantCulture), "GenerateXsl"), true);
@@ -590,11 +634,15 @@ namespace DotNetNuke.Modules.UserDefinedTable
             switch (eventArgument)
             {
                 case "ResetModuleTabSettings":
-                    ModulesController.DeleteTabModuleSettings(ModuleContext.TabModuleId);
+                    foreach (string key in ModuleContext.Configuration.TabModuleSettings.Keys)
+                    {
+                        ModulesController.DeleteTabModuleSetting(ModuleContext.TabModuleId, key);
+                    }
+               
                     break;
                 case "SaveSettingsAsDefault":
                     SaveSettings();
-                    var tabModuleSettings = ModulesController.GetTabModuleSettings(ModuleContext.TabModuleId);
+                    var tabModuleSettings = ModuleContext.Configuration.TabModuleSettings;
 
                     foreach (string key in tabModuleSettings.Keys)
                     {

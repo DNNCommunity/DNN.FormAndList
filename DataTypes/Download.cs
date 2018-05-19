@@ -149,7 +149,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 }
                 if (fields.Count > 0)
                 {
-                    var portalSettings = PortalController.GetCurrentPortalSettings();
+                    var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
                  
 
                     foreach (DataRow row in tableData.Rows)

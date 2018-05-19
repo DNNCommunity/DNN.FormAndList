@@ -29,10 +29,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 try
                 {
                     returnValue = string.Empty;
-                    var culture = new CultureInfo("en-US");
                     if (base.Value != "")
                     {
-                        returnValue = (decimal.Parse(base.Value)).ToString(culture);
+                        returnValue = (decimal.Parse(base.Value)).ToString(CultureInfo.CurrentCulture);
                     }
                 }
                 catch
@@ -43,10 +42,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
             set
             {
-                var culture = new CultureInfo("en-US");
+                
                 if (value != "")
                 {
-                    value = (decimal.Parse(value, culture).ToString("#,###,##0.00"));
+                    value = (decimal.Parse(value).ToString(CultureInfo.InvariantCulture));
                 }
                 base.Value = value;
             }
@@ -62,7 +61,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                  Text =
                                      string.Format("&nbsp;{0}",
                                                    OutputSettings == string.Empty
-                                                       ? PortalController.GetCurrentPortalSettings().Currency
+                                                       ? PortalController.Instance.GetCurrentPortalSettings().Currency
                                                        : OutputSettings)
                              };
             Controls.Add(ctlSym);
@@ -89,7 +88,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
         {
             base.SetStylesAndFormats(column, format);
             column.DataFormatString = string.Format("{{0:#,###,##0.00 \'{0}\'}}", 
-                format == string.Empty ? PortalController.GetCurrentPortalSettings().Currency : format);
+                format == string.Empty ? PortalController.Instance.GetCurrentPortalSettings().Currency : format);
         }
 
         public override string Name

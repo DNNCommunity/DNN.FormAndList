@@ -126,7 +126,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 if (IsNotAListOfValues)
                 {
                     var mc = new ModuleController();
-                    var settings = mc.GetModuleSettings(ModuleId);
+                    var settings = mc.GetModule(ModuleId).ModuleSettings;
 
                     var urlController = new UrlController();
                     urlController.UpdateUrl(PortalId, CtlUrl.Url, CtlUrl.UrlType, CtlUrl.Log,
@@ -219,7 +219,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                     return;
                 }
 
-                var portalSettings = PortalController.GetCurrentPortalSettings();
+                var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
                 
                 var tabCtrl = new TabController();
                 foreach (DataRow row in tableData.Rows)

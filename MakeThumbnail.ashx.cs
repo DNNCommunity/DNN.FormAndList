@@ -45,7 +45,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 var strFilepath = request.Params["image"];
                 //only virtual paths are valid!
 
-                var ps = PortalController.GetCurrentPortalSettings();
+                var ps = PortalController.Instance.GetCurrentPortalSettings();
 
 
 

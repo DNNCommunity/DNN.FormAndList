@@ -27,7 +27,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             {
                 if (ViewState[TimeStamp] == null)
                 {
-                    return SystemDateTime.GetCurrentTimeUtc().ToString("s");
+                    return Common.Utilities.DateUtils.GetDatabaseTime().ToString("s");
                 }
                 return DateTime.Parse((string)ViewState[TimeStamp]).ToString("s");
             }

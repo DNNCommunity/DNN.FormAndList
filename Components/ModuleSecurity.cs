@@ -37,8 +37,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public ModuleSecurity(int moduleId, int tabId, Components.Settings settings)
         {
             var moduleController = new ModuleController();
-            Settings = settings ?? new Settings(moduleController.GetModuleSettings(moduleId));
             var moduleInfo = moduleController.GetModule(moduleId, tabId);
+            Settings = settings ?? new Settings(moduleInfo.ModuleSettings);
             if (moduleInfo == null) return;
             var mp = moduleInfo.ModulePermissions;
             _hasEditRowPermission = ModulePermissionController.HasModulePermission(mp, PermissionName.HasEditRowPermission);

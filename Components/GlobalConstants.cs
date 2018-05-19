@@ -164,5 +164,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public const string UponSubmitAction = "UDT_UponSubmitAction";
         public const string UponSubmitRedirect = "UDT_UponSubmitRedirect";
         public const string UseButtonsInForm = "UseButtonsInForm";
+        public const string FormTemplate = "FormTemplate";
+        public const string EnableFormTemplate = "EnableFormTemplate";
     }
 }

@@ -5,8 +5,8 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Modules.UserDefinedTable.Components;
-using DotNetNuke.Web.UI.WebControls;
 using Microsoft.VisualBasic;
+using DotNetNuke.Web.UI.WebControls;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -20,21 +20,22 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     /// -----------------------------------------------------------------------------
     public class EditDate : EditControl
     {
-        
+
         protected WebControl CtlValueBox;
 
         void EditDate_Init(object sender, EventArgs e)
         {
             if (IsNotAListOfValues)
             {
-                var ctlDate = new DnnDatePicker {MinDate = DateTime.MinValue,MaxDate=DateTime.MaxValue };
-                if (! string.IsNullOrEmpty(Style))
+                var ctlDate = new TextBox();
+                if (!string.IsNullOrEmpty(Style))
                 {
                     ctlDate.Style.Value = Style;
                 }
                 ctlDate.ID = CleanID(string.Format("{0}_date", FieldTitle));
-                if (Required) ctlDate.DateInput.CssClass = "dnnFormRequired";
-              
+                ctlDate.CssClass = "fnl-datepicker";
+                if (Required) ctlDate.CssClass += "dnnFormRequired";
+
                 Controls.Add(ctlDate);
                 CtlValueBox = ctlDate;
                 ValueControl = ctlDate;
@@ -42,7 +43,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             else
             {
                 var ctlListControl = GetListControl();
-                
+
                 foreach (var v in InputValueList)
                 {
                     if (Information.IsDate(v))
@@ -51,7 +52,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                         ctlListControl.Items.Add(new ListItem(d.ToString("d"), d.ToString("s")));
                     }
                 }
-                if (! Required)
+                if (!Required)
                 {
                     ctlListControl.Items.Add(new ListItem("", ""));
                 }
@@ -64,21 +65,23 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             Value = DefaultValue;
         }
 
-     
+
 
         public override string Value
         {
             get
             {
                 string returnValue;
-                if (CtlValueBox is DnnDatePicker)
+                if (CtlValueBox is TextBox)
                 {
-                    var dnnDatePicker = (DnnDatePicker)CtlValueBox;
-                    returnValue = dnnDatePicker.SelectedDate.HasValue ? dnnDatePicker.SelectedDate.Value.ToString("s"):"" ;
+                    var dnnDatePicker = (TextBox)CtlValueBox;
+                    var dateText = dnnDatePicker.Text;
+                    DateTime d = DateTime.MinValue;
+                    returnValue = !string.IsNullOrWhiteSpace(dateText) && DateTime.TryParse(dateText, out d) ? DateTime.Parse(dateText).ToString("s") : "";
                 }
                 else
                 {
-                    returnValue = ((DropDownList) CtlValueBox).SelectedValue;
+                    returnValue = ((DropDownList)CtlValueBox).SelectedValue;
                 }
                 if (returnValue != string.Empty)
                 {
@@ -98,13 +101,13 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 if (Information.IsDate(value))
                 {
                     var d = DateTime.Parse(value);
-                    if (CtlValueBox is DnnDatePicker )
+                    if (CtlValueBox is TextBox)
                     {
-                        ((DnnDatePicker)CtlValueBox).SelectedDate= DateTime.Parse(value);
+                        ((TextBox)CtlValueBox).Text = d.ToShortDateString();
                     }
                     else
                     {
-                        var ctlComboBox = (ListControl) CtlValueBox;
+                        var ctlComboBox = (ListControl)CtlValueBox;
                         if (ctlComboBox.Items.FindByValue(d.ToString("s")) != null)
                         {
                             ctlComboBox.SelectedValue = d.ToString("s");
@@ -113,13 +116,13 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 }
                 else
                 {
-                    if (CtlValueBox is DnnDatePicker)
+                    if (CtlValueBox is TextBox)
                     {
                         //((DnnDatePicker)CtlValueBox).Text = string.Empty;
                     }
                     else
                     {
-                        var ctlComboBox = (ListControl) CtlValueBox;
+                        var ctlComboBox = (ListControl)CtlValueBox;
                         if (Required)
                         {
                             ctlComboBox.SelectedIndex = 0;

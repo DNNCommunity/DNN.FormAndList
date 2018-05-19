@@ -113,8 +113,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
                 return @default;
             }
             if (value is int) return (int) value;
-            int i;
-            return Int32.TryParse(value.ToString(), out i) ? i : Null.NullInteger;
+
+            return Int32.TryParse(value.ToString(), out int i) ? i : Null.NullInteger;
         }
 
         public static bool ValidateRegEx(this string value, string pattern)
@@ -134,7 +134,11 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             if (forceOverWrite || !FileManager.Instance.FileExists(folder,fileName ))
             {
                 var utf8 = new UTF8Encoding();
-                FileManager.Instance.AddFile(folder, fileName, new MemoryStream(utf8.GetBytes(fileContent)),forceOverWrite);
+                using (var stream = new MemoryStream(utf8.GetBytes(fileContent)))
+                {
+                    FileManager.Instance.AddFile(folder, fileName, stream, forceOverWrite);
+                }
+                    
                 return true;
             }
             return false;
