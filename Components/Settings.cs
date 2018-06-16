@@ -37,6 +37,21 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             get { return _settings[SettingName.ForceCaptchaForAnonymous].AsBoolean(); }
         }
 
+        public bool PreferReCaptcha
+        {
+            get { return _settings[SettingName.PreferReCaptcha].AsBoolean(); }
+        }
+
+        public string ReCaptchaSiteKey
+        {
+            get { return _settings[SettingName.ReCaptchaSiteKey].AsString(); }
+        }
+
+        public string ReCaptchaSecretKey
+        {
+            get { return _settings[SettingName.ReCaptchaSecretKey].AsString(); }
+        }
+
         public string ListOrForm
         {
             get { return _settings[SettingName.ListOrForm].AsString("List"); }

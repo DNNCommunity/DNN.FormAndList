@@ -159,4 +159,10 @@
   <data name="MonthNames.Text" xml:space="preserve">
     <value>'January','Februrary','March','April','May','June','July','August','September','October','November','December'</value>
   </data>
+  <data name="ReCaptcha.Text" xml:space="preserve">
+    <value>ReCaptcha</value>
+  </data>
+  <data name="ReCaptchaError.Text" xml:space="preserve">
+    <value>An unexpected error has occured, please try again.</value>
+  </data>
 </root>

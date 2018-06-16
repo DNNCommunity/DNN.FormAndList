@@ -130,6 +130,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public const string URLSearch = "UDT_URLSearch";
  //       public const string UseButtons = "UDT_UseButtons";
         public const string ForceCaptchaForAnonymous = "UDT_ForceCaptchaForAnonymous";
+        public const string PreferReCaptcha = "UDT_PreferReCaptcha";
+        public const string ReCaptchaSiteKey = "UDT_ReCaptchaSiteKey";
+        public const string ReCaptchaSecretKey = "UDT_ReCaptchaPrivateKey";
         public const string ForceInputFiltering = "UDT_ForceFiltering";
         public const string EditOnlyOwnItems = "UDT_EditOnlyOwnItems";
         public const string ExcludeFromSearch = "UDT_ExcludeFromSearch";

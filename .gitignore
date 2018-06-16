@@ -11,6 +11,10 @@
 *.sln.docstates
 *.local.sln
 *.sln.GhostDoc.xml
+DotNetNuke.Modules.UserDefinedTable.xml
+web.config
+web.Debug.config
+web.Release.config
 
 ## Ignore VS2015/Roslyn artifacts
 *.sln.ide/
