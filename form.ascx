@@ -5,9 +5,10 @@
 <div runat="server" id="divForm"  class="dnnForm fnlForm dnnClear">
 
     <div runat="server" ID="EditFormPlaceholder"  />
+    <asp:Panel ID="gRecaptcha" CssClass="recaptcha-container" runat="server" />
     <ul class="dnnActions dnnClear">
         <li>
-            <asp:LinkButton ID="cmdUpdate" Text="Update" runat="server" resourcekey="cmdUpdate" cssclass="dnnPrimaryAction"  />
+            <asp:LinkButton ID="cmdUpdate" Text="Update" runat="server" resourcekey="cmdUpdate" cssclass="dnnPrimaryAction reCaptchaSubmit" />
         </li>
         <li> 
             <asp:LinkButton ID="cmdCancel" Text="Cancel" CausesValidation="False" resourcekey="cmdCancel" runat="server" cssclass="dnnSecondaryAction" />
