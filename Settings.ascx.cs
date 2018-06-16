@@ -63,10 +63,12 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     break;
                 case 1:
                     // DnnCaptcha
+                    mc.UpdateModuleSetting(ModuleId, SettingName.ForceCaptchaForAnonymous, true.ToString());
                     mc.UpdateModuleSetting(ModuleId, SettingName.PreferReCaptcha, false.ToString());
                     break;
                 case 2:
                     // ReCaptcha
+                    mc.UpdateModuleSetting(ModuleId, SettingName.ForceCaptchaForAnonymous, true.ToString());
                     mc.UpdateModuleSetting(ModuleId, SettingName.PreferReCaptcha, true.ToString());
                     break;
                 default:

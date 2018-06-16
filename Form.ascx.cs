@@ -346,7 +346,32 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     editForm.Add(currentField);
                 }
             }
-            BuildCssForm(editForm);
+            if (CaptchaNeeded())
+            {
+                _ctlCaptcha = new CaptchaControl
+                {
+                    ID = "Captcha",
+                    CaptchaWidth = Unit.Pixel(130),
+                    CaptchaHeight = Unit.Pixel(40),
+                    ToolTip = Localization.GetString("CaptchaToolTip", LocalResourceFile),
+                    ErrorMessage = Localization.GetString("CaptchaError", LocalResourceFile)
+                };
+                currentField = new FormColumnInfo
+                {
+                    Title = Localization.GetString("Captcha", LocalResourceFile),
+                    EditControl = _ctlCaptcha,
+                    Visible = true,
+                    IsUserDefinedField = false
+                };
+                editForm.Add(currentField);
+            }
+
+            var enableFormTemplate = Settings.EnableFormTemplate;
+            var formTemplate = Settings.FormTemplate;
+            if (enableFormTemplate && !string.IsNullOrEmpty(formTemplate))
+                BuildTemplateForm(editForm, formTemplate);
+            else
+                BuildCssForm(editForm);
             //Change captions of buttons in Form mode
             if (IsNewRow && Settings.ListOrForm.Contains("Form"))
             {
@@ -394,12 +419,14 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 if (ModuleContext.PortalSettings.UserId == -1 && Settings.ForceCaptchaForAnonymous && Settings.PreferReCaptcha)
                 {
                     cmdUpdate.Attributes["disabled"] = "disabled";
+                    cmdUpdate.CssClass += " disabled";
 
                     DotNetNuke.Framework.CDefault page = (DotNetNuke.Framework.CDefault)this.Page;
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine(@"<script type=""text/javascript"">");
                     sb.AppendLine("var onSubmit = function(token) {");
                     sb.AppendLine("$('#" + cmdUpdate.ClientID + "').removeAttr('disabled');");
+                    sb.AppendLine("$('#" + cmdUpdate.ClientID + "').removeClass('disabled');");
                     sb.AppendLine("};");
                     sb.AppendLine("var onloadCallback = function() {");
                     sb.AppendLine("grecaptcha.render('" + gRecaptcha.ClientID + "', {");

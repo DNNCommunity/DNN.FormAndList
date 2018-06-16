@@ -67,6 +67,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotNetNuke.Web, Version=9.0.0.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\bin\DotNetNuke.Web.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DotNetNuke.Web.Client, Version=7.4.2.216, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetNuke.Web.Client.7.4.2.216\lib\net40\DotNetNuke.Web.Client.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
