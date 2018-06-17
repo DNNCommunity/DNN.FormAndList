@@ -636,6 +636,6 @@
     <value>Override the rendering of the form.</value>
   </data>
   <data name="FormTemplate.Help" xml:space="preserve">
-    <value>The template is set as html. To insert labels, use the [label-for:Fieldname] token, for the input fields [editor-for:Fieldname]</value>
+    <value>The template is set as html. To insert labels, use the [label-for:Fieldname] token, for the input fields [editor-for:Fieldname], for the captcha use [editor-for:Security Code]</value>
   </data>
 </root>
