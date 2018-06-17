@@ -426,5 +426,16 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
             panValidationMessage.Visible = selectedType.SupportsValidation;
             panHelpText.Visible = selectedType.SupportsEditing;
         }
+
+        protected void valNoPipesInTitle_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        {
+            var text = args.Value;
+            if (text.Contains('|'))
+            {
+                args.IsValid = false;
+                return;
+            }
+            args.IsValid = true;
+        }
     }
 }
