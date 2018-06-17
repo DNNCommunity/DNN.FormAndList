@@ -321,11 +321,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
             if (CaptchaNeeded())
             {
-                if (Settings.PreferReCaptcha)
-                {
-                    
-                }
-                else
+                if (!Settings.PreferReCaptcha)                
                 {
                     // use DnnCaptcha
                     _ctlCaptcha = new CaptchaControl
@@ -345,25 +341,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     };
                     editForm.Add(currentField);
                 }
-            }
-            if (CaptchaNeeded())
-            {
-                _ctlCaptcha = new CaptchaControl
-                {
-                    ID = "Captcha",
-                    CaptchaWidth = Unit.Pixel(130),
-                    CaptchaHeight = Unit.Pixel(40),
-                    ToolTip = Localization.GetString("CaptchaToolTip", LocalResourceFile),
-                    ErrorMessage = Localization.GetString("CaptchaError", LocalResourceFile)
-                };
-                currentField = new FormColumnInfo
-                {
-                    Title = Localization.GetString("Captcha", LocalResourceFile),
-                    EditControl = _ctlCaptcha,
-                    Visible = true,
-                    IsUserDefinedField = false
-                };
-                editForm.Add(currentField);
             }
 
             var enableFormTemplate = Settings.EnableFormTemplate;
