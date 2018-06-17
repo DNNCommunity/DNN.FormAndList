@@ -31,7 +31,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
                     if (_moduleSettings == null)
                     {
                         var mc = new ModuleController();
-                        _configuration = mc.GetModule(ModuleId, TabModuleId);
+                        _configuration = mc.GetModule(ModuleId, TabId);
                         _moduleSettings = new Hashtable(_configuration.ModuleSettings);
                         if (TabModuleId != Null.NullInteger)
                         {
