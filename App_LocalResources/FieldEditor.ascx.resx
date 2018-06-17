@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ControlHelpText.Help" xml:space="preserve">
     <value>This is the Help Text displayed to the user to explain this field.</value>
@@ -257,5 +257,8 @@
   </data>
   <data name="ListSettings.Text" xml:space="preserve">
     <value>List Settings</value>
+  </data>
+  <data name="TitleCannotHavePipe.Text" xml:space="preserve">
+    <value>The pipe character is not allowed in the field title.</value>
   </data>
 </root>

@@ -22,6 +22,17 @@
         <span class="dnnFormMessage dnnFormError" runat="server" Visible="false" id="divError"/>  
         <asp:RequiredFieldValidator  runat="server" ErrorMessage="RequiredFieldValidator" 
                                      ControlToValidate="txtFieldTitle"  resourcekey="TitleIsRequired" CssClass="dnnFormMessage dnnFormError"/>
+        <asp:CustomValidator 
+            ID="valNoPipesInTitle"            
+            runat="server" 
+            ErrorMessage="The title may not contain the pipe ( | ) character" 
+            ControlToValidate="txtFieldTitle" 
+            resourcekey="TitleCannotHavePipe" 
+            CssClass="dnnFormMessage dnnFormError" 
+            OnServerValidate="valNoPipesInTitle_ServerValidate" 
+            ClientValidationFunction="validateNoPipes" 
+            EnableClientScript="true" 
+            />
         
     </div>
     <div class="dnnFormItem" id="panHelpText" runat="server">
@@ -145,5 +156,14 @@
     function OpenHelpWindow(url) {
         window.open(url, '', 'width=800, height=800, location=no, menubar=no, resizable=yes, scrollbars=yes, status=no, toolbar=no');
         window.event.returnValue = false;
+    }
+
+    function validateNoPipes(sender, args) {
+        var text = args.Value;
+        if (text.indexOf('|')>=0) {
+            args.IsValid = false;
+            return;
+        }
+        args.IsValid = true;
     }
 </script>
