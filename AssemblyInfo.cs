@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 
-[assembly: AssemblyVersion("06.04.00.00")]
+[assembly: AssemblyVersion("06.05.00.00")]
 [assembly: CLSCompliant(true)]
-[assembly: AssemblyFileVersion("06.04.00.00")]
+[assembly: AssemblyFileVersion("06.05.00.00")]
 
