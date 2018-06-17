@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_UserDefinedTable" type="Module" version="06.04.00">
+    <package name="DNN_UserDefinedTable" type="Module" version="06.05.00">
       <friendlyName>Form and List</friendlyName>
       <description>Create a simple form or a view of repetitive and simple data.</description>
       <iconFile>desktopmodules/userdefinedtable/icon_fnl_32px.gif</iconFile>
