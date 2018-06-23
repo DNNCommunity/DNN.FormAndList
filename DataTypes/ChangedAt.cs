@@ -14,7 +14,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     {
         public override string Value
         {
-            get { return Common.Utilities.DateUtils.GetDatabaseTime().ToString("s"); }
+            get { return Common.Utilities.DateUtils.GetDatabaseUtcTime().ToString("s"); }
             
             set { base.Value = value; }
         }

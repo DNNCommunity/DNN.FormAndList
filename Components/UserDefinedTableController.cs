@@ -353,7 +353,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             row["LocalizedString_Previous"] = Localization.GetString("PagingPrevious.Text", Definition.SharedRessources);
             row["LocalizedString_Next"] = Localization.GetString("PagingNext.Text", Definition.SharedRessources);
             row["LocalizedString_Last"] = Localization.GetString("PagingLast.Text", Definition.SharedRessources);
-            var d = DateUtils.GetDatabaseTime();
+            var d = DateUtils.GetDatabaseUtcTime();
             var timeZone = userInfo.Username != null
                                   ? userInfo.Profile.PreferredTimeZone
                                   : portalSettings.TimeZone;
