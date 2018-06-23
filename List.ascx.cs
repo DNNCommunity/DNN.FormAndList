@@ -362,6 +362,10 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 else
                 {
                     var @params = new List<string>();
+                    if (_parent.Request.QueryString["show"] == "records")
+                    {
+                        @params.Add("show/records");
+                    }
                     var moduleId = _parent.ModuleId;
                     if (! string.IsNullOrEmpty(TxtSearch.Text))
                     {
@@ -389,7 +393,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 }
                 else
                 {
-                    _parent.Response.Redirect(Globals.NavigateURL(_parent.TabId));
+                    string parameters = _parent.Request.QueryString["show"] == "records" ? "show/records" : "";
+                    
+                    _parent.Response.Redirect(Globals.NavigateURL(_parent.TabId, "", parameters));
                 }
             }
         }
