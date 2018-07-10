@@ -8,3 +8,7 @@ Useful links
 * [Project distribution](https://github.com/DNNCommunity/DNN.FormAndList)
 * [Project Forums](http://www.dnnsoftware.com/forums/forumid/56/scope/threads)
 * [Project Issue Tracking](https://github.com/DNNCommunity/DNN.FormAndList/issues)
+
+## Maitainers
+This module is currently maintained by Stefan Cullmann (@SCullman)
+Please coordinate with him before publishing any new release and ask him as a reviewer on any pull request
