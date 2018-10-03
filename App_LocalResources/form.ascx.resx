@@ -148,13 +148,13 @@
     <value>Cancel</value>
   </data>
   <data name="DayNames.Text" xml:space="preserve">
-    <value>'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'</value>
+    <value>'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'</value>
   </data>
   <data name="DayNamesMin.Text" xml:space="preserve">
-    <value>'Mo','Tu','We','Th','Fr','Sa','Su'</value>
+    <value>'Su',''Mo','Tu','We','Th','Fr','Sa'</value>
   </data>
   <data name="FirstDay.Text" xml:space="preserve">
-    <value>6</value>
+    <value>0</value>
   </data>
   <data name="MonthNames.Text" xml:space="preserve">
     <value>'January','Februrary','March','April','May','June','July','August','September','October','November','December'</value>
