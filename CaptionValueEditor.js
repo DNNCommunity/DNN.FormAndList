@@ -68,7 +68,7 @@
         });
 
         // tabelle auslesen
-        $("#parse").live('click', function () {
+        $("#cveditor").on('click', '#parse', function () {
             var array = new Array();
 
             $("#inputTbl > tbody tr").each(function () {
@@ -91,19 +91,18 @@
             $("#popupCaptions").hide();
             dialog.dialog("close");
         });
-
-        $("#cancelEdit").live('click', function () {
+        $("#cveditor").on('click', '#cancelEdit', function () {
             $("#popupCaptions").hide();
             dialog.dialog("close");
         });
 
         // zeile entfernen
-        $('a.rem').live('click', function () {
+        $("#cveditor").on('click', 'a.rem', function () {
             $(this).parent().parent().remove();
         });
 
         // neue zeile
-        $('a.add').live('click', function () {
+        $("#cveditor").on('click', 'a.add', function () {
             var values = $(this).parent().siblings().find(':text');
             var first = $.trim(values.first().val());
             var last = $.trim(values.last().val());
