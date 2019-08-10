@@ -56,7 +56,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 _ctlTime.Style.Value = Style;
             }
             _ctlTime.CssClass = "fnl-timepicker";
-            if (Required) _ctlTime.CssClass += "dnnFormRequired";
+            if (Required) _ctlTime.CssClass += " dnnFormRequired";
 
             Controls.Add(_ctlTime);
             Value = DefaultValue;
