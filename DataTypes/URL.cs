@@ -266,9 +266,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 caption = objTokenReplace.ReplaceEnvironmentTokens(caption, row);
             }
             var isLink = true;
-            var url = "";
             //Link readable by browsers
             link = UrlUtil.StripURL(link);
+            var url  = HttpUtility.HtmlEncode(Globals.LinkClick(link, portalSettings.ActiveTab.TabID, moduleId));
             if (link != string.Empty)
             {
                 switch (Globals.GetURLType(link))
@@ -349,7 +349,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                 caption = link;
                             }
                         }
-                        url = Globals.LinkClick(link, portalSettings.ActiveTab.TabID, moduleId);
                         break;
 
                     case TabType.Url:
@@ -365,7 +364,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                 caption = link;
                             }
                         }
-                        if (!field.TrackDownloads)url = link;
+                        if (!field.TrackDownloads) url = link;
                         break;
                 }
 
