@@ -85,7 +85,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
         }
 
 
-        void EditURL_Load(object sender, EventArgs e)
+        internal virtual void EditURL_Load(object sender, EventArgs e)
         {
             //we need to intilialize only once
             if (! Page.IsPostBack)
@@ -129,8 +129,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                     var settings = mc.GetModule(ModuleId).ModuleSettings;
 
                     var urlController = new UrlController();
+                    var trackDownloads = GetFieldSetting("TrackDownloads").AsBoolean();
                     urlController.UpdateUrl(PortalId, CtlUrl.Url, CtlUrl.UrlType, CtlUrl.Log,
-                                      settings[SettingName.URLDownloadTracking].AsBoolean(), CtlUrl.ModuleID,
+                                      trackDownloads, CtlUrl.ModuleID,
                                       CtlUrl.NewWindow);
                     returnValue = CtlUrl.Url + (CtlUrl.NewWindow ? "|options=W" : "");
                 }
@@ -268,7 +269,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             var isLink = true;
             //Link readable by browsers
             link = UrlUtil.StripURL(link);
-            var url  = HttpUtility.HtmlEncode(Globals.LinkClick(link, portalSettings.ActiveTab.TabID, moduleId));
+            var url  = Globals.LinkClick(link, portalSettings.ActiveTab.TabID, moduleId, field.TrackDownloads, field.EnforceDownload);
             if (link != string.Empty)
             {
                 switch (Globals.GetURLType(link))
@@ -307,9 +308,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                     caption = tab.TabName;
                                 }
                             }
-                            url =field.EnforceDownload 
-                                ? Globals.LinkClick(link, portalSettings.ActiveTab.TabID, moduleId) 
-                                : Globals.NavigateURL(int.Parse(link));
+                            url = field.EnforceDownload ? url : Globals.NavigateURL(int.Parse(link));
                         }
                         else
                         {
@@ -374,7 +373,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 string strFieldvalue;
                 if (isLink)
                 {
-                    strFieldvalue = string.Format("<!--{1}--><a href=\"{0}\"{2}>{1}</a>", HttpUtility.HtmlEncode(url),
+                    strFieldvalue = string.Format("<!--{1}--><a href=\"{0}\"{2}>{1}</a>", url,
                                                   caption, (openInNewWindow ? " target=\"_blank\"" : ""));
                 }
                 else

@@ -21,19 +21,15 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     /// -----------------------------------------------------------------------------
     public class EditDownload : EditURL
     {
-        void EditDownload_Load(object sender, EventArgs e)
+        internal override void EditURL_Load(object sender, EventArgs e)
         {
             if (! Page.IsPostBack && IsNotAListOfValues)
             {
                 CtlUrl.ShowUrls = false;
                 CtlUrl.ShowTabs = false;
                 CtlUrl.ShowTrack = true;
+                CtlUrl.ShowLog = false;
             }
-        }
-
-        public EditDownload()
-        {
-            Load += EditDownload_Load;
         }
 
         public override string Value

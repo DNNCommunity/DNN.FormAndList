@@ -118,7 +118,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public const string SortOrder = "UDT_SortOrder";
         public const string CalculatedColumnsRenderExpressionInForm = "CalculatedColumnsRenderExpressionInForm";
         public const string URLNewWindow = "UDT_URLNewWindow";
-        public const string URLDownloadTracking = "UDT_ URLDownloadTracking";
         public const string UserLinkNewWindow = "UDT_UserLinkNewWindow";
         public const string UserLinkCaption = "UDT_UserLinkUserName";
         public const string CnCLink = "UDT_CnCLink";
