@@ -126,7 +126,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 }
                 else
                 {
-                    UI.Skins.Skin.AddModuleMessage(this, "Please specify the file to import",
+                    UI.Skins.Skin.AddModuleMessage(this, Localization.GetString("Validation.Text", LocalResourceFile),
                                                    ModuleMessage.ModuleMessageType.RedError);
                 }
             }
