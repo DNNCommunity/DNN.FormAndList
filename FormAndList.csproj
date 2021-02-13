@@ -7,7 +7,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-  <Import Project="packages\MSBuildTasks.1.5.0.235\tools\MSBuild.Community.Tasks.Targets" />
+  <Import Project="packages\MSBuildTasks.1.5.0.235\tools\MSBuild.Community.Tasks.Targets" Condition="Exists('packages\MSBuildTasks.1.5.0.235\tools\MSBuild.Community.Tasks.Targets')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -114,11 +114,6 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Telerik.Web.UI, Version=2013.2.717.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <HintPath>packages\DotNetNuke.Web.Deprecated.9.1.1.129\lib\net40\Telerik.Web.UI.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -371,6 +366,13 @@
     <Content Include="Providers\DataProviders\sqldataprovider\06.00.04.sqldataprovider" />
     <None Include="Providers\DataProviders\sqldataprovider\uninstall.sqldataprovider" />
     <Content Include="ShowXml.ashx" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\Default.ascx.resx">
