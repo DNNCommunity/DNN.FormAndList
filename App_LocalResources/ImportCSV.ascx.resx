@@ -121,7 +121,7 @@
     <value>Folder</value>
   </data>
   <data name="plFolder.Help" xml:space="preserve">
-    <value>Select the  folder</value>
+    <value>Select the folder</value>
   </data>
   <data name="plFile.Text" xml:space="preserve">
     <value>File</value>
@@ -142,7 +142,7 @@
     <value>The module specified does not have any content</value>
   </data>
   <data name="Error.Text" xml:space="preserve">
-    <value>An error occurred during the export</value>
+    <value>An error occurred during the import</value>
   </data>
   <data name="Validation.Text" xml:space="preserve">
     <value>You must specify a folder and file for Import</value>
