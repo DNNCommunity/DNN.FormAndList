@@ -20,7 +20,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             try
             {
-                PortalController.GetCurrentPortalSettings();
+                PortalController.Instance.GetCurrentPortalSettings();
 
                 if ((context.Request.QueryString["tabid"] == null || context.Request.QueryString["mid"] == null) ||
                     !(context.Request.IsAuthenticated))
@@ -41,10 +41,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     moduleId = int.Parse(context.Request.QueryString["mid"]);
                 }
 
-                var userInfo = UserController.GetCurrentUserInfo();
+                var userInfo = UserController.Instance.GetCurrentUserInfo();
                 var mc = new ModuleController();
-                var settings = mc.GetModuleSettings(moduleId);
+               
                 var moduleInfo = new ModuleController().GetModule(moduleId, tabId);
+                var settings = moduleInfo.ModuleSettings;
 
                 if (ModulePermissionController.CanManageModule(moduleInfo))
                 {

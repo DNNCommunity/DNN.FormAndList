@@ -39,7 +39,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             var editor = DataType.ByName(fieldType).EditControl;
 
             var tr = new TokenReplace {ModuleInfo = _moduleContext.Configuration};
-            var strDefaultValue = tr.ReplaceEnvironmentTokens(defaultValue);
+            var strDefaultValue = System.Web.HttpUtility.HtmlDecode(tr.ReplaceEnvironmentTokens(defaultValue));
 
             var listInputType = EditControl.InputType.DropdownList;
             if (inputSettings.EndsWith(Definition.verticalRadioButtonEnabledToken))

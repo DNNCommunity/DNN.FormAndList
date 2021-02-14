@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ControlTitle_edit.Text" xml:space="preserve">
     <value>Edit Record</value>
@@ -146,5 +146,23 @@
   </data>
   <data name="cmdCancel.Text" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="DayNames.Text" xml:space="preserve">
+    <value>'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'</value>
+  </data>
+  <data name="DayNamesMin.Text" xml:space="preserve">
+    <value>'Su','Mo','Tu','We','Th','Fr','Sa'</value>
+  </data>
+  <data name="FirstDay.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MonthNames.Text" xml:space="preserve">
+    <value>'January','Februrary','March','April','May','June','July','August','September','October','November','December'</value>
+  </data>
+  <data name="ReCaptcha.Text" xml:space="preserve">
+    <value>ReCaptcha</value>
+  </data>
+  <data name="ReCaptchaError.Text" xml:space="preserve">
+    <value>An unexpected error has occured, please try again.</value>
   </data>
 </root>

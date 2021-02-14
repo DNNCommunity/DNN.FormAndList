@@ -1,10 +1,14 @@
 <%@ Control Language="C#"  Inherits="DotNetNuke.Modules.UserDefinedTable.EditForm" CodeBehind="Form.ascx.cs" AutoEventWireup="false" %>
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
+<dnn:DnnCssInclude runat="server" FilePath="~/Resources/Shared/components/TimePicker/Themes/jquery-ui.css"/>
+<dnn:DnnCssInclude runat="server" FilePath="~/Resources/Shared/components/TimePicker/Themes/jquery.ui.theme.css"/>
 <div runat="server" id="divForm"  class="dnnForm fnlForm dnnClear">
 
     <div runat="server" ID="EditFormPlaceholder"  />
+    <asp:Panel ID="gRecaptcha" CssClass="recaptcha-container" runat="server" />
     <ul class="dnnActions dnnClear">
         <li>
-            <asp:LinkButton ID="cmdUpdate" Text="Update" runat="server" resourcekey="cmdUpdate" cssclass="dnnPrimaryAction"  />
+            <asp:LinkButton ID="cmdUpdate" Text="Update" runat="server" resourcekey="cmdUpdate" cssclass="dnnPrimaryAction reCaptchaSubmit" />
         </li>
         <li> 
             <asp:LinkButton ID="cmdCancel" Text="Cancel" CausesValidation="False" resourcekey="cmdCancel" runat="server" cssclass="dnnSecondaryAction" />
@@ -27,6 +31,13 @@
 
     function setUpMyModule() {
         $('#<%=EditFormPlaceholder.ClientID%>').dnnPanels();
+        $('.fnl-datepicker').datepicker({
+            monthNames:  [<%=LocalizeString("MonthNames")%>],
+            dayNames:    [<%=LocalizeString("DayNames")%>],
+            dayNamesMin: [<%=LocalizeString("DayNamesMin")%>],
+            firstDay:    <%:LocalizeString("FirstDay")%>,
+            dateFormat:  '<%:JsUiDatePattern %>'
+        });
     }
 
     /* wire up the call to your function on document ready */

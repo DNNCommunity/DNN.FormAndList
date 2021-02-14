@@ -260,6 +260,10 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             get { return false; }
         }
+        public virtual bool SupportsNormalizeFlag
+        {
+            get { return false; }
+        }
 
         public virtual bool InputSettingsIsValueList
         {
@@ -277,12 +281,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
         }
 
         public virtual bool SupportsLateRendering
-        {
-            get { return false; }
-        }
-
-        [Obsolete]
-        public virtual bool SupportsNormalizeFlag
         {
             get { return false; }
         }

@@ -129,7 +129,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         protected static int PortalId
         {
-            get { return PortalController.GetCurrentPortalSettings().PortalId; }
+            get { return PortalController.Instance.GetCurrentPortalSettings().PortalId; }
         }
 
         protected bool IsNotAListOfValues

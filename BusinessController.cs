@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Xml;
@@ -11,14 +10,13 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Modules.UserDefinedTable.Interfaces;
 using DotNetNuke.Services.Exceptions;
-using DotNetNuke.Services.FileSystem;
-using DotNetNuke.Services.Search;
+using DotNetNuke.Services.Search.Entities;
 using Microsoft.VisualBasic;
 using Globals = DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
-    public class BusinessController : ISearchable, IPortable, IPortable2
+    public class BusinessController : ModuleSearchBase, IPortable, IPortable2
     {
         public enum SettingsType
         {
@@ -26,20 +24,20 @@ namespace DotNetNuke.Modules.UserDefinedTable
             TabModuleSettings
         }
 
-        static DataTable GetSettingsTable(int id, SettingsType type)
+        static DataTable GetSettingsTable(Hashtable settings, SettingsType type)
         {
-            var modules = new ModuleController();
-            Hashtable settings = null;
+
+
             DataTable returnValue = null;
 
             switch (type)
             {
                 case SettingsType.ModuleSettings:
-                    settings = modules.GetModuleSettings(id);
+
                     returnValue = new DataTable(DataSetTableName.Settings);
                     break;
                 case SettingsType.TabModuleSettings:
-                    settings = modules.GetTabModuleSettings(id);
+
                     returnValue = new DataTable(DataSetTableName.TabSettings);
                     break;
             }
@@ -52,38 +50,38 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 }
 
 
-            var dc = new DataColumn(SettingsTableColumn.Setting, typeof (string))
-                         {ColumnMapping = MappingType.Attribute};
-            if (returnValue != null) returnValue.Columns.Add(dc);
-
-            dc = new DataColumn(SettingsTableColumn.Value, typeof (string)) {ColumnMapping = MappingType.Attribute};
-            if (returnValue != null)
+            using (var nameCol = new DataColumn(SettingsTableColumn.Setting, typeof(string)) { ColumnMapping = MappingType.Attribute })
             {
-                returnValue.Columns.Add(dc);
-
-                foreach (var key in sortedSettings.Keys)
+                if (returnValue != null)
                 {
-                    var row = returnValue.NewRow();
-                    row[SettingsTableColumn.Setting] = key;
-                    row[SettingsTableColumn.Value] = sortedSettings[key];
-                    returnValue.Rows.Add(row);
+                    returnValue.Columns.Add(nameCol);
+                    using (var valCol = new DataColumn(SettingsTableColumn.Value, typeof(string)) { ColumnMapping = MappingType.Attribute })
+                    {
+                        returnValue.Columns.Add(valCol);
+                        foreach (var key in sortedSettings.Keys)
+                        {
+                            var row = returnValue.NewRow();
+                            row[SettingsTableColumn.Setting] = key;
+                            row[SettingsTableColumn.Value] = sortedSettings[key];
+                            returnValue.Rows.Add(row);
+                        }
+                    }
                 }
-                return returnValue;
             }
-            return null;
+            return returnValue;
         }
 
         DataTable GetStylesheetTable(Components.Settings settings, int portalId)
         {
             var returnValue = new DataTable(DataSetTableName.Stylesheets);
 
-            returnValue.Columns.Add(new DataColumn(StylesheetTableColumn.NameOfSetting, typeof (string)));
-            returnValue.Columns.Add(new DataColumn(StylesheetTableColumn.LocalFilePath, typeof (string)));
-            returnValue.Columns.Add(new DataColumn(StylesheetTableColumn.Stylesheet, typeof (string)));
+            returnValue.Columns.Add(new DataColumn(StylesheetTableColumn.NameOfSetting, typeof(string)));
+            returnValue.Columns.Add(new DataColumn(StylesheetTableColumn.LocalFilePath, typeof(string)));
+            returnValue.Columns.Add(new DataColumn(StylesheetTableColumn.Stylesheet, typeof(string)));
 
-            var renderMethod = string.Format("UDT_{0}", settings.RenderingMethod );
+            var renderMethod = string.Format("UDT_{0}", settings.RenderingMethod);
             var listScript = renderMethod == SettingName.XslUserDefinedStyleSheet
-                                 ? settings.ScriptByRenderingMethod( renderMethod )
+                                 ? settings.ScriptByRenderingMethod(renderMethod)
                                  : string.Empty;
             if (listScript.Length > 0)
             {
@@ -113,9 +111,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
         ///   Implements the search interface for DotNetNuke
         /// </summary>
         /// -----------------------------------------------------------------------------
-        public SearchItemInfoCollection GetSearchItems(ModuleInfo modInfo)
+        public override IList<SearchDocument> GetModifiedSearchDocuments(ModuleInfo modInfo, DateTime beginDateUtc)
         {
-            var searchItemCollection = new SearchItemInfoCollection();
+            var searchDocuments = new List<SearchDocument>();
             var udtController = new UserDefinedTableController(modInfo);
 
             try
@@ -128,8 +126,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 var colnameChangedAt = udtController.ColumnNameByDataType(dsUserDefinedRows,
                                                                           DataTypeNames.UDT_DataType_ChangedAt);
 
-                var moduleController = new ModuleController();
-                var settings = moduleController.GetModuleSettings(modInfo.ModuleID);
+                var settings = modInfo.ModuleSettings;
                 var includeInSearch = !(settings[SettingName.ExcludeFromSearch].AsBoolean());
 
                 if (includeInSearch)
@@ -139,11 +136,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         var changedDate = DateTime.Today;
                         var changedByUserId = 0;
 
-                        if (colnameChangedAt != string.Empty && ! Information.IsDBNull(row[colnameChangedAt]))
+                        if (colnameChangedAt != string.Empty && !Information.IsDBNull(row[colnameChangedAt]))
                         {
                             changedDate = Convert.ToDateTime(row[colnameChangedAt]);
                         }
-                        if (colnameChangedBy != string.Empty && ! Information.IsDBNull(row[colnameChangedBy]))
+                        if (colnameChangedBy != string.Empty && !Information.IsDBNull(row[colnameChangedBy]))
                         {
                             changedByUserId = ModuleSecurity.UserId(row[colnameChangedBy].ToString(), modInfo.PortalID);
                         }
@@ -164,10 +161,19 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         {
                             desc = desc.Substring(0, Convert.ToInt32(desc.Length - 5));
                         }
-                        var searchItem = new SearchItemInfo(modInfo.ModuleTitle, desc, changedByUserId, changedDate,
-                                                            modInfo.ModuleID, row[DataTableColumn.RowId].ToString(),
-                                                            desc);
-                        searchItemCollection.Add(searchItem);
+
+                        var searchDoc = new SearchDocument
+                        {
+                            UniqueKey = row[DataTableColumn.RowId].ToString(),
+                            PortalId = modInfo.PortalID,
+                            Title = modInfo.ModuleTitle,
+                            Description = desc,
+                            Body = desc,
+                            ModifiedTimeUtc = changedDate
+                        };
+
+                        searchDocuments.Add(searchDoc);
+
                     }
                 }
             }
@@ -176,7 +182,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 Exceptions.LogException(ex);
             }
 
-            return searchItemCollection;
+            return searchDocuments;
         }
 
 
@@ -223,15 +229,16 @@ namespace DotNetNuke.Modules.UserDefinedTable
             {
                 var udtController = new UserDefinedTableController(moduleId);
                 ds = udtController.GetDataSet(false);
-                ds.Tables.Add(GetSettingsTable(moduleId, SettingsType.ModuleSettings));
+                var moduleInfo = new ModuleController().GetModule(moduleId);
+                ds.Tables.Add(GetSettingsTable(moduleInfo.ModuleSettings, SettingsType.ModuleSettings));
             }
             else
             {
                 var moduleInfo = new ModuleController().GetModule(moduleId, tabId);
                 var udtController = new UserDefinedTableController(moduleInfo);
                 ds = udtController.GetDataSet(false);
-                ds.Tables.Add(GetSettingsTable(moduleId, SettingsType.ModuleSettings));
-                ds.Tables.Add(GetSettingsTable(moduleInfo.TabModuleID, SettingsType.TabModuleSettings));
+                ds.Tables.Add(GetSettingsTable(moduleInfo.ModuleSettings, SettingsType.ModuleSettings));
+                ds.Tables.Add(GetSettingsTable(moduleInfo.TabModuleSettings, SettingsType.TabModuleSettings));
                 ds.Tables.Add(GetStylesheetTable(udtController.Settings, moduleInfo.PortalID));
             }
             return (ds);
@@ -277,7 +284,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     {
                         AddTabModuleSettings(modules, tabModuleId, ds);
                     }
-                    if (! isInstance)
+                    if (!isInstance)
                     {
                         AddModuleSettings(moduleId, modules, ds);
                         //Fields - first delete old Fields
@@ -348,7 +355,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     }
                     else
                     {
-                        if (! isInstance)
+                        if (!isInstance)
                         {
                             modules.UpdateModuleSetting(moduleId, settingName,
                                                         string.Format("{0}/{1}", Definition.XSLFolderName, fileName));
@@ -375,10 +382,10 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var fieldSettings = ds.Tables[DataSetTableName.FieldSettings];
             foreach (DataRow row in ds.Tables[DataSetTableName.Fields].Rows)
             {
-                var oldFieldId = row[FieldsTableColumn.Id].AsInt( );
-                var newFieldId= 
+                var oldFieldId = row[FieldsTableColumn.Id].AsInt();
+                var newFieldId =
                  FieldController.AddField(moduleId, row[FieldsTableColumn.Title].ToString(),
-                                                                     row.AsString(FieldsTableColumn.Order).AsInt(fieldIndex ),
+                                                                     row.AsString(FieldsTableColumn.Order).AsInt(fieldIndex),
                                                                      row.AsString((FieldsTableColumn.HelpText)),
                                                                      row.AsString(FieldsTableColumn.Required).AsBoolean(),
                                                                      row.AsString((FieldsTableColumn.Type)),
@@ -400,8 +407,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     foreach (DataRowView setting in fieldSettings.WithFieldId(oldFieldId))
                     {
                         FieldSettingsController.UpdateFieldSetting(
-                            (string) setting["SettingName"],
-                            (string) setting["SettingValue"],
+                            (string)setting["SettingName"],
+                            (string)setting["SettingValue"],
                             newFieldId);
                     }
                 }

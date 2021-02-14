@@ -67,6 +67,15 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divError;
         
         /// <summary>
+        /// valNoPipesInTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator valNoPipesInTitle;
+        
+        /// <summary>
         /// panHelpText control.
         /// </summary>
         /// <remarks>

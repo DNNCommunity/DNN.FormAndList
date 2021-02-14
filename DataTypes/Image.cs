@@ -128,7 +128,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 var portalId = Null.NullInteger; 
                 if (HttpContext.Current != null)
                 {
-                    var portalSettings = PortalController.GetCurrentPortalSettings();
+                    var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
                     portalId = portalSettings.PortalId;
                 }
 

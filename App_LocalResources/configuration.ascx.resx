@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ascending.Text" xml:space="preserve">
     <value>Ascending</value>
@@ -623,7 +623,19 @@
   <data name="DisplaySettings.Text" xml:space="preserve">
     <value>Current View Options </value>
   </data>
-  <data name="noFormSettings.Text" xml:space="preserve">
-    <value>No settings for this configuration</value>
+  <data name="EnableFormTemplate.Text" xml:space="preserve">
+    <value>Enable Form Template</value>
+  </data>
+  <data name="FormTemplate.Text" xml:space="preserve">
+    <value>Form Template</value>
+  </data>
+  <data name="GenerateFormTemplate.Text" xml:space="preserve">
+    <value>Generate Template (optimized for Bootstrap) </value>
+  </data>
+  <data name="EnableFormTemplate.Help" xml:space="preserve">
+    <value>Override the rendering of the form.</value>
+  </data>
+  <data name="FormTemplate.Help" xml:space="preserve">
+    <value>The template is set as html. To insert labels, use the [label-for:Fieldname] token, for the input fields [editor-for:Fieldname], for the captcha use [editor-for:Security Code]</value>
   </data>
 </root>

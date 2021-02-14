@@ -31,10 +31,11 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
                     if (_moduleSettings == null)
                     {
                         var mc = new ModuleController();
-                        _moduleSettings = new Hashtable(mc.GetModuleSettings(ModuleId));
+                        _configuration = mc.GetModule(ModuleId, TabId);
+                        _moduleSettings = new Hashtable(_configuration.ModuleSettings);
                         if (TabModuleId != Null.NullInteger)
                         {
-                            var tabModuleSettings = mc.GetTabModuleSettings(TabModuleId);
+                            var tabModuleSettings = _configuration.TabModuleSettings;
                             foreach (string strKey in tabModuleSettings.Keys)
                             {
                                 _moduleSettings[strKey] = tabModuleSettings[strKey];

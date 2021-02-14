@@ -4,7 +4,7 @@
         <name>DotNetNuke.Modules.UserDefinedTable</name>
     </assembly>
     <members>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.BusinessController.GetSearchItems(DotNetNuke.Entities.Modules.ModuleInfo)">
+        <member name="M:DotNetNuke.Modules.UserDefinedTable.BusinessController.GetModifiedSearchDocuments(DotNetNuke.Entities.Modules.ModuleInfo,System.DateTime)">
             -----------------------------------------------------------------------------
             <summary>
               Implements the search interface for DotNetNuke
@@ -201,6 +201,15 @@
         <member name="F:DotNetNuke.Modules.UserDefinedTable.Controls.Field.divError">
             <summary>
             divError control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Controls.Field.valNoPipesInTitle">
+            <summary>
+            valNoPipesInTitle control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -612,6 +621,13 @@
             </summary>
             -----------------------------------------------------------------------------
         </member>
+        <member name="T:DotNetNuke.Modules.UserDefinedTable.DataTypes.DataTypeExpessionEmail">
+            -----------------------------------------------------------------------------
+            <summary>
+              MetaData and Formating for DataType "DataTypeExpessionEmail"
+            </summary>
+            -----------------------------------------------------------------------------
+        </member>
         <member name="T:DotNetNuke.Modules.UserDefinedTable.DataTypes.EditBoolean">
             -----------------------------------------------------------------------------
             <summary>
@@ -858,13 +874,6 @@
             -----------------------------------------------------------------------------
             <summary>
               MetaData and Formating for DataType "TextHtml"
-            </summary>
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="T:DotNetNuke.Modules.UserDefinedTable.DataTypes.EditTime">
-            -----------------------------------------------------------------------------
-            <summary>
-              Edit and Validation Control for DataType "Time"
             </summary>
             -----------------------------------------------------------------------------
         </member>
@@ -1125,6 +1134,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.EditForm.gRecaptcha">
+            <summary>
+            gRecaptcha control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.EditForm.cmdUpdate">
             <summary>
             cmdUpdate control.
@@ -1347,9 +1365,54 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.noFormSettings">
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.lblEnableFormTemplate">
             <summary>
-            noFormSettings control.
+            lblEnableFormTemplate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.chkEnableFormTemplate">
+            <summary>
+            chkEnableFormTemplate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.divFormTemplate">
+            <summary>
+            divFormTemplate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.lblFormTemplate">
+            <summary>
+            lblFormTemplate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.txtFormTemplate">
+            <summary>
+            txtFormTemplate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Configuration.cmdGenerateFormTemplate">
+            <summary>
+            cmdGenerateFormTemplate control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -1943,15 +2006,6 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.chkCaptcha">
-            <summary>
-            chkCaptcha control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.chkInputFiltering">
             <summary>
             chkInputFiltering control.
@@ -2000,6 +2054,60 @@
         <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.txtUserRecordQuota">
             <summary>
             txtUserRecordQuota control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.lblForceCaptcha">
+            <summary>
+            lblForceCaptcha control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.ddlCaptcha">
+            <summary>
+            ddlCaptcha control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.lblSiteKey">
+            <summary>
+            lblSiteKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.txtSiteKey">
+            <summary>
+            txtSiteKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.lblSecretKey">
+            <summary>
+            lblSecretKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.Settings.txtSecretKey">
+            <summary>
+            txtSecretKey control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -2842,101 +2950,101 @@
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.panSearch">
             <summary>
-            panSearch control.
+            panSearch-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.phSearchSentence">
             <summary>
-            phSearchSentence control.
+            phSearchSentence-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.cmdSearch">
             <summary>
-            cmdSearch control.
+            cmdSearch-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.cmdResetSearch">
             <summary>
-            cmdResetSearch control.
+            cmdResetSearch-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.plSearch">
             <summary>
-            plSearch control.
+            plSearch-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.lblNoRecordsFound">
             <summary>
-            lblNoRecordsFound control.
+            lblNoRecordsFound-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.grdData">
             <summary>
-            grdData control.
+            grdData-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.ctlPagingControl">
             <summary>
-            ctlPagingControl control.
+            ctlPagingControl-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.XslOutput">
             <summary>
-            XslOutput control.
+            XslOutput-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.placeholderActions">
             <summary>
-            placeholderActions control.
+            placeholderActions-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.List.ActionLink">
             <summary>
-            ActionLink control.
+            ActionLink-Steuerelement
             </summary>
             <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
+            Automatisch generiertes Feld
+            Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
             </remarks>
         </member>
         <member name="M:DotNetNuke.Modules.UserDefinedTable.List.BindDataToDataGrid">

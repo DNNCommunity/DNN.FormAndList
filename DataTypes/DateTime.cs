@@ -45,7 +45,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                     var T = DateTime.Parse(_ctlTime.Value);
                     d = new DateTime(d.Year, d.Month, d.Day, T.Hour, T.Minute, T.Second);
                     var timeZone = _convertTimezone
-                                       ? UserController.GetCurrentUserInfo().Profile.PreferredTimeZone
+                                       ? UserController.Instance.GetCurrentUserInfo().Profile.PreferredTimeZone
                                        : ModuleContext.PortalSettings.TimeZone;
                     d = TimeZoneInfo.ConvertTimeToUtc( d, timeZone);
                     return d.ToString("s");
@@ -61,7 +61,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                     var d = DateTime.Parse(value);
                     if (value.Contains("+")) d = TimeZoneInfo.ConvertTimeToUtc(d);
                     var timeZone = _convertTimezone
-                                      ? UserController.GetCurrentUserInfo().Profile.PreferredTimeZone
+                                      ? UserController.Instance.GetCurrentUserInfo().Profile.PreferredTimeZone
                                       : ModuleContext.PortalSettings.TimeZone;
                     value = TimeZoneInfo.ConvertTimeFromUtc(d,timeZone ).ToString( "s"); 
                 }
@@ -186,8 +186,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
          
             if (HttpContext.Current != null)
             {
-                var serverTimeZone = PortalController.GetCurrentPortalSettings().TimeZone;
-                var userTimeZone = UserController.GetCurrentUserInfo().Profile.PreferredTimeZone;
+                var serverTimeZone = PortalController.Instance.GetCurrentPortalSettings().TimeZone;
+                var userTimeZone = UserController.Instance.GetCurrentUserInfo().Profile.PreferredTimeZone;
                
                 foreach (DataRow row in ds.Tables[DataSetTableName.Data].Rows)
                 {

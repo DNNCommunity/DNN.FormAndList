@@ -118,7 +118,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public const string SortOrder = "UDT_SortOrder";
         public const string CalculatedColumnsRenderExpressionInForm = "CalculatedColumnsRenderExpressionInForm";
         public const string URLNewWindow = "UDT_URLNewWindow";
-        public const string URLDownloadTracking = "UDT_ URLDownloadTracking";
         public const string UserLinkNewWindow = "UDT_UserLinkNewWindow";
         public const string UserLinkCaption = "UDT_UserLinkUserName";
         public const string CnCLink = "UDT_CnCLink";
@@ -130,6 +129,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public const string URLSearch = "UDT_URLSearch";
  //       public const string UseButtons = "UDT_UseButtons";
         public const string ForceCaptchaForAnonymous = "UDT_ForceCaptchaForAnonymous";
+        public const string PreferReCaptcha = "UDT_PreferReCaptcha";
+        public const string ReCaptchaSiteKey = "UDT_ReCaptchaSiteKey";
+        public const string ReCaptchaSecretKey = "UDT_ReCaptchaPrivateKey";
         public const string ForceInputFiltering = "UDT_ForceFiltering";
         public const string EditOnlyOwnItems = "UDT_EditOnlyOwnItems";
         public const string ExcludeFromSearch = "UDT_ExcludeFromSearch";
@@ -164,5 +166,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public const string UponSubmitAction = "UDT_UponSubmitAction";
         public const string UponSubmitRedirect = "UDT_UponSubmitRedirect";
         public const string UseButtonsInForm = "UseButtonsInForm";
+        public const string FormTemplate = "FormTemplate";
+        public const string EnableFormTemplate = "EnableFormTemplate";
     }
 }

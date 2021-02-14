@@ -64,8 +64,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
             {
                 if (Page.IsValid)
                 {
-                    UpdateField();  
-                    if (HideField != null) HideField();
+                    UpdateField();
+                    HideField?.Invoke();
                 }
             }
         
@@ -90,7 +90,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
 
         void cmdCancel_Click(object sender, EventArgs e)
         {
-            if (HideField != null) HideField();
+            HideField?.Invoke();
         }
 
         public event Action HideField;
@@ -425,6 +425,17 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
             panValidationRule.Visible = selectedType.SupportsValidation;
             panValidationMessage.Visible = selectedType.SupportsValidation;
             panHelpText.Visible = selectedType.SupportsEditing;
+        }
+
+        protected void valNoPipesInTitle_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        {
+            var text = args.Value;
+            if (text.Contains('|'))
+            {
+                args.IsValid = false;
+                return;
+            }
+            args.IsValid = true;
         }
     }
 }

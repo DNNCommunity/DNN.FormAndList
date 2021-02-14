@@ -2,6 +2,15 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Control Language="C#" Inherits="DotNetNuke.Modules.UserDefinedTable.Token2Xsl"
     TargetSchema="http://schemas.microsoft.com/intellisense/ie5" Codebehind="Token2Xsl.ascx.cs" AutoEventWireup="false" %>
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
+<%-- Custom JavaScript Registration --%>
+<dnn:DnnCssInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/lib/codemirror.css" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/lib/codemirror.js" Priority="101" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/xml/xml.js" Priority="102" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/javascript/javascript.js" Priority="102" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/css/css.js" Priority="102" />
+<dnn:DnnJsInclude runat="server" FilePath="~/Resources/Shared/components/CodeEditor/mode/htmlmixed/htmlmixed.js" Priority="103" />
+
 
 <script type="text/javascript">
 	function OpenHelpWindow(url)
@@ -52,7 +61,36 @@
 			window.event.returnValue = false;
 		}
 	}
+
+      jQuery(function ($) {
+        var mimeType =  "text/xml";
+
+        var setupModule = function () {
+            CodeMirror.fromTextArea($("textarea[id$='<%= txtXslScript.ClientID %>']")[0], {
+                lineNumbers: true,
+                matchBrackets: true,
+                lineWrapping: true,
+                mode: mimeType
+            });
+
+        };
+
+        setupModule();
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+
+            // note that this will fire when _any_ UpdatePanel is triggered,
+            // which may or may not cause an issue
+            setupModule();
+
+        });
+    });
 </script>
+<style>
+td > .dnnLabel {
+    width: auto;
+}
+</style>
 
 <div align="center" style="width: 80%">
     <div align="right">
