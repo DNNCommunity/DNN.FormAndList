@@ -3,9 +3,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DotNetNuke.Modules.UserDefinedTable")]
 [assembly: AssemblyDescription("DNN Form and List ")]
-[assembly: AssemblyCompany("DNN Corp")]
-[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2016 by DNN Corp. All Rights Reserved.")]
-[assembly: AssemblyTrademark("DotNetNuke")]
+[assembly: AssemblyCompany("DNN Community")]
+[assembly: AssemblyCopyright("2021 DNN Community")]
+[assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
 
 

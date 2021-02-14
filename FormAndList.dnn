@@ -5,10 +5,10 @@
       <description>Create a simple form or a view of repetitive and simple data.</description>
       <iconFile>desktopmodules/userdefinedtable/icon_fnl_32px.gif</iconFile>
       <owner>
-        <name>DNNCorp</name>
-        <organization>DNNCorp</organization>
-        <url>http://www.dnnsoftware.com</url>
-        <email>support@dnnsoftware.com</email>
+        <name>DNN Community</name>
+        <organization>DNN Community</organization>
+        <url>https://dnncommunity.org</url>
+        <email></email>
       </owner>
       <license src="License.htm"/>
       <releaseNotes src="ReleaseNotes.htm" />
