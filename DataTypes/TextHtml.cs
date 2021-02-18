@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Modules.HTMLEditorProvider;
 using DotNetNuke.Modules.UserDefinedTable.Components;
+using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -94,15 +95,39 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 pnlEditor.Controls.Add(htmlEditorControl);
                 RichTextEditor.Text = DefValue;
                 Controls.Add(pnlEditor);
-                ValueControl = FindControl(controlId );
+
+                //if (Required)
+                //{
+                //    RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                //    requiredFieldValidator.ControlToValidate = RichTextEditor.ControlID;
+                //    requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                //    requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                //    requiredFieldValidator.CssClass = "dnnInputError";
+                //    Controls.Add(requiredFieldValidator);
+                //}
+
+                ValueControl = FindControl(controlId);
+
+
             }
             else
             {
                 TxtBox = new TextBox { TextMode = TextBoxMode.MultiLine, Rows = 7, Text = DefValue, ID = CleanID(FieldTitle) };
                 Controls.Add(TxtBox);
 
+                if (Required)
+                {
+                    RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                    requiredFieldValidator.ControlToValidate = TxtBox.ID;
+                    requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                    requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                    requiredFieldValidator.CssClass = "dnnFormMessage dnnFormError";
+                    Controls.Add(requiredFieldValidator);
+                }
+
                 ValueControl = TxtBox;
             }
+            
         }
     }
 

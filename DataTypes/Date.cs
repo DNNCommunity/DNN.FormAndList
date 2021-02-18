@@ -7,6 +7,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using Microsoft.VisualBasic;
 using DotNetNuke.Web.UI.WebControls;
+using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -24,7 +25,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
         protected WebControl CtlValueBox;
 
         void EditDate_Init(object sender, EventArgs e)
-        {
+        {        
+
             if (IsNotAListOfValues)
             {
                 var ctlDate = new TextBox();
@@ -62,6 +64,30 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 Controls.Add(ctlListControl);
                 CtlValueBox = ctlListControl;
             }
+
+            CtlValueBox.Width = new Unit("15em");
+
+            if (Required)
+            {
+                RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                requiredFieldValidator.ControlToValidate = CtlValueBox.ID;
+                requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                requiredFieldValidator.CssClass = "dnnFormMessage dnnFormError";
+                Controls.Add(requiredFieldValidator);
+            }
+
+            if (ValidationRule.Length > 0 && FieldType.ToLower() != "currency")
+            {
+                RegularExpressionValidator regularFieldValidator = new RegularExpressionValidator();
+                regularFieldValidator.ControlToValidate = CtlValueBox.ID;
+                regularFieldValidator.ErrorMessage = ValidationMessage;
+                regularFieldValidator.Display = ValidatorDisplay.Dynamic;
+                regularFieldValidator.CssClass = "dnnFormMessage dnnFormError";
+                regularFieldValidator.ValidationExpression = ValidationRule;
+                Controls.Add(regularFieldValidator);
+            }
+
             Value = DefaultValue;
         }
 

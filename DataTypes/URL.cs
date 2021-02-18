@@ -81,6 +81,16 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 container.Controls.Add(CtlValueBox);
                 Controls.Add(container) ;
                 ValueControl = CtlValueBox;
+
+                if (Required)
+                {
+                    RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                    requiredFieldValidator.ControlToValidate = CtlValueBox.ID;
+                    requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                    requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                    requiredFieldValidator.CssClass = "dnnInputError";
+                    Controls.Add(requiredFieldValidator);
+                }
             }
         }
 

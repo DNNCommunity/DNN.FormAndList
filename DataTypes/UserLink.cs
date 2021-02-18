@@ -11,6 +11,7 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Modules.UserDefinedTable.Interfaces;
+using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.UserControls;
 using Microsoft.VisualBasic;
 using Globals = DotNetNuke.Common.Globals;
@@ -41,6 +42,16 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 container.Controls.Add(CtlUrl);
                 ValueControl = CtlUrl ;
                 Controls.Add(container );
+
+                if (Required)
+                {
+                    RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                    requiredFieldValidator.ControlToValidate = CtlUrl.ID;
+                    requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                    requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                    requiredFieldValidator.CssClass = "dnnInputError";
+                    Controls.Add(requiredFieldValidator);
+                }
             }
             else
             {
@@ -67,6 +78,16 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 CtlValueBox.CssClass = "NormalTextBox";
                 CtlValueBox.ID = CleanID(FieldTitle);
                 Controls.Add(CtlValueBox);
+
+                if (Required)
+                {
+                    RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                    requiredFieldValidator.ControlToValidate = CtlValueBox.ID;
+                    requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                    requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                    requiredFieldValidator.CssClass = "dnnInputError";
+                    Controls.Add(requiredFieldValidator);
+                }
             }
         }
 

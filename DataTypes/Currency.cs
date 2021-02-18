@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Web.UI.WebControls;
 using DotNetNuke.Entities.Portals;
+using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -65,6 +66,27 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                                        : OutputSettings)
                              };
             Controls.Add(ctlSym);
+
+            if (Required)
+            {
+                RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                requiredFieldValidator.ControlToValidate = CtlValueBox.ID;
+                requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                requiredFieldValidator.CssClass = "dnnInputError";
+                Controls.Add(requiredFieldValidator);
+            }
+
+            if (StrValRule.Length > 0)
+            {
+                RegularExpressionValidator regularFieldValidator = new RegularExpressionValidator();
+                regularFieldValidator.ControlToValidate = CtlValueBox.ID;
+                regularFieldValidator.ErrorMessage = ValidationMessage;
+                regularFieldValidator.Display = ValidatorDisplay.Dynamic;
+                regularFieldValidator.CssClass = "dnnInputError";
+                regularFieldValidator.ValidationExpression = StrValRule;
+                Controls.Add(regularFieldValidator);
+            }
         }
 
         public EditCurrency()

@@ -11,6 +11,7 @@ using DotNetNuke.Entities.Users;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using Microsoft.VisualBasic;
 using DotNetNuke.Web.UI.WebControls;
+using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -19,7 +20,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     public class EditTime : EditControl
     {
         TextBox _ctlTime;
-
 
         public override string Value
         {
@@ -45,11 +45,14 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 
         void EditTime_Init(object sender, EventArgs e)
         {
+
             //Time-Textbox
             _ctlTime = new TextBox
             {
                 ID = CleanID(string.Format("{0}_time", FieldTitle))
             };
+
+            _ctlTime.Width = new Unit("15em");
 
             if (!string.IsNullOrEmpty(Style))
             {
@@ -61,6 +64,17 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             Controls.Add(_ctlTime);
             Value = DefaultValue;
             ValueControl = _ctlTime;
+
+            if (Required)
+            {
+                RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                requiredFieldValidator.ControlToValidate = _ctlTime.ID;
+                requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                requiredFieldValidator.CssClass = "dnnFormMessage dnnFormError";
+                Controls.Add(requiredFieldValidator);
+            }
+
         }
 
         public EditTime()

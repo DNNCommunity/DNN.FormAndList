@@ -2,6 +2,7 @@ using System;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using System.Linq;
+using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -48,6 +49,29 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             CtlValueBox.ID = CleanID(FieldTitle);
             ValueControl = CtlValueBox;
             Controls.Add(CtlValueBox);
+
+            if (Required && FieldType.ToLower()!="currency")
+            {
+                RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+                requiredFieldValidator.ControlToValidate = CtlValueBox.ID;
+                requiredFieldValidator.ErrorMessage = Localization.GetString("Required2.ErrorMessage", LocalResourceFile);
+                requiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+                requiredFieldValidator.CssClass = "dnnFormMessage dnnFormError";
+                Controls.Add(requiredFieldValidator);
+            }
+
+            if (ValidationRule.Length > 0 && FieldType.ToLower() != "currency")
+            {
+                RegularExpressionValidator regularFieldValidator = new RegularExpressionValidator();
+                regularFieldValidator.ControlToValidate = CtlValueBox.ID;
+                regularFieldValidator.ErrorMessage = ValidationMessage;
+                regularFieldValidator.Display = ValidatorDisplay.Dynamic;
+                regularFieldValidator.CssClass = "dnnFormMessage dnnFormError";
+                regularFieldValidator.ValidationExpression = ValidationRule;
+                Controls.Add(regularFieldValidator);
+            }
+            
+
         }
 
 
