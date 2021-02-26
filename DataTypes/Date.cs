@@ -36,7 +36,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 }
                 ctlDate.ID = CleanID(string.Format("{0}_date", FieldTitle));
                 ctlDate.CssClass = "fnl-datepicker";
-                if (Required) ctlDate.CssClass += " dnnFormRequired";
+                if (Required) ctlDate.CssClass += "dnnFormRequired";
 
                 Controls.Add(ctlDate);
                 CtlValueBox = ctlDate;
