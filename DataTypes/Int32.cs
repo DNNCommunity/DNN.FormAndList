@@ -56,7 +56,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             base.OnInit(e); 
             CtlValueBox.Attributes.Add("style", "text-align:right");
             CtlValueBox.Width = new Unit("10em");
-
         }
     }
 
