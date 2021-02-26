@@ -53,7 +53,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
         {
             CtlValueBox.Attributes.Add("style", "text-align:right");
             CtlValueBox.Width = new Unit("10em");
-
         }
 
         public EditDecimal()
