@@ -1,4 +1,3 @@
-using DotNetNuke.Services.Localization;
 using System;
 using System.Globalization;
 using System.Web.UI.WebControls;
