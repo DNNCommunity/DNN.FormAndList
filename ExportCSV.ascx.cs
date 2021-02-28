@@ -197,7 +197,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         if (fieldTitle == "Created at" || fieldTitle == "Changed at")
                         {
                             DateTime valueDate = DateTime.Parse(value);
-                            value = valueDate.ToString("dd/MM/yyyyTHH:mm:ss");
+                            value = valueDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
                         }
                         values.Add(value);
                     }
