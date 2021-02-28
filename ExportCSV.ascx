@@ -18,6 +18,10 @@
         <asp:ListItem Value=";" resourcekey="semicolon"></asp:ListItem>
     </asp:RadioButtonList>
 </div>
+<div class="dnnFormItem">
+    <dnn:label id="plSystemFields" runat="server" controlname="cbSystemFields"  />
+    <asp:CheckBox ID="cbSystemFields" runat="server"/>  
+</div>
 <ul class="dnnActions dnnClear">
     <li>
         <asp:LinkButton ID="cmdExport" resourcekey="cmdExport" runat="server" CssClass="dnnPrimaryAction"

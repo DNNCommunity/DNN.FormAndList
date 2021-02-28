@@ -174,7 +174,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 {
                     var typeName = (row[FieldsTableColumn.Type].ToString());
                     //ignore system fields
-                    if (DataType.ByName(typeName).IsUserDefinedField)
+                    if (DataType.ByName(typeName).IsUserDefinedField || cbSystemFields.Checked)
                     {
                         columns.Add(row[FieldsTableColumn.Title].ToString());
                     }
@@ -194,6 +194,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                              ? fieldTitle + DataTableColumn.Appendix_Original
                                              : fieldTitle);
                         var value = row[valueName].AsString();
+                        if (fieldTitle == "Created at" || fieldTitle == "Changed at")
+                        {
+                            DateTime valueDate = DateTime.Parse(value);
+                            value = valueDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                        }
                         values.Add(value);
                     }
                     CSVWriter.WriteCSV(values.ToArray(), sw, delimiter);

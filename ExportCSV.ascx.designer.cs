@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNetNuke.Modules.UserDefinedTable {
-    
-    
-    public partial class ExportCsv {
-        
+namespace DotNetNuke.Modules.UserDefinedTable
+{
+
+
+    public partial class ExportCsv
+    {
+
         /// <summary>
         /// plFolder control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl plFolder;
-        
+
         /// <summary>
         /// cboFolders control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList cboFolders;
-        
+
         /// <summary>
         /// plFile control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl plFile;
-        
+
         /// <summary>
         /// txtFile control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFile;
-        
+
         /// <summary>
         /// plDelimiter control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl plDelimiter;
-        
+
         /// <summary>
         /// rblDelimiter control.
         /// </summary>
@@ -65,7 +67,25 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rblDelimiter;
-        
+
+        /// <summary>
+        /// plSystemFields control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl plSystemFields;
+
+        /// <summary>
+        /// cbSystemFields control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbSystemFields;
+
         /// <summary>
         /// cmdExport control.
         /// </summary>
@@ -74,7 +94,7 @@ namespace DotNetNuke.Modules.UserDefinedTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton cmdExport;
-        
+
         /// <summary>
         /// cmdCancel control.
         /// </summary>
