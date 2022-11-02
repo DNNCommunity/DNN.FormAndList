@@ -171,4 +171,16 @@
   <data name="plSystemFields.Text" xml:space="preserve">
     <value>Include System Fields</value>
   </data>
+  <data name="plFinalDate.Help" xml:space="preserve">
+    <value>Select final date to export records, if blank all records will be exported</value>
+  </data>
+  <data name="plFinalDate.Text" xml:space="preserve">
+    <value>Final date</value>
+  </data>
+  <data name="plInitialDate.Help" xml:space="preserve">
+    <value>Select initial date to export records, if blank all records will be exported</value>
+  </data>
+  <data name="plInitialDate.Text" xml:space="preserve">
+    <value>Initial date</value>
+  </data>
 </root>

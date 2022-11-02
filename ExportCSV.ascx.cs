@@ -14,7 +14,8 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins.Controls;
-
+using System.Globalization;
+using DotNetNuke.Entities.Portals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -22,18 +23,18 @@ namespace DotNetNuke.Modules.UserDefinedTable
     {
         #region Private Members
 
-         int _moduleId = Convert.ToInt32(- 1);
+        int _moduleId = Convert.ToInt32(-1);
 
         #endregion
 
         #region Event Handlers
-         protected override void OnInit(EventArgs e)
-         {
-             base.OnInit(e);
-             cmdCancel.Click += cmdCancel_Click;
-             cmdExport.Click += cmdExport_Click;
-             Load += Page_Load;
-         }
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            cmdCancel.Click += cmdCancel_Click;
+            cmdExport.Click += cmdExport_Click;
+            Load += Page_Load;
+        }
         void Page_Load(object sender, EventArgs e)
         {
             try
@@ -43,7 +44,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     _moduleId = int.Parse(Request.QueryString["moduleid"]);
                 }
 
-                if (! Page.IsPostBack)
+                if (!Page.IsPostBack)
                 {
                     cboFolders.Items.Insert(0,
                                             new ListItem(
@@ -52,12 +53,12 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     foreach (FolderInfo folder in folders)
                     {
                         var folderItem = new ListItem
-                                             {
-                                                 Text = folder.FolderPath == Null.NullString
+                        {
+                            Text = folder.FolderPath == Null.NullString
                                                             ? Localization.GetString("Root", LocalResourceFile)
                                                             : folder.FolderPath,
-                                                 Value = folder.FolderPath
-                                             };
+                            Value = folder.FolderPath
+                        };
                         cboFolders.Items.Add(folderItem);
                     }
 
@@ -95,7 +96,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 {
                     var strFile = CleanName(string.Format("{0}.csv", txtFile.Text));
                     var strMessage = ExportModule(_moduleId, strFile, cboFolders.SelectedItem.Value,
-                                                  rblDelimiter.SelectedValue);
+                                                  rblDelimiter.SelectedValue, txtInitialDate.Text, txtFinalDate.Text);
                     if (strMessage == "")
                     {
                         Response.Redirect(Globals.NavigateURL(), true);
@@ -121,7 +122,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         #region Private Methods
 
-        string ExportModule(int moduleId, string fileName, string folder, string delimiter)
+        string ExportModule(int moduleId, string fileName, string folder, string delimiter, string initialDate, string finalDate)
         {
             var strMessage = "";
 
@@ -130,11 +131,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var extension = Path.GetExtension(fileName);
             if (extension != null && (extension.ToUpper() == ".CSV" && moduleInfo != null))
             {
-              
+
 
                 try
                 {
-                    ExportData(folder, fileName , delimiter);
+                    ExportData(folder, fileName, delimiter, initialDate, finalDate);
                 }
                 catch (Exception ex)
                 {
@@ -154,16 +155,40 @@ namespace DotNetNuke.Modules.UserDefinedTable
             return badChars.Aggregate(strName, (current, badChar) => current.Replace(badChar.ToString(), ""));
         }
 
-        void ExportData(string folder, string strFileName, string delimiter)
+        void ExportData(string folder, string strFileName, string delimiter, string initialDate, string finalDate)
         {
-            var ds = new UserDefinedTableController(_moduleId, TabId, UserInfo).GetDataSet(true);
+            DataSet ds;
+
+            if(initialDate.Length>0 && finalDate.Length > 0)
+            {
+                CultureInfo provider = CultureInfo.InvariantCulture;
+                string format = "yyyy/MM/dd";
+
+                var serverTimeZone = PortalController.Instance.GetCurrentPortalSettings().TimeZone;
+                var timeZone = serverTimeZone;
+
+                DateTime startDate = DateTime.ParseExact(initialDate, format, provider);
+                startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
+                startDate = TimeZoneInfo.ConvertTimeToUtc(startDate, timeZone);
+
+                DateTime endDate = DateTime.ParseExact(finalDate, format, provider);
+                endDate = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
+                endDate = TimeZoneInfo.ConvertTimeToUtc(endDate, timeZone);
+
+                ds = new UserDefinedTableController(_moduleId, TabId, UserInfo).GetDataSetWithDates(true,startDate, endDate);
+            }
+            else
+            {
+                ds = new UserDefinedTableController(_moduleId, TabId, UserInfo).GetDataSet(true);
+            }
+            
             var data = ds.Tables[0];
             var fields = ds.Tables[1];
 
             WriteData(data, fields, folder, strFileName, delimiter);
         }
 
-         void WriteData(DataTable data, DataTable fields, string folder, string fileName, string delimiter)
+        void WriteData(DataTable data, DataTable fields, string folder, string fileName, string delimiter)
         {
 
             using (var sw = new StringWriter())
