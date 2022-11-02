@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_UserDefinedTable" type="Module" version="06.05.07">
+    <package name="DNN_UserDefinedTable" type="Module" version="06.05.08">
       <friendlyName>Form and List</friendlyName>
       <description>Create a simple form or a view of repetitive and simple data.</description>
       <iconFile>desktopmodules/userdefinedtable/icon_fnl_32px.gif</iconFile>
@@ -124,6 +124,11 @@
                 <path>providers\dataproviders\sqldataprovider</path>
                 <name>06.05.07.sqldataprovider</name>
                 <version>06.05.07</version>
+            </script>
+            <script type="Install">
+                <path>providers\dataproviders\sqldataprovider</path>
+                <name>06.05.08.sqldataprovider</name>
+                <version>06.05.08</version>
             </script>
             <script type="UnInstall">
               <path>providers\dataproviders\sqldataprovider</path>

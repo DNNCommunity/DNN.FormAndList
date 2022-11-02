@@ -1,0 +1,26 @@
+﻿    /************************************************************/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for UserDefinedTable 6.5.8 *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+//Improve index for search with dates
+
+IF EXISTS (SELECT Name FROM sys.indexes WHERE Name = 'IX_{objectQualifier}UserDefinedRows')
+    BEGIN
+        CREATE NONCLUSTERED INDEX [IX_{objectQualifier}UserDefinedRows] ON {databaseOwner}[{objectQualifier}UserDefinedRows] ([ModuleId],[CreatedAt])
+        WITH(DROP_EXISTING = ON)
+    END
+ELSE
+    BEGIN
+        CREATE NONCLUSTERED INDEX [IX_{objectQualifier}UserDefinedRows] ON {databaseOwner}[{objectQualifier}UserDefinedRows] ([ModuleId],[CreatedAt])
+        WITH(DROP_EXISTING = OFF)
+    END
+GO
