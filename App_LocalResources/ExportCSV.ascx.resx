@@ -183,4 +183,10 @@
   <data name="plInitialDate.Text" xml:space="preserve">
     <value>Initial date</value>
   </data>
+  <data name="customDateMessage.Text" xml:space="preserve">
+    <value>You must select both or no dates</value>
+  </data>
+  <data name="errorDateMessage.Text" xml:space="preserve">
+    <value>Initial date must be earlier than final date</value>
+  </data>
 </root>

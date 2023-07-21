@@ -1040,6 +1040,33 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.plDatesValidator">
+            <summary>
+            plDatesValidator control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.cvtxtStartDate">
+            <summary>
+            cvtxtStartDate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.CustomValidatorDates">
+            <summary>
+            CustomValidatorDates control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.cmdExport">
             <summary>
             cmdExport control.

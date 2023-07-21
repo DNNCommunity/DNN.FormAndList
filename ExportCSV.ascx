@@ -28,14 +28,33 @@
         <asp:CheckBox ID="cbSystemFields" runat="server" />
     </div>
     <div class="dnnFormItem">
-        <dnn:label id="plInitialDate" runat="server" controlname="cbSystemFields" />
+        <dnn:label id="plInitialDate" runat="server" controlname="txtInitialDate" />
         <asp:TextBox ID="txtInitialDate" CssClass="NormalTextBox" runat="server" MaxLength="200"
-            Width="300" />
+            Width="300" onchange="TriggerChanges();" />
+    </div>
+    <div>
+
     </div>
     <div class="dnnFormItem">
-        <dnn:label id="plFinalDate" runat="server" controlname="cbSystemFields" />
+        <dnn:label id="plFinalDate" runat="server" controlname="txtFinalDate" />
         <asp:TextBox ID="txtFinalDate" CssClass="NormalTextBox" runat="server" MaxLength="200"
-            Width="300" />
+            Width="300" onchange="TriggerChanges();" />
+    </div>
+    <div class="dnnFormItem">
+        <dnn:label id="plDatesValidator" value="" runat="server" controlname="cvtxtStartDate" />
+        <asp:CompareValidator id="compareValidatorDates" runat="server" 
+         ControlToCompare="txtInitialDate" cultureinvariantvalues="true" 
+         display="Dynamic" enableclientscript="true"  
+         ControlToValidate="txtFinalDate"
+         type="Date" Operator="GreaterThanEqual" 
+         CssClass="validator-error" resourcekey="errorDateMessage" >
+        </asp:CompareValidator>
+        <asp:CustomValidator id="CustomValidatorDates"
+           ControlToValidate="txtInitialDate"
+           ClientValidationFunction="ValidateDatesClient"
+           Display="Dynamic"
+           runat="server"
+           resourcekey="customDateMessage" CssClass="validator-error"/>
     </div>
     <ul class="dnnActions dnnClear">
         <li>
@@ -50,9 +69,42 @@
 
 <script>
     $(function () {
-      $("#<%= txtInitialDate.ClientID %>").attr("readonly", "readonly");
-      $("#<%= txtInitialDate.ClientID %>").datepicker({ dateFormat: "yy/mm/dd" });
-      $("#<%= txtFinalDate.ClientID %>").attr("readonly", "readonly");
-      $("#<%= txtFinalDate.ClientID %>").datepicker({ dateFormat: "yy/mm/dd" });
-  });
+        $("#<%= txtInitialDate.ClientID %>").datepicker({
+            dateFormat: "yy/mm/dd",
+            showButtonPanel: true,
+            closeText: 'Clear',
+            onClose: function () {
+                var event = arguments.callee.caller.caller.arguments[0];
+                if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                    $(this).val('');
+                    TriggerChanges();
+                }
+            }
+        });
+        $("#<%= txtFinalDate.ClientID %>").datepicker({
+            dateFormat: "yy/mm/dd",
+            showButtonPanel: true,
+            closeText: 'Clear',
+            onClose: function () {
+                var event = arguments.callee.caller.caller.arguments[0];
+                if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                    $(this).val('');
+                    TriggerChanges();
+                }
+            }
+        });
+    });
+
+    function TriggerChanges() {
+        ValidatorValidate(document.getElementById('<%= CustomValidatorDates.ClientID %>'));
+    }
+
+    function ValidateDatesClient(source, arguments) {
+        if (($("#<%= txtInitialDate.ClientID %>").val().length == 0 && $("#<%= txtFinalDate.ClientID %>").val().length == 0) || ($("#<%= txtInitialDate.ClientID %>").val().length > 0 && $("#<%= txtFinalDate.ClientID %>").val().length > 0)) {
+            arguments.IsValid = true;
+
+        } else {
+            arguments.IsValid = false;
+        }
+    }
 </script>

@@ -62,6 +62,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         cboFolders.Items.Add(folderItem);
                     }
 
+                    txtInitialDate.Attributes.Add("readonly", "readonly");
+                    txtFinalDate.Attributes.Add("readonly", "readonly");
+
                     var moduleController = new ModuleController();
                     var objModule = moduleController.GetModule(_moduleId, TabId, false);
                     if (objModule != null)
@@ -159,7 +162,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             DataSet ds;
 
-            if(initialDate.Length>0 && finalDate.Length > 0)
+            if(!string.IsNullOrEmpty(initialDate) && !string.IsNullOrEmpty(finalDate))
             {
                 CultureInfo provider = CultureInfo.InvariantCulture;
                 string format = "yyyy/MM/dd";
