@@ -71,6 +71,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         public abstract IDataReader GetRow(int UserDefinedRowId, int ModuleId);
 
         public abstract IDataReader GetRows(int ModuleId);
+
+        public abstract IDataReader GetRowsWithDates(int ModuleId, DateTime initialDate, DateTime finalDate);
+
         public abstract IDataReader GetFieldSettings(int moduleId);
         public abstract void UpdateFieldSetting(int fieldid, string key, string value);
 

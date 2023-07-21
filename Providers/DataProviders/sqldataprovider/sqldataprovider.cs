@@ -170,6 +170,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                           ModuleId)));
         }
 
+        public override IDataReader GetRowsWithDates(int ModuleId, DateTime initialDate, DateTime finalDate)
+        {
+            return
+                ((SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + SPPrefix + "GetRowsWithDates",
+                                          ModuleId, initialDate, finalDate)));
+        }
+
         public override IDataReader GetFieldSettings(int moduleId)
         {
             return ((SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + SPPrefix + "GetFieldSettings",

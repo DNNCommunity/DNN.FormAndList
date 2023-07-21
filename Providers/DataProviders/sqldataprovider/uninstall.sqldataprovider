@@ -99,6 +99,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}
 DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRows]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_GetRowsWithDates') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_GetRowsWithDates]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'{objectQualifier}UserDefinedTable_SwapFieldOrder') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE {databaseOwner}[{objectQualifier}UserDefinedTable_SwapFieldOrder]
 GO
@@ -126,3 +130,4 @@ GO
 /************************************************************/
 /*****              SqlDataProvider                     *****/
 /************************************************************/
+
