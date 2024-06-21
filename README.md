@@ -6,6 +6,6 @@ Design your own table complete with field types, validation and custom user perm
 Useful links
 ------------
 * [Project distribution](https://github.com/DNNCommunity/DNN.FormAndList)
-* [Project Forums](http://www.dnnsoftware.com/forums/forumid/56/scope/threads)
+* [DNN Community Module Forums](https://dnncommunity.org/forums/using-dnn/extensions/)
 * [Project Issue Tracking](https://github.com/DNNCommunity/DNN.FormAndList/issues)
 * [How to contribute](https://github.com/DNNCommunity/DNN.FormAndList/blob/development/CONTRIBUTING.md)
