@@ -87,6 +87,69 @@ namespace DotNetNuke.Modules.UserDefinedTable
         protected global::System.Web.UI.WebControls.CheckBox cbSystemFields;
 
         /// <summary>
+        /// plInitialDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl plInitialDate;
+
+        /// <summary>
+        /// txtInitialDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtInitialDate;
+
+        /// <summary>
+        /// plFinalDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl plFinalDate;
+
+        /// <summary>
+        /// txtFinalDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFinalDate;
+
+        /// <summary>
+        /// plDatesValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.UI.UserControls.LabelControl plDatesValidator;
+
+        /// <summary>
+        /// compareValidatorDates control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator compareValidatorDates;
+
+        /// <summary>
+        /// CustomValidatorDates control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator CustomValidatorDates;
+
+        /// <summary>
         /// cmdExport control.
         /// </summary>
         /// <remarks>

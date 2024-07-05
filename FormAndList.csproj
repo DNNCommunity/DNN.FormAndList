@@ -364,6 +364,8 @@
     <None Include="Providers\DataProviders\sqldataprovider\05.02.00.sqldataprovider" />
     <None Include="Providers\DataProviders\sqldataprovider\06.00.03.sqldataprovider" />
     <Content Include="Providers\DataProviders\sqldataprovider\06.00.04.sqldataprovider" />
+    <Content Include="Providers\DataProviders\sqldataprovider\06.05.07.sqldataprovider" />
+    <Content Include="Providers\DataProviders\sqldataprovider\06.05.08.sqldataprovider" />
     <None Include="Providers\DataProviders\sqldataprovider\uninstall.sqldataprovider" />
     <Content Include="ShowXml.ashx" />
     <Content Include="web.config" />

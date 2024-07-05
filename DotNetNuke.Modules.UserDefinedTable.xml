@@ -986,6 +986,87 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.plSystemFields">
+            <summary>
+            plSystemFields control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.cbSystemFields">
+            <summary>
+            cbSystemFields control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.plInitialDate">
+            <summary>
+            plInitialDate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.txtInitialDate">
+            <summary>
+            txtInitialDate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.plFinalDate">
+            <summary>
+            plFinalDate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.txtFinalDate">
+            <summary>
+            txtFinalDate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.plDatesValidator">
+            <summary>
+            plDatesValidator control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.cvtxtStartDate">
+            <summary>
+            cvtxtStartDate control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.CustomValidatorDates">
+            <summary>
+            CustomValidatorDates control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.cmdExport">
             <summary>
             cmdExport control.
@@ -3114,6 +3195,15 @@
             -----------------------------------------------------------------------------
         </member>
         <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetDataSet(System.Boolean)">
+            -----------------------------------------------------------------------------
+            <summary>
+              Gets all Data values of an UDT table (module) from the Database as DataSet
+            </summary>
+            <param name = "withPreRenderedValues">specifies, whether links, dates etc. shall be prerendered for XML output</param>
+            <returns>All field values as DataSet</returns>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetDataSetWithDates(System.Boolean,System.DateTime,System.DateTime)">
             -----------------------------------------------------------------------------
             <summary>
               Gets all Data values of an UDT table (module) from the Database as DataSet
