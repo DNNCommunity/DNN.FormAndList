@@ -11,7 +11,7 @@
     /*****                                                  *****/
     /************************************************************/
 
-//Improve index for search with dates
+    /** Improve index for search with dates **/
 
 IF EXISTS (SELECT Name FROM sys.indexes WHERE Name = 'IX_{objectQualifier}UserDefinedRows')
     BEGIN

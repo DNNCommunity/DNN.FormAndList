@@ -14,7 +14,10 @@
 
 IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UserDefinedRows]') and OBJECTPROPERTY(id, N'IsTable') = 1)
 	BEGIN
-		ALTER TABLE {databaseOwner}{objectQualifier}UserDefinedRows ADD CreatedAt datetime NULL
+        IF NOT EXISTS (select * from dbo.syscolumns where id=object_id(N'{databaseOwner}[{objectQualifier}UserDefinedRows]') and name='CreatedAt')
+        BEGIN
+		    ALTER TABLE {databaseOwner}{objectQualifier}UserDefinedRows ADD CreatedAt datetime NULL
+        END
 	END
 GO
 

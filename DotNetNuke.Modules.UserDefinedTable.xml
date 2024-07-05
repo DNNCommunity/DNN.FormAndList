@@ -1049,9 +1049,9 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.cvtxtStartDate">
+        <member name="F:DotNetNuke.Modules.UserDefinedTable.ExportCsv.compareValidatorDates">
             <summary>
-            cvtxtStartDate control.
+            compareValidatorDates control.
             </summary>
             <remarks>
             Auto-generated field.
