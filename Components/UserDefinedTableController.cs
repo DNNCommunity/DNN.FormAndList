@@ -253,6 +253,34 @@ namespace DotNetNuke.Modules.UserDefinedTable
             return ds;
         }
 
+        /// -----------------------------------------------------------------------------
+        /// <summary>
+        ///   Gets all Data values of an UDT table (module) from the Database as DataSet
+        /// </summary>
+        /// <param name = "withPreRenderedValues">specifies, whether links, dates etc. shall be prerendered for XML output</param>
+        /// <returns>All field values as DataSet</returns>
+        /// -----------------------------------------------------------------------------
+        public DataSet GetDataSetWithDates(bool withPreRenderedValues, DateTime initialDate, DateTime finalDate)
+        {
+            var fieldsTable = FieldController.GetFieldsTable(ModuleId, addNewColumn: false, addAuditColumns: false);
+            DataSet ds;
+            using (var dr = DataProvider.Instance().GetRowsWithDates(ModuleId,initialDate,finalDate))
+            {
+                ds = BuildMainDataSet(fieldsTable, dr, !withPreRenderedValues);
+            }
+            var fieldSettingsTable = FieldSettingsController.GetFieldSettingsTable(ModuleId);
+            ds.Tables.Add(fieldSettingsTable);
+
+            SetEditLinksAndVisibilityBasedOnPermissions(ds);
+
+            if (withPreRenderedValues)
+            {
+                RenderValuesToHtmlInsideDataSet(ds);
+            }
+            ds.Namespace = "DotNetNuke/UserDefinedTable";
+            return ds;
+        }
+
         public DataSet GetSchemaDataset()
         {
             var ds = GetRow(-1);

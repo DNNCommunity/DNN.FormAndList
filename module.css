@@ -73,3 +73,7 @@ margin: 1em auto 1em;
 .fnl-search{
     margin-bottom:16px;
 }
+
+.dnnForm .dnnFormItem .validator-error{
+    color:red;
+}

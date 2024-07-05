@@ -1,14 +1,14 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_UserDefinedTable" type="Module" version="06.05.05">
+    <package name="DNN_UserDefinedTable" type="Module" version="06.05.08">
       <friendlyName>Form and List</friendlyName>
       <description>Create a simple form or a view of repetitive and simple data.</description>
       <iconFile>desktopmodules/userdefinedtable/icon_fnl_32px.gif</iconFile>
       <owner>
-        <name>DNNCorp</name>
-        <organization>DNNCorp</organization>
-        <url>http://www.dnnsoftware.com</url>
-        <email>support@dnnsoftware.com</email>
+        <name>DNN Community</name>
+        <organization>DNN Community</organization>
+        <url>https://dnncommunity.org</url>
+        <email></email>
       </owner>
       <license src="License.htm"/>
       <releaseNotes src="ReleaseNotes.htm" />
@@ -119,6 +119,16 @@
               <path>providers\dataproviders\sqldataprovider</path>
               <name>06.00.06.sqldataprovider</name>
               <version>06.00.06</version>
+            </script>
+            <script type="Install">
+                <path>providers\dataproviders\sqldataprovider</path>
+                <name>06.05.07.sqldataprovider</name>
+                <version>06.05.07</version>
+            </script>
+            <script type="Install">
+                <path>providers\dataproviders\sqldataprovider</path>
+                <name>06.05.08.sqldataprovider</name>
+                <version>06.05.08</version>
             </script>
             <script type="UnInstall">
               <path>providers\dataproviders\sqldataprovider</path>
