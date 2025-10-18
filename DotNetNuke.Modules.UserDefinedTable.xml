@@ -35,6 +35,14 @@
               Implements the enhanced Import Interface for DotNetNuke
             </summary>
         </member>
+        <member name="M:DotNetNuke.Modules.UserDefinedTable.Components.BaseController.SanitizeUrl(System.String)">
+            <summary>
+            Sanitizes a URL by ensuring it has only one question mark separator between the base URL and query parameters.
+            This prevents duplicate question marks when formatting URL templates with parameters.
+            </summary>
+            <param name="url">The URL to sanitize</param>
+            <returns>A sanitized URL with proper query string formatting</returns>
+        </member>
         <member name="T:DotNetNuke.Modules.UserDefinedTable.Components.DataProvider">
             -----------------------------------------------------------------------------
             <summary>
@@ -3204,13 +3212,13 @@
             -----------------------------------------------------------------------------
         </member>
         <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetDataSetWithDates(System.Boolean,System.DateTime,System.DateTime)">
-            -----------------------------------------------------------------------------
             <summary>
               Gets all Data values of an UDT table (module) from the Database as DataSet
             </summary>
             <param name = "withPreRenderedValues">specifies, whether links, dates etc. shall be prerendered for XML output</param>
+            <param name="initialDate">Initial date for filtering</param>
+            <param name="finalDate">Final date for filtering</param>
             <returns>All field values as DataSet</returns>
-            -----------------------------------------------------------------------------
         </member>
         <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.Context(DotNetNuke.Entities.Modules.ModuleInfo,DotNetNuke.Entities.Users.UserInfo,System.String,System.String,System.String,System.String)">
             -----------------------------------------------------------------------------
@@ -3250,70 +3258,6 @@
             <summary>
               delete a whole table of a module.
             </summary>
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetMaxFieldSize">
-            -----------------------------------------------------------------------------
-            <summary>
-              get value for maximal field size
-            </summary>
-            <returns>the maximal Fieldsize (number of characters), that can be stored in data field</returns>
-            -----------------------------------------------------------------------------
-            
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.DeleteField(System.Int32)">
-            -----------------------------------------------------------------------------
-            <summary>
-              persists deletion of a field into the database
-            </summary>
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.AddField(System.String)">
-            <summary>
-              Persists a new column with Datatype string and Default Settings
-            </summary>
-            <param name = "fieldtitle"></param>
-            <returns></returns>
-            <remarks>
-            </remarks>
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.UpdateField(System.Int32,System.String,System.String,System.Boolean,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String,System.String,System.Boolean,System.String,System.String,System.String)">
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetFieldsTable">
-            -----------------------------------------------------------------------------
-            <summary>
-              Gets all field definitions for one UDT table (module) from the database
-            </summary>
-            <returns>All field settings as DataTable</returns>
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetFieldsTable(System.Boolean)">
-            -----------------------------------------------------------------------------
-            <summary>
-              Gets all field definitions for one UDT table (module) from the database
-            </summary>
-            <param name = "addNewColumn">specifies, whether a new column shall be added</param>
-            <returns>All field settings as DataTable</returns>
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.GetFieldsTable(System.Boolean,System.Boolean)">
-            -----------------------------------------------------------------------------
-            <summary>
-              Gets all field definitions for one UDT table (module) from the database
-            </summary>
-            <param name = "addNewColumn">specifies, whether a new column shall be added</param>
-            <param name = "addAuditColumns">specifies, whether colums for creation and update (user and timestamp) shall be added</param>
-            <returns>All field settings as DataTable</returns>
-            -----------------------------------------------------------------------------
-        </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.UserDefinedTableController.SwapFieldOrder(System.Int32,System.Int32)">
-            -----------------------------------------------------------------------------
-            <summary>
-              swap the ordinal position of two columns in a table definition.
-            </summary>
-            <param name = "firstUserDefinedFieldId">ID of the first column</param>
-            <param name = "secondUserDefinedFieldId">ID of the second column</param>
             -----------------------------------------------------------------------------
         </member>
     </members>

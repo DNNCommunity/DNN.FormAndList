@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
-using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Modules.UserDefinedTable.CSV;
@@ -16,16 +15,25 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins.Controls;
 using System.Globalization;
 using DotNetNuke.Entities.Portals;
+using DotNetNuke.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+using DotNetNuke.Abstractions.Portals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
     public partial class ExportCsv : PortalModuleBase
     {
-        #region Private Members
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        public ExportCsv()
+        {
+            // In DNN 10 we can use constructor injection directly
+            this.navigationManager = this.DependencyProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = this.DependencyProvider.GetRequiredService<IPortalAliasService>();
+        }
 
         int _moduleId = Convert.ToInt32(-1);
-
-        #endregion
 
         #region Event Handlers
         protected override void OnInit(EventArgs e)
@@ -83,7 +91,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             try
             {
-                Response.Redirect(Globals.NavigateURL(), true);
+                Response.Redirect(this.navigationManager.NavigateURL(), true);
             }
             catch (Exception exc) //Module failed to load
             {
@@ -102,7 +110,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                                   rblDelimiter.SelectedValue, txtInitialDate.Text, txtFinalDate.Text);
                     if (strMessage == "")
                     {
-                        Response.Redirect(Globals.NavigateURL(), true);
+                        Response.Redirect(this.navigationManager.NavigateURL(), true);
                     }
                     else
                     {
@@ -167,7 +175,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 CultureInfo provider = CultureInfo.InvariantCulture;
                 string format = "yyyy/MM/dd";
 
-                var serverTimeZone = PortalController.Instance.GetCurrentPortalSettings().TimeZone;
+                var serverTimeZone = PortalController.Instance.GetCurrentSettings().TimeZone;
                 var timeZone = serverTimeZone;
 
                 DateTime startDate = DateTime.ParseExact(initialDate, format, provider);
@@ -178,11 +186,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 endDate = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
                 endDate = TimeZoneInfo.ConvertTimeToUtc(endDate, timeZone);
 
-                ds = new UserDefinedTableController(_moduleId, TabId, UserInfo).GetDataSetWithDates(true,startDate, endDate);
+                ds = new UserDefinedTableController(_moduleId, TabId, UserInfo, this.navigationManager, this.portalAliasService)
+                    .GetDataSetWithDates(true, startDate, endDate);
             }
             else
             {
-                ds = new UserDefinedTableController(_moduleId, TabId, UserInfo).GetDataSet(true);
+                ds = new UserDefinedTableController(_moduleId, TabId, UserInfo, this.navigationManager, this.portalAliasService)
+                    .GetDataSet(true);
             }
             
             var data = ds.Tables[0];

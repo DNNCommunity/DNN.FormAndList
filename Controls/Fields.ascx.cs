@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Web.UI.WebControls;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Security;
@@ -10,12 +12,25 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
+using Microsoft.Extensions.DependencyInjection;
 using Globals = DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.UserDefinedTable.Controls
 {
     public partial class Fields : System.Web.UI.UserControl
-    {  
+    {
+        private readonly INavigationManager navigationManager;
+
+        public Fields()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var dependencyProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = dependencyProvider.GetRequiredService<INavigationManager>();
+        }
         public ModuleInstanceContext ModuleContext { get; set; }
         public Func<string, string> LocalizeString { get; set; }
 
@@ -44,7 +59,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
         }
         protected string EditUrl(int id)
         {
-           var url = Globals.NavigateURL(ModuleContext.TabId, "EditField", new[]{"mid=" + ModuleContext.ModuleId , "fieldId=" + id});
+           var url = this.navigationManager.NavigateURL(ModuleContext.TabId, "EditField", new[]{"mid=" + ModuleContext.ModuleId , "fieldId=" + id});
            if (ModuleContext.PortalSettings.EnablePopUps) 
                 url = UrlUtils.PopUpUrl(url, this, ModuleContext.PortalSettings, false, false, 760, 950);
            return url;
@@ -149,7 +164,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
                 return type.GetLocalization();
             }
 
-            name = new PortalSecurity().InputFilter(name, PortalSecurity.FilterFlag.NoMarkup);
+            name = WebUtility.HtmlEncode(name);
             UI.Skins.Skin.AddModuleMessage(this,
                                            string.Format(
                                                Localization.GetString("DataTypeNotInstalled", LocalResourceFile),

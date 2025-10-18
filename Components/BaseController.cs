@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Globalization;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
@@ -10,8 +12,14 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
 {
     public abstract class BaseController
     {
-        protected BaseController()
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        protected BaseController(INavigationManager navigationManager, IPortalAliasService portalAliasService)
         {
+            this.navigationManager = navigationManager;
+            this.portalAliasService = portalAliasService;
+
             TabId = Null.NullInteger;
             TabModuleId = Null.NullInteger;
         }
@@ -21,6 +29,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         ModuleInfo _configuration;
         PortalInfo _portalInfo;
         Components.Settings _settings;
+
+        protected INavigationManager NavigationManager => navigationManager;
+
+        protected IPortalAliasService PortalAliasService => portalAliasService;
 
         public Components.Settings  Settings
         {
@@ -87,6 +99,34 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             User = context.PortalSettings.UserInfo;
          
             EditUrlPattern = context.EditUrl(  DataTableColumn.RowId.ToString(CultureInfo.InvariantCulture), "{0}","edit");
+        }
+
+        /// <summary>
+        /// Sanitizes a URL by ensuring it has only one question mark separator between the base URL and query parameters.
+        /// This prevents duplicate question marks when formatting URL templates with parameters.
+        /// </summary>
+        /// <param name="url">The URL to sanitize</param>
+        /// <returns>A sanitized URL with proper query string formatting</returns>
+        public static string SanitizeUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return url;
+
+            // Find the first occurrence of '?'
+            var firstQuestionMarkIndex = url.IndexOf('?');
+            
+            if (firstQuestionMarkIndex == -1)
+                return url; // No query parameters, return as-is
+            
+            // Split into base URL and query parameters
+            var baseUrl = url.Substring(0, firstQuestionMarkIndex);
+            var queryPart = url.Substring(firstQuestionMarkIndex + 1);
+            
+            // Remove any additional '?' characters from the query part and replace with '&'
+            queryPart = queryPart.Replace('?', '&');
+            
+            // Reconstruct the URL
+            return baseUrl + "?" + queryPart;
         }
 
         public void Initialise(int moduleId, int tabId, UserInfo user)

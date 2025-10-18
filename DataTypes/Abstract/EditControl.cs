@@ -1,10 +1,12 @@
 using System;
 using System.Data;
-using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Modules.UserDefinedTable.Components;
@@ -12,6 +14,7 @@ using DotNetNuke.Modules.UserDefinedTable.Interfaces;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Modules;
+using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable CheckNamespace
 namespace DotNetNuke.Modules.UserDefinedTable
@@ -26,6 +29,25 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public abstract class  EditControl : Control
     {
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        protected EditControl()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = serviceProvider.GetRequiredService<IPortalAliasService>();
+        }
+
+        protected INavigationManager NavigationManager => navigationManager;
+
+        protected IPortalAliasService PortalAliasService => portalAliasService;
+
         public enum InputType
         {
             DropdownList,
@@ -34,12 +56,10 @@ namespace DotNetNuke.Modules.UserDefinedTable
             verticalRadioButtons
         }
         // ReSharper restore InconsistentNaming
-        #region Private Members
 
         string _customValidationMessage;
         public DataTable FieldSettingsTable { get; private set; }
 
-        #endregion
 
         #region Public Properties
         public virtual void Initialise(string fieldTitle, string fieldType, int fieldId, int moduleId,
@@ -129,7 +149,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         protected static int PortalId
         {
-            get { return PortalController.Instance.GetCurrentPortalSettings().PortalId; }
+            get { return PortalController.Instance.GetCurrentSettings().PortalId; }
         }
 
         protected bool IsNotAListOfValues
