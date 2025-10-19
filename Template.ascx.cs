@@ -1,7 +1,9 @@
 using System;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Common;
 using DotNetNuke.Modules.UserDefinedTable.Templates;
 using DotNetNuke.UI.Modules;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -12,12 +14,25 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public partial class Template : ModuleUserControlBase
     {
+        private readonly INavigationManager navigationManager;
+
+        public Template()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+        }
+
         protected void cmdSaveFile_Click(object sender, EventArgs e)
         {
             if (TemplateController.SaveTemplate(txtTitle.Text, txtDescription.Text, ModuleContext, false,
                                                 MaxNumberOfRecords()))
             {
-                Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
             }
             else
             {
@@ -33,7 +48,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             TemplateController.SaveTemplate(txtTitle.Text, txtDescription.Text, ModuleContext, true,
                                             MaxNumberOfRecords());
-            Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+            Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
         }
 
         protected void cmdDenyOverwriteFile_Click(object sender, EventArgs e)

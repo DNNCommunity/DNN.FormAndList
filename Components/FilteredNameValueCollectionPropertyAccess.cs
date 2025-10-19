@@ -1,5 +1,6 @@
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Net;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Tokens;
@@ -33,9 +34,8 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             if (value != null)
             {
                 var security = new PortalSecurity();
-                value = security.InputFilter(value, PortalSecurity.FilterFlag.NoScripting);
-                return security.InputFilter(PropertyAccess.FormatString(value, strFormat),
-                                            PortalSecurity.FilterFlag.NoScripting);
+                value = WebUtility.HtmlEncode(value);
+                return WebUtility.HtmlDecode(PropertyAccess.FormatString(value, strFormat));
             }
             else
             {

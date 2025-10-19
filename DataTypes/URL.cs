@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Application;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
@@ -13,6 +15,7 @@ using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.UserControls;
+using Microsoft.Extensions.DependencyInjection;
 using Globals = DotNetNuke.Common.Globals;
 using TabInfo = DotNetNuke.Entities.Tabs.TabInfo;
 
@@ -30,6 +33,19 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     public class EditURL : EditControl
 // ReSharper restore InconsistentNaming
     {
+        private readonly IApplicationStatusInfo applicationStatusInfo;
+        private readonly INavigationManager navigationManager;
+
+        public EditURL()
+        {
+            var globalsTypes = typeof(Globals);
+            var dependencyProviderProperty = globalsTypes.GetProperty("DependencyProvider", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.applicationStatusInfo = serviceProvider.GetRequiredService<IApplicationStatusInfo>();
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+        }
+
         protected UrlControl CtlUrl;
         protected ListControl CtlValueBox;
 
@@ -178,6 +194,21 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
     public class DataTypeURL : DataType
 // ReSharper restore InconsistentNaming
     {
+        private readonly IApplicationStatusInfo applicationStatusInfo;
+        private readonly INavigationManager navigationManager;
+
+        public DataTypeURL()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsTypes = typeof(Globals);
+            var dependencyProviderProperty = globalsTypes.GetProperty("DependencyProvider", System.Reflection.BindingFlags.Static
+                | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+            
+            this.applicationStatusInfo = serviceProvider.GetRequiredService<IApplicationStatusInfo>();
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+        }
+
         public override string Name
         {
             get { return "URL"; }
@@ -220,7 +251,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                     return;
                 }
 
-                var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
+                var portalSettings = PortalController.Instance.GetCurrentSettings();
                 
                 var tabCtrl = new TabController();
                 foreach (DataRow row in tableData.Rows)
@@ -233,7 +264,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
         }
 
-        void FillTypeColumns(int moduleId, TokenReplace objTokenReplace, PortalSettings portalSettings,
+        void FillTypeColumns(int moduleId, TokenReplace objTokenReplace, IPortalSettings portalSettings,
                                 TabController tabCtrl,
                                DataRow row, FieldSetting field)
         {
@@ -255,7 +286,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                         openInNewWindow = false;
                         break;
                     default:
-                        openInNewWindow = link.Like(  Globals.ApplicationMapPath + "*");
+                        openInNewWindow = link.Like(this.applicationStatusInfo.ApplicationMapPath + "*");
                         break;
                 }
             }
@@ -269,7 +300,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             var isLink = true;
             //Link readable by browsers
             link = UrlUtil.StripURL(link);
-            var url  = Globals.LinkClick(link, portalSettings.ActiveTab.TabID, moduleId, field.TrackDownloads, field.EnforceDownload);
+            var url  = Globals.LinkClick(link, PortalSettings.Current.ActiveTab.TabID, moduleId, field.TrackDownloads, field.EnforceDownload);
             if (link != string.Empty)
             {
                 switch (Globals.GetURLType(link))
@@ -308,7 +339,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                     caption = tab.TabName;
                                 }
                             }
-                            url = field.EnforceDownload ? url : Globals.NavigateURL(int.Parse(link));
+                            url = field.EnforceDownload ? url : this.navigationManager.NavigateURL(int.Parse(link));
                         }
                         else
                         {

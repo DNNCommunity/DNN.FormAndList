@@ -5,6 +5,7 @@ using System.Data;
 using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
@@ -234,10 +235,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 
                     if (fields.Count > 0)
                     {
-                        PortalSettings portalSettings = null;
+                        IPortalSettings portalSettings = null;
                         if (HttpContext.Current != null)
                         {
-                            portalSettings = PortalController.Instance.GetCurrentPortalSettings();
+                            portalSettings = PortalController.Instance.GetCurrentSettings();
                         }
                         var mc = new ModuleController();
                         var settings = mc.GetModule(moduleId).ModuleSettings;
@@ -291,7 +292,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                                     }
 
                                     url =
-                                        HttpUtility.HtmlEncode(Globals.LinkClick(link, portalSettings.ActiveTab.TabID,
+                                        HttpUtility.HtmlEncode(Globals.LinkClick(link, PortalSettings.Current.ActiveTab.TabID,
                                                                                  moduleId));
 
                                     strFieldvalue = string.Format("<!--{1}--><a href=\"{0}\"{2}>{1}</a>",

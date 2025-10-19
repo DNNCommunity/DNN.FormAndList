@@ -7,12 +7,15 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
 using System.Xml;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Modules;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace DotNetNuke.Modules.UserDefinedTable
@@ -25,6 +28,20 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public partial class Token2Xsl : ModuleUserControlBase
     {
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        public Token2Xsl()
+        {
+            // In DNN 10 we can use constructor injection for services.
+            var globalsType = typeof(Globals);
+            var serviceProviderProperty = globalsType.GetProperty("ServiceProvider", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = serviceProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = serviceProvider.GetRequiredService<IPortalAliasService>();
+        }
+
         #region Controls & Constants & Properties
 
         DataSet _schemaDataSet;
@@ -40,7 +57,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         UserDefinedTableController UdtController
         {
-            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext)); }
+            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService)); }
         }
 
         string CurrentListType
@@ -624,7 +641,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         var script = ModuleContext.Settings[SettingName.XslUserDefinedStyleSheet].ToString();
                         if (!string.IsNullOrEmpty( script))
                             file = FileManager.Instance.GetFile(ModuleContext.PortalId,script);
-                        ReturnUrl = Globals.NavigateURL();
+                        ReturnUrl = this.navigationManager.NavigateURL();
                     }
                     else
                     {

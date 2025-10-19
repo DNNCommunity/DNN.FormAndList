@@ -1,26 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Xsl;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
-using DotNetNuke.Entities.Icons;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Security;
-using DotNetNuke.Security.Permissions;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins.Controls;
-using Microsoft.VisualBasic;
+using Microsoft.Extensions.DependencyInjection;
 using Globals = DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
@@ -32,10 +32,27 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public partial class List : PortalModuleBase, IActionable, IPostBackEventHandler
     {
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        public List()
+        {
+            // In DNN 10 we should be able to use constructor injection for dependencies.
+            this.navigationManager = this.DependencyProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = this.DependencyProvider.GetRequiredService<IPortalAliasService>();
+        }
+
         #region Search
 
         class SearchManager
         {
+            private readonly INavigationManager navigationManager;
+
+            public SearchManager(INavigationManager navigationManager)
+            {
+                this.navigationManager = navigationManager;
+            }
+
             readonly List _parent;
             readonly PlaceHolder _searchPlaceHolder;
             readonly LinkButton _cmdSearch;
@@ -376,7 +393,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                                       DrpSearchableColumns.SelectedValue.UrlHexEncode()));
                             @params.Add(string.Format("u{0}m={1}", moduleId, DrpSearchMode.SelectedValue));
                         }
-                        var url = Globals.NavigateURL(_parent.TabId, "", @params.ToArray());
+                        var url = this.navigationManager.NavigateURL(_parent.TabId, "", @params.ToArray());
                         _parent.Response.Redirect(url);
                     }
                     // Such paramter
@@ -395,7 +412,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 {
                     string parameters = _parent.Request.QueryString["show"] == "records" ? "show/records" : "";
                     
-                    _parent.Response.Redirect(Globals.NavigateURL(_parent.TabId, "", parameters));
+                    _parent.Response.Redirect(this.navigationManager.NavigateURL(_parent.TabId, "", parameters));
                 }
             }
         }
@@ -418,7 +435,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         UserDefinedTableController UdtController
         {
-            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext)); }
+            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService)); }
         }
 
         DataSet DataSet
@@ -754,7 +771,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         void HandleException(Exception exc, string localizedMessage)
         {
-            var message = new PortalSecurity().InputFilter(exc.Message, PortalSecurity.FilterFlag.NoScripting);
+            var message = WebUtility.HtmlEncode(exc.Message);
             message = string.Format("{0}<br/>Error Description: {1}", localizedMessage, message);
             ShowModuleMessage(message);
             Exceptions.LogException(exc);
@@ -911,7 +928,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
             if (Settings.OnlyFormIsShown )
             {
-                var url = Globals.NavigateURL(ModuleContext.TabId);
+                var url = this.navigationManager.NavigateURL(ModuleContext.TabId);
                 var title = Localization.GetString("BackToForm.Action", LocalResourceFile);
 
                 ActionLink.NavigateUrl = url;
@@ -945,7 +962,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     {
                         if (Settings.OnlyFormIsShown )
                         {
-                            var url = Globals.NavigateURL(ModuleContext.TabId);
+                            var url = this.navigationManager.NavigateURL(ModuleContext.TabId);
                             var title = Localization.GetString("BackToForm.Action", LocalResourceFile);
                             actions.Add(ModuleContext.GetNextActionID(),
                                         title,
@@ -1031,7 +1048,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             if (eventArgument == "DeleteAll" && modSecurity.IsAllowedToAdministrateModule())
             {
                 UdtController.DeleteRows();
-                Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
             }
         }
 

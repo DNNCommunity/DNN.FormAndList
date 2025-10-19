@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Net.Mail;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Web;
 using System.Xml;
 using System.Xml.Xsl;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Modules.UserDefinedTable.Interfaces;
@@ -24,13 +26,13 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             Delete
         }
 
-        public static void OnAction(Trigger trigger, int rowId, UserDefinedTableController udtC)
+        public static void OnAction(Trigger trigger, int rowId, UserDefinedTableController udtC, string httpAlias)
         {
             if (ActionIsTriggered(trigger, udtC.Settings))
             {
                 var ds = udtC.GetRow(rowId,true,true);
                 ds.Tables.Add(udtC.Context());
-                HandleAction(trigger, ds, udtC);
+                HandleAction(trigger, ds, udtC, httpAlias);
             }
         }
 
@@ -43,7 +45,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         }
 
 
-        static void HandleAction(Trigger trigger, DataSet data, UserDefinedTableController udtC)
+        static void HandleAction(Trigger trigger, DataSet data, UserDefinedTableController udtC, string httpAlias)
         {
             var settings = udtC.Settings;
             var subject = settings.TrackingSubject;
@@ -85,7 +87,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
             subject =
                 ((new TokenReplace()).ReplaceEnvironmentTokens(subject, data.Tables[DataSetTableName.Data].Rows[0]));
 
-            SendMail(from, mailTo, cc, bcc, replyto, subject, data.GetXml(), message, triggerMessage, script);
+            SendMail(from, mailTo, cc, bcc, replyto, subject, data.GetXml(), message, triggerMessage, script, httpAlias);
         }
 
      
@@ -123,7 +125,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         }
 
         static void SendMail(string from, string mailTo, string cc, string bcc, string replyto, string subject,
-                             string data, string message, string trigger, string script)
+                             string data, string message, string trigger, string script, string httpAlias)
         {
             var xslTrans = new XslCompiledTransform();
             xslTrans.Load(HttpContext.Current.Server.MapPath(script));
@@ -143,12 +145,12 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
                     var body = bodyTextWriter.ToString();
                     body = body.Replace("href=\"/",
                                         string.Format("href=\"http://{0}/",
-                                                      Globals.GetPortalSettings().PortalAlias.HTTPAlias.Split('/')[0]));
+                                                      httpAlias.Split('/')[0]));
                     body = body.Replace("src=\"/",
                                         string.Format("src=\"http://{0}/",
-                                                      Globals.GetPortalSettings().PortalAlias.HTTPAlias.Split('/')[0]));
+                                                      httpAlias.Split('/')[0]));
 
-                    var noAttachments = new List<Attachment>();
+                    var noAttachments = new List<MailAttachment>();
                     Mail.SendMail(from, mailTo, cc, bcc, replyto, MailPriority.Normal, subject, MailFormat.Html,
                                   Encoding.UTF8, body, noAttachments, "", "", "", "", Host.EnableSMTPSSL);
                 }

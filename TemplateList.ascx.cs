@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Xml;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Lists;
 using DotNetNuke.Entities.Icons;
@@ -13,6 +14,7 @@ using DotNetNuke.Modules.UserDefinedTable.Templates;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -23,7 +25,15 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public partial class TemplateList : PortalModuleBase, IActionable, IPostBackEventHandler
     {
+        private readonly INavigationManager navigationManager;
+
         readonly List<TemplateValueInfo> _customizations = new List<TemplateValueInfo>();
+        
+        public TemplateList()
+        {
+            // In DNN 10 we can use constructor injection for services instead.
+            this.navigationManager = this.DependencyProvider.GetRequiredService<INavigationManager>();
+        }
 
         #region Optional Interfaces
 
@@ -53,7 +63,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             if (eventArgument == "Rescan")
             {
                 TemplateController.ClearCache();
-                Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
             }
         }
 
@@ -135,7 +145,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var m = new ModuleController();
             m.DeleteTabModule(ModuleContext.TabId, ModuleContext.ModuleId, false);
             m.DeleteModule(ModuleContext.ModuleId);
-            Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+            Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
         }
 
         void LoadCustomization()
