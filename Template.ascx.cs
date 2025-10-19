@@ -19,8 +19,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
         public Template()
         {
             // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
-            var globalstype = typeof(Globals);
-            var dependencyProviderProperty = globalstype.GetProperty("DependencyProvider",
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider",
                 System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
             var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
 
