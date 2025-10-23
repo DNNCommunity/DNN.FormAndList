@@ -35,14 +35,6 @@
               Implements the enhanced Import Interface for DotNetNuke
             </summary>
         </member>
-        <member name="M:DotNetNuke.Modules.UserDefinedTable.Components.BaseController.SanitizeUrl(System.String)">
-            <summary>
-            Sanitizes a URL by ensuring it has only one question mark separator between the base URL and query parameters.
-            This prevents duplicate question marks when formatting URL templates with parameters.
-            </summary>
-            <param name="url">The URL to sanitize</param>
-            <returns>A sanitized URL with proper query string formatting</returns>
-        </member>
         <member name="T:DotNetNuke.Modules.UserDefinedTable.Components.DataProvider">
             -----------------------------------------------------------------------------
             <summary>
