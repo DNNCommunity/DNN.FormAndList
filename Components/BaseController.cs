@@ -89,44 +89,11 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
 
         protected int PortalId { get; set; }
 
-
-        public string EditUrlPattern { get; set; }
-
         public void Initialise(ModuleInstanceContext context)
         {
             _moduleSettings  = context.Settings;
             Configuration = context.Configuration;
             User = context.PortalSettings.UserInfo;
-         
-            EditUrlPattern = context.EditUrl(  DataTableColumn.RowId.ToString(CultureInfo.InvariantCulture), "{0}","edit");
-        }
-
-        /// <summary>
-        /// Sanitizes a URL by ensuring it has only one question mark separator between the base URL and query parameters.
-        /// This prevents duplicate question marks when formatting URL templates with parameters.
-        /// </summary>
-        /// <param name="url">The URL to sanitize</param>
-        /// <returns>A sanitized URL with proper query string formatting</returns>
-        public static string SanitizeUrl(string url)
-        {
-            if (string.IsNullOrEmpty(url))
-                return url;
-
-            // Find the first occurrence of '?'
-            var firstQuestionMarkIndex = url.IndexOf('?');
-            
-            if (firstQuestionMarkIndex == -1)
-                return url; // No query parameters, return as-is
-            
-            // Split into base URL and query parameters
-            var baseUrl = url.Substring(0, firstQuestionMarkIndex);
-            var queryPart = url.Substring(firstQuestionMarkIndex + 1);
-            
-            // Remove any additional '?' characters from the query part and replace with '&'
-            queryPart = queryPart.Replace('?', '&');
-            
-            // Reconstruct the URL
-            return baseUrl + "?" + queryPart;
         }
 
         public void Initialise(int moduleId, int tabId, UserInfo user)
