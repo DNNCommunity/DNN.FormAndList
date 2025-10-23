@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using System.Xml;
 using DotNetNuke.Abstractions;
 using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common;
@@ -15,6 +7,15 @@ using DotNetNuke.Entities.Users;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Modules;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.Remoting.Contexts;
+using System.Threading;
+using System.Web;
+using System.Xml;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -83,8 +84,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
                 ds.Tables[DataSetTableName.Data].Columns.Add(DataTableColumn.EditLink, typeof (string));
 
-                var urlPattern = EditUrlPattern ?? this.NavigationManager.NavigateURL(TabId, "edit", "mid=" + ModuleId, DataTableColumn.RowId + "={0}");
-
                 foreach (DataRow row in ds.Tables[DataSetTableName.Data].Rows)
                 {
                     var rowCreatorUserName = row[createdByColumnName].ToString();
@@ -93,8 +92,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                           rowCreatorUserName != Definition.NameOfAnonymousUser);
                     if (security.IsAllowedToEditRow(isRowOwner))
                     {
-                        var formattedUrl = string.Format(urlPattern, row[DataTableColumn.RowId]);
-                        row[DataTableColumn.EditLink] = BaseController.SanitizeUrl(formattedUrl);
+                        row[DataTableColumn.EditLink] = this.NavigationManager.NavigateURL(TabId, "edit", $"mid={ModuleId}", $"{DataTableColumn.RowId}={row[DataTableColumn.RowId]}");
                     }
                 }
                 //Adjust visibility to actual permissions
