@@ -240,15 +240,6 @@ namespace DotNetNuke.Modules.UserDefinedTable.Serialization
             objModule.DisplayTitle = XmlUtils.GetNodeValueBoolean(nodeModule, "displaytitle", true);
             objModule.DisplayPrint = XmlUtils.GetNodeValueBoolean(nodeModule, "displayprint", true);
             objModule.DisplaySyndicate = XmlUtils.GetNodeValueBoolean(nodeModule, "displaysyndicate", false);
-            objModule.IsWebSlice = XmlUtils.GetNodeValueBoolean(nodeModule, "iswebslice", false);
-            if (objModule.IsWebSlice)
-            {
-                objModule.WebSliceTitle = XmlUtils.GetNodeValue(nodeModule, "webslicetitle", objModule.ModuleTitle);
-                objModule.WebSliceExpiryDate = XmlUtils.GetNodeValueDate(nodeModule, "websliceexpirydate",
-                                                                         objModule.EndDate);
-                objModule.WebSliceTTL = XmlUtils.GetNodeValueInt(nodeModule, "webslicettl",
-                                                                 Convert.ToInt32(objModule.CacheTime/60));
-            }
 
             return objModule;
         }

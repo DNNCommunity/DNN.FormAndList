@@ -5,10 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
-using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Framework;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Modules.UserDefinedTable.Interfaces;
 using DotNetNuke.Security;
@@ -22,9 +20,12 @@ using DotNetNuke.UI.UserControls;
 using DotNetNuke.UI.Utilities;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.CompilerServices;
-using DataProvider = DotNetNuke.Data.DataProvider;
 using Globals = DotNetNuke.Common.Globals;
 using System.Linq;
+using DotNetNuke.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Abstractions.Portals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -35,6 +36,20 @@ namespace DotNetNuke.Modules.UserDefinedTable
     /// -----------------------------------------------------------------------------
     public partial class Configuration : ModuleUserControlBase, IActionable, IPostBackEventHandler
     {
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        public Configuration()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = serviceProvider.GetRequiredService<IPortalAliasService>();
+        }
+
         // ReSharper disable InconsistentNaming
         protected LabelControl lblNormalizeFlag;
         protected Panel dshRendering;
@@ -66,7 +81,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         UserDefinedTableController UdtController
         {
-            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext)); }
+            get { return _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService)); }
         }
         #endregion
 
@@ -524,7 +539,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         void cmdCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+            Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
         }
 
 
@@ -532,19 +547,8 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             if (ValidateMailTo())
             {
-                /*
-                var dnn = DotNetNuke.Application.DotNetNukeContext.Current.Application;
-                string dnnVersion = String.Format("{0}.{1}.{2}", 
-                    dnn.Version.Major.ToString("00"), 
-                    dnn.Version.Minor.ToString("00"),
-                    dnn.Version.Revision.ToString("00"));
-                if (System.String.Compare(dnnVersion, "07.02.02", System.StringComparison.Ordinal) < 0 && chkExcludeFromSearch.Checked)
-                {
-                    DataProvider.Instance().DeleteSearchItems(ModuleContext.ModuleId);
-                }
-                */
                 SaveSettings();
-                Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
             }
         }
 
@@ -652,7 +656,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                     break;
                 case "DeleteAll":
                     UdtController.DeleteRows();
-                    Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                    Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
                     break;
             }
         }

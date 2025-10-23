@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Globalization;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
@@ -10,8 +12,14 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
 {
     public abstract class BaseController
     {
-        protected BaseController()
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        protected BaseController(INavigationManager navigationManager, IPortalAliasService portalAliasService)
         {
+            this.navigationManager = navigationManager;
+            this.portalAliasService = portalAliasService;
+
             TabId = Null.NullInteger;
             TabModuleId = Null.NullInteger;
         }
@@ -21,6 +29,10 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
         ModuleInfo _configuration;
         PortalInfo _portalInfo;
         Components.Settings _settings;
+
+        protected INavigationManager NavigationManager => navigationManager;
+
+        protected IPortalAliasService PortalAliasService => portalAliasService;
 
         public Components.Settings  Settings
         {
@@ -77,16 +89,11 @@ namespace DotNetNuke.Modules.UserDefinedTable.Components
 
         protected int PortalId { get; set; }
 
-
-        public string EditUrlPattern { get; set; }
-
         public void Initialise(ModuleInstanceContext context)
         {
             _moduleSettings  = context.Settings;
             Configuration = context.Configuration;
             User = context.PortalSettings.UserInfo;
-         
-            EditUrlPattern = context.EditUrl(  DataTableColumn.RowId.ToString(CultureInfo.InvariantCulture), "{0}","edit");
         }
 
         public void Initialise(int moduleId, int tabId, UserInfo user)

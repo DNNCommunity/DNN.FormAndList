@@ -1,19 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using System.Xml;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Services.Localization;
-using DotNetNuke.Services.SystemDateTime;
 using DotNetNuke.UI.Modules;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.Remoting.Contexts;
+using System.Threading;
+using System.Web;
+using System.Xml;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
@@ -28,26 +30,31 @@ namespace DotNetNuke.Modules.UserDefinedTable
     {
         #region Constructors
 
-        public UserDefinedTableController(int moduleId, int tabId, UserInfo userInfo)
+        public UserDefinedTableController(int moduleId, int tabId, UserInfo userInfo, INavigationManager navigationManager, IPortalAliasService portalAliasService)
+            :base(navigationManager, portalAliasService)
         {
             Initialise(moduleId, tabId, userInfo);
         }
 
-        public UserDefinedTableController(int moduleid)
+        public UserDefinedTableController(int moduleid, INavigationManager navigationManager, IPortalAliasService portalAliasService)
+            :base(navigationManager, portalAliasService)
         {
             ModuleId = moduleid;
         }
 
-        public UserDefinedTableController()
+        public UserDefinedTableController(INavigationManager navigationManager, IPortalAliasService portalAliasService)
+            :base(navigationManager, portalAliasService)
         {
         }
 
-        public UserDefinedTableController(ModuleInstanceContext moduleContext)
+        public UserDefinedTableController(ModuleInstanceContext moduleContext, INavigationManager navigationManager, IPortalAliasService portalAliasService)
+            : base(navigationManager, portalAliasService)
         {
             Initialise(moduleContext);
         }
 
-        public UserDefinedTableController(ModuleInfo moduleinfo)
+        public UserDefinedTableController(ModuleInfo moduleinfo, INavigationManager navigationManager, IPortalAliasService portalAliasService)
+            : base(navigationManager, portalAliasService)
         {
             Initialise(moduleinfo);
         }
@@ -77,8 +84,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
                 ds.Tables[DataSetTableName.Data].Columns.Add(DataTableColumn.EditLink, typeof (string));
 
-                var urlPattern = EditUrlPattern ?? Globals.NavigateURL(TabId, "edit", "mid=" + ModuleId, DataTableColumn.RowId + "={0}");
-
                 foreach (DataRow row in ds.Tables[DataSetTableName.Data].Rows)
                 {
                     var rowCreatorUserName = row[createdByColumnName].ToString();
@@ -87,7 +92,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                           rowCreatorUserName != Definition.NameOfAnonymousUser);
                     if (security.IsAllowedToEditRow(isRowOwner))
                     {
-                        row[DataTableColumn.EditLink] = string.Format(urlPattern, row[DataTableColumn.RowId]);
+                        row[DataTableColumn.EditLink] = this.NavigationManager.NavigateURL(TabId, "edit", $"mid={ModuleId}", $"{DataTableColumn.RowId}={row[DataTableColumn.RowId]}");
                     }
                 }
                 //Adjust visibility to actual permissions
@@ -130,7 +135,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             }
 
 
-            var ds = Globals.BuildCrossTabDataSet("UserDefinedTable", dr, DataTableColumn.RowId + "|Int32", strFields,
+            var ds = this.BuildCrossTabDataSet("UserDefinedTable", dr, DataTableColumn.RowId + "|Int32", strFields,
                                                       DataTableColumn.RowId, FieldsTableColumn.Title, string.Empty,
                                                       DataTableColumn.Value, string.Empty, CultureInfo.InvariantCulture);
             dr.Close();
@@ -150,9 +155,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
         #endregion
 
         #region Public Functions
-
-      
-
 
         /// -----------------------------------------------------------------------------
         /// <summary>
@@ -253,13 +255,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
             return ds;
         }
 
-        /// -----------------------------------------------------------------------------
         /// <summary>
         ///   Gets all Data values of an UDT table (module) from the Database as DataSet
         /// </summary>
         /// <param name = "withPreRenderedValues">specifies, whether links, dates etc. shall be prerendered for XML output</param>
+        /// <param name="initialDate">Initial date for filtering</param>
+        /// <param name="finalDate">Final date for filtering</param>
         /// <returns>All field values as DataSet</returns>
-        /// -----------------------------------------------------------------------------
         public DataSet GetDataSetWithDates(bool withPreRenderedValues, DateTime initialDate, DateTime finalDate)
         {
             var fieldsTable = FieldController.GetFieldsTable(ModuleId, addNewColumn: false, addAuditColumns: false);
@@ -434,7 +436,9 @@ namespace DotNetNuke.Modules.UserDefinedTable
         /// -----------------------------------------------------------------------------
         public void DeleteRow(int userDefinedRowId)
         {
-            TrackingController.OnAction(TrackingController.Trigger.Delete, userDefinedRowId, this);
+            var aliases = this.PortalAliasService.GetPortalAliasesByPortalId(PortalId);
+            var alias = aliases.FirstOrDefault(x => x.IsPrimary);
+            TrackingController.OnAction(TrackingController.Trigger.Delete, userDefinedRowId, this, alias.HttpAlias);
             DataProvider.Instance().DeleteRow(userDefinedRowId, ModuleId);
         }
 
@@ -501,8 +505,10 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 UpdateData(userDefinedRowId, values);
                 if (! isDataToImport)
                 {
+                    var aliases = this.PortalAliasService.GetPortalAliasesByPortalId(PortalId);
+                    var alias = aliases.FirstOrDefault(x => x.IsPrimary) as IPortalAliasInfo;
                     TrackingController.OnAction(
-                        isNew ? TrackingController.Trigger.New : TrackingController.Trigger.Update, userDefinedRowId, this);
+                        isNew ? TrackingController.Trigger.New : TrackingController.Trigger.Update, userDefinedRowId, this, alias.HttpAlias);
                 }
             }
             else
@@ -549,119 +555,117 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         #endregion
 
-        #region "Obsolete Methods"
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        ///   get value for maximal field size
-        /// </summary>
-        /// <returns>the maximal Fieldsize (number of characters), that can be stored in data field</returns>
-        /// -----------------------------------------------------------------------------
-        /// 
-        [Obsolete("Please use FieldController")]
-        public static int GetMaxFieldSize()
+        private DataSet BuildCrossTabDataSet(string dataSetName, IDataReader result, string fixedColumns, string variableColumns, string keyColumn, string fieldColumn, string fieldTypeColumn, string stringValueColumn, string numericValueColumn, CultureInfo culture)
         {
-            return FieldController.GetMaxFieldSize();
-        }
-
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        ///   persists deletion of a field into the database
-        /// </summary>
-        /// -----------------------------------------------------------------------------
-        [Obsolete("Please use FieldController")]
-        public void DeleteField(int userDefinedFieldId)
-        {
-            FieldController.DeleteField(userDefinedFieldId);
-        }
-
-        /// <summary>
-        ///   Persists a new column with Datatype string and Default Settings
-        /// </summary>
-        /// <param name = "fieldtitle"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
-        [Obsolete("Please use FieldController")]
-        public int AddField(string fieldtitle)
-        {
-            return FieldController.AddField(ModuleId, fieldtitle);
-        }
-
-        [Obsolete("Please use FieldController")]
-        public int AddField(string fieldTitle, int before, string helpText, bool required, string fieldType,
-                            string Default, bool visible, bool showOnEdit, bool searchable, bool isPrivateColumn,
-                            bool multipleValues, string inputSettings, string outputSettings, bool normalizeFlag,
-                            string validationRule, string validationMessage, string editStyle)
-        {
-            return FieldController.AddField(ModuleId, fieldTitle, before, helpText, required, fieldType, Default, visible, showOnEdit, searchable, isPrivateColumn, multipleValues, inputSettings, outputSettings, normalizeFlag, validationRule, validationMessage, editStyle);
-        }
-        /// -----------------------------------------------------------------------------
-        [Obsolete("Please use FieldController")]
-        public void UpdateField(int userDefinedFieldId, string fieldTitle, string helpText, bool required,
-                                string fieldType, string Default, bool visible, bool showOnEdit, bool searchable,
-                                bool isPrivateColumn, bool multipleValues, string inputSettings, string outputSettings,
-                                bool normalizeFlag, string validationRule, string validationMessage, string editStyle)
-        {
-            FieldController.UpdateField(userDefinedFieldId, fieldTitle, helpText, required, fieldType, Default,
-                                                  visible, showOnEdit, searchable, isPrivateColumn, multipleValues,
-                                                  inputSettings, outputSettings, normalizeFlag, validationRule,
-                                                  validationMessage, editStyle);
-        }
-
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        ///   Gets all field definitions for one UDT table (module) from the database
-        /// </summary>
-        /// <returns>All field settings as DataTable</returns>
-        /// -----------------------------------------------------------------------------
-        [Obsolete("Please use FieldController")]
-        public DataTable GetFieldsTable()
-        {
-            return FieldController.GetFieldsTable(ModuleId, false);
-        }
-
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        ///   Gets all field definitions for one UDT table (module) from the database
-        /// </summary>
-        /// <param name = "addNewColumn">specifies, whether a new column shall be added</param>
-        /// <returns>All field settings as DataTable</returns>
-        /// -----------------------------------------------------------------------------
-        [Obsolete("Please use FieldController")]
-        public DataTable GetFieldsTable(bool addNewColumn)
-        {
-            return FieldController.GetFieldsTable(ModuleId, addNewColumn, true);
-        }
-
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        ///   Gets all field definitions for one UDT table (module) from the database
-        /// </summary>
-        /// <param name = "addNewColumn">specifies, whether a new column shall be added</param>
-        /// <param name = "addAuditColumns">specifies, whether colums for creation and update (user and timestamp) shall be added</param>
-        /// <returns>All field settings as DataTable</returns>
-        /// -----------------------------------------------------------------------------
-        [Obsolete("Please use FieldController")]
-        public DataTable GetFieldsTable(bool addNewColumn, bool addAuditColumns)
-        {
-            return FieldController.GetFieldsTable(ModuleId, addNewColumn, addAuditColumns);
-        }
-
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        ///   swap the ordinal position of two columns in a table definition.
-        /// </summary>
-        /// <param name = "firstUserDefinedFieldId">ID of the first column</param>
-        /// <param name = "secondUserDefinedFieldId">ID of the second column</param>
-        /// -----------------------------------------------------------------------------
-        [Obsolete("Please use FieldController.SetFieldOrder")]
-        public void SwapFieldOrder(int firstUserDefinedFieldId, int secondUserDefinedFieldId)
-        {
-            if (firstUserDefinedFieldId != secondUserDefinedFieldId)
+            string[] array = null;
+            string[] array2 = null;
+            DataSet dataSet = new DataSet(dataSetName);
+            dataSet.Namespace = "NetFrameWork";
+            DataTable dataTable = new DataTable(dataSetName);
+            array = fixedColumns.Split(',');
+            for (int i = 0; i < array.Length; i++)
             {
-                DataProvider.Instance().SwapFieldOrder(firstUserDefinedFieldId, secondUserDefinedFieldId);
+                string[] array3 = array[i].Split('|');
+                DataColumn column = new DataColumn(array3[0], Type.GetType("System." + array3[1]));
+                dataTable.Columns.Add(column);
             }
+
+            if (!string.IsNullOrEmpty(variableColumns))
+            {
+                array2 = variableColumns.Split(',');
+                for (int i = 0; i < array2.Length; i++)
+                {
+                    string[] array3 = array2[i].Split('|');
+                    DataColumn dataColumn = new DataColumn(array3[0], Type.GetType("System." + array3[1]));
+                    dataColumn.AllowDBNull = true;
+                    dataTable.Columns.Add(dataColumn);
+                }
+            }
+
+            dataSet.Tables.Add(dataTable);
+            int num = -1;
+            DataRow dataRow = null;
+            while (result.Read())
+            {
+                if (Convert.ToInt32(result[keyColumn]) != num)
+                {
+                    if (num != -1)
+                    {
+                        dataTable.Rows.Add(dataRow);
+                    }
+
+                    dataRow = dataTable.NewRow();
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        string[] array3 = array[i].Split('|');
+                        dataRow[array3[0]] = result[array3[0]];
+                    }
+
+                    if (!string.IsNullOrEmpty(variableColumns))
+                    {
+                        for (int i = 0; i < array2.Length; i++)
+                        {
+                            string[] array3 = array2[i].Split('|');
+                            string text = array3[1];
+                            if (!(text == "Decimal"))
+                            {
+                                if (text == "String")
+                                {
+                                    dataRow[array3[0]] = string.Empty;
+                                }
+                            }
+                            else
+                            {
+                                dataRow[array3[0]] = 0;
+                            }
+                        }
+                    }
+
+                    num = Convert.ToInt32(result[keyColumn]);
+                }
+
+                string text2 = (string.IsNullOrEmpty(fieldTypeColumn) ? "String" : result[fieldTypeColumn].ToString());
+                if (!(text2 == "Decimal"))
+                {
+                    if (!(text2 == "String"))
+                    {
+                        continue;
+                    }
+
+                    if (culture == CultureInfo.CurrentCulture)
+                    {
+                        dataRow[result[fieldColumn].ToString()] = result[stringValueColumn];
+                        continue;
+                    }
+
+                    switch (dataTable.Columns[result[fieldColumn].ToString()].DataType.ToString())
+                    {
+                        case "System.Decimal":
+                        case "System.Currency":
+                            dataRow[result[fieldColumn].ToString()] = decimal.Parse(result[stringValueColumn].ToString(), culture);
+                            break;
+                        case "System.Int32":
+                            dataRow[result[fieldColumn].ToString()] = int.Parse(result[stringValueColumn].ToString(), culture);
+                            break;
+                        default:
+                            dataRow[result[fieldColumn].ToString()] = result[stringValueColumn];
+                            break;
+                    }
+                }
+                else
+                {
+                    dataRow[Convert.ToInt32(result[fieldColumn])] = result[numericValueColumn];
+                }
+            }
+
+            result.Close();
+            if (num != -1)
+            {
+                dataTable.Rows.Add(dataRow);
+            }
+
+            dataSet.AcceptChanges();
+            return dataSet;
         }
-#endregion
     }
 }

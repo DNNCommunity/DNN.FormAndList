@@ -142,9 +142,9 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 var tabId = Null.NullInteger; 
                 if (HttpContext.Current != null)
                 {
-                    var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
+                    var portalSettings = PortalController.Instance.GetCurrentSettings();
                     portalId = portalSettings.PortalId;
-                    tabId = portalSettings.ActiveTab.TabID;
+                    tabId = PortalSettings.Current.ActiveTab.TabID;
                 }
                
                 foreach (DataRow row in tableData.Rows)

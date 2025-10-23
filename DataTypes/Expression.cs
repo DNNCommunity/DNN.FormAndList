@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Modules.UserDefinedTable.Components;
-using DotNetNuke.Security;
 
 namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 {
@@ -31,7 +31,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 
         string CalculateCurrentExpression()
         {
-            var udt = new UserDefinedTableController(ModuleContext);
+            var udt = new UserDefinedTableController(ModuleContext, this.NavigationManager, this.PortalAliasService);
             int rowId;
             int.TryParse(HttpContext.Current.Request.QueryString[DataTableColumn.RowId], out rowId);
             var ds = udt.GetRow(rowId, true);
@@ -114,7 +114,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
 
         static string WarningMessage(string message, int moduleId)
         {
-            message = new PortalSecurity().InputFilter(message.Replace("\'", "\'\'"), PortalSecurity.FilterFlag.NoMarkup);
+            message = WebUtility.HtmlEncode(message.Replace("\'", "\'\'"));
             var tabId = Convert.ToInt32(- 1);
             if (HttpContext.Current != null && HttpContext.Current.Request.QueryString["tabid"] != null)
             {

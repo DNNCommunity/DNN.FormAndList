@@ -2,18 +2,35 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.UI;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Modules.UserDefinedTable.Components;
-using DotNetNuke.Security;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.UI.UserControls;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetNuke.Modules.UserDefinedTable.Controls
 {
     public partial class Field : UserControl
     {
+        private INavigationManager navigationManager;
+        private IPortalAliasService portalAliasService;
+
+        public Field()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = serviceProvider.GetRequiredService<IPortalAliasService>();
+        }
 
         protected LabelControl DefaultLabel;
         protected LabelControl InputSettingsLabel;
@@ -139,7 +156,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
                                                                txtEditStyle.Text);
                         if (txtDefault.Text != "")
                         {
-                            new UserDefinedTableController(ModuleContext).FillDefaultData(id, txtDefault.Text);
+                            new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService).FillDefaultData(id, txtDefault.Text);
                         }
                     }
                     else
@@ -175,7 +192,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
             var fieldTitle = txtFieldTitle.Text.Trim();
             if (!ModuleSecurity.IsAdministrator())
             {
-                fieldTitle = new PortalSecurity().InputFilter(fieldTitle, PortalSecurity.FilterFlag.NoScripting);
+                fieldTitle = WebUtility.HtmlEncode(fieldTitle);
             }
             return fieldTitle;
         }
@@ -244,12 +261,12 @@ namespace DotNetNuke.Modules.UserDefinedTable.Controls
                 }
             // Cast is not allowed, now we need to check whether data already exists for that column
             var fieldId = DataSource[FieldsTableColumn.Id].AsInt();
-            if (new UserDefinedTableController(ModuleContext).FieldHasData(fieldId))
+            if (new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService).FieldHasData(fieldId))
                 {
                     var message = LocalizeString("UnsupportedCast.ErrorMessage")
                             .AsString("You have changed the fieldtype for {2} from {0} to {1}. Note that this may cause an error");
 
-                    var title = new PortalSecurity().InputFilter(txtFieldTitle.Text.Trim(), PortalSecurity.FilterFlag.NoScripting);
+                var title = WebUtility.HtmlEncode(txtFieldTitle.Text.Trim());
                     message = string.Format(message, formerType.GetLocalization(),
                                            newType.GetLocalization(), title);
                     ShowWarning(message);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Net;
 using System.Web;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
@@ -29,7 +30,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             if (! Page.IsPostBack && IsNotAListOfValues)
             {
                 CtlUrl.Required = Required;
-                CtlUrl.FileFilter = Globals.glbImageFileTypes;
+                CtlUrl.FileFilter = Globals.ImageFileTypes;
                 CtlUrl.ShowLog = false;
                 CtlUrl.ShowTrack = false;
                 CtlUrl.ShowTabs = false;
@@ -128,7 +129,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 var portalId = Null.NullInteger; 
                 if (HttpContext.Current != null)
                 {
-                    var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
+                    var portalSettings = PortalController.Instance.GetCurrentSettings();
                     portalId = portalSettings.PortalId;
                 }
 
@@ -169,7 +170,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                     altTag = tokenReplace.ReplaceEnvironmentTokens(altTag, row);
                 }
             }
-            altTag = new PortalSecurity().InputFilter(altTag, PortalSecurity.FilterFlag.NoMarkup);
+            altTag = WebUtility.HtmlEncode(altTag);
             return altTag;
         }
 

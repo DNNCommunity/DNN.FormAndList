@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Web.UI.WebControls;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -11,16 +13,23 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic.FileIO;
 namespace DotNetNuke.Modules.UserDefinedTable
 {
     public partial class ImportCsv : PortalModuleBase
     {
-        #region Private Members
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
 
-         int _moduleId = Convert.ToInt32(- 1);
+        public ImportCsv()
+        {
+            // In DNN 10 we can use construction injection directly.
+            this.navigationManager = this.DependencyProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = this.DependencyProvider.GetRequiredService<IPortalAliasService>();
+        }
 
-        #endregion
+        int _moduleId = Convert.ToInt32(- 1);
 
         #region Event Handlers
 
@@ -94,7 +103,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         {
             try
             {
-                Response.Redirect(Globals.NavigateURL(), true);
+                Response.Redirect(this.navigationManager.NavigateURL(), true);
             }
             catch (Exception exc) //Module failed to load
             {
@@ -116,7 +125,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                                       cboFolders.SelectedItem.Value, rblDelimiter.SelectedValue);
                         if (strMessage == "")
                         {
-                            Response.Redirect(Globals.NavigateURL(), true);
+                            Response.Redirect(this.navigationManager.NavigateURL(), true);
                         }
                         else
                         {
@@ -149,7 +158,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
             if (Path.GetExtension(fileName).ToUpper() == ".CSV" && moduleInfo != null)
             {
-                var udtController = new UserDefinedTableController(ModuleContext );
+                var udtController = new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService);
               
                 var file = FileManager.Instance.GetFile(PortalId, Path.Combine(folder, fileName));
                 using (var stream = FileManager.Instance.GetFileContent(file))

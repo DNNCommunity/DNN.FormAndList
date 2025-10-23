@@ -145,7 +145,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                 }
                 if (fields.Count > 0)
                 {
-                    var portalSettings = PortalController.Instance.GetCurrentPortalSettings();
+                    var portalSettings = PortalController.Instance.GetCurrentSettings();
                  
 
                     foreach (DataRow row in tableData.Rows)
@@ -163,7 +163,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
                             if (strFileId != string.Empty)
                             {
                                 strUrl =
-                                    HttpUtility.HtmlEncode(Globals.LinkClick(strFileId, portalSettings.ActiveTab.TabID,
+                                    HttpUtility.HtmlEncode(Globals.LinkClick(strFileId, PortalSettings.Current.ActiveTab.TabID,
                                                                              moduleId));
                                 var fName = "";
                                 var strDisplayName = "";

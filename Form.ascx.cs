@@ -7,7 +7,6 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
-using DotNetNuke.Entities.Icons;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Modules.UserDefinedTable.Components;
@@ -19,14 +18,25 @@ using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
 using DotNetNuke.UI.WebControls;
 using Globals = DotNetNuke.Common.Globals;
-using DotNetNuke.Web.Client.ClientResourceManagement;
 using System.Text;
 using System.Globalization;
+using DotNetNuke.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+using DotNetNuke.Abstractions.Portals;
 
 namespace DotNetNuke.Modules.UserDefinedTable
 {
     public partial class EditForm : PortalModuleBase, IActionable, IFormEvents
     {
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        public EditForm()
+        {
+            // In DNN 10 we can use constructor injection for dependencies.
+            this.navigationManager = this.DependencyProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = this.DependencyProvider.GetRequiredService<IPortalAliasService>();
+        }
 
         EditControls _editControls;
         int _userDefinedRowId;
@@ -37,7 +47,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         readonly IDictionary<Label, Control> _labelcontrols = new Dictionary<Label, Control>();
         readonly IDictionary<PropertyLabelControl, Control> _propertylabelcontrols = new Dictionary<PropertyLabelControl, Control>();
         UserDefinedTableController _udtController;
-        UserDefinedTableController UdtController =>  _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext));
+        UserDefinedTableController UdtController =>  _udtController ?? (_udtController = new UserDefinedTableController(ModuleContext, this.navigationManager, this.portalAliasService));
 
         public string JsUiDatePattern => Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern
                                      .ToLower()
@@ -202,7 +212,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 }
                 else
                 {
-                    Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                    Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
                 }
             }
             else
@@ -478,7 +488,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 }
                 else
                 {
-                    Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                    Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -533,13 +543,13 @@ namespace DotNetNuke.Modules.UserDefinedTable
                         switch (Settings.ListOrForm)
                         {
                             case "List":
-                                Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                                Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
                                 break;
                             case "FormAndList":
                             case "ListAndForm":
                                 var url = IsNewRow
                                               ? Request.RawUrl
-                                              : Globals.NavigateURL(ModuleContext.TabId);
+                                              : this.navigationManager.NavigateURL(ModuleContext.TabId);
                                 Response.Redirect(url,
                                                   true);
                                 break;
@@ -552,11 +562,11 @@ namespace DotNetNuke.Modules.UserDefinedTable
                                         break;
                                     case "Form":
                                         Response.Redirect(
-                                            Globals.NavigateURL(ModuleContext.TabId, "",
+                                            this.navigationManager.NavigateURL(ModuleContext.TabId, "",
                                                                 string.Format("OnSubmit={0}", ModuleId)), true);
                                         break;
                                     default:
-                                        var strRedirectUrl = Settings.UponSubmitRedirect ?? Globals.NavigateURL(ModuleContext.TabId);
+                                        var strRedirectUrl = Settings.UponSubmitRedirect ?? this.navigationManager.NavigateURL(ModuleContext.TabId);
                                         Response.Redirect(Globals.LinkClick(strRedirectUrl, ModuleContext.TabId,
                                                                             ModuleContext.ModuleId));
                                         break;
@@ -586,7 +596,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 {
                     UdtController.DeleteRow(_userDefinedRowId);
                     RecordDeleted();
-                    Response.Redirect(Globals.NavigateURL(ModuleContext.TabId), true);
+                    Response.Redirect(this.navigationManager.NavigateURL(ModuleContext.TabId), true);
                 }
                 catch (Exception exc) //Module failed to load
                 {
@@ -604,7 +614,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             var sec = new ModuleSecurity(ModuleId, TabId, Settings);
             if (sec.IsAllowedToViewList() && Settings.OnlyFormIsShown)
             {
-                var url = Globals.NavigateURL(TabId, "", "show=records");
+                var url = this.navigationManager.NavigateURL(TabId, "", "show=records");
                 var title = Localization.GetString("List.Action", LocalResourceFile);
                 cmdShowRecords.NavigateUrl = url;
                 cmdShowRecords.Text = title;
@@ -629,7 +639,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 var sec = new ModuleSecurity(ModuleId, TabId, Settings);
                 if (sec.IsAllowedToViewList() && Settings.OnlyFormIsShown)
                 {
-                    var url = Globals.NavigateURL(TabId, "", "show=records");
+                    var url = this.navigationManager.NavigateURL(TabId, "", "show=records");
                     var title = Localization.GetString("List.Action", LocalResourceFile);
                     actions.Add(ModuleContext.GetNextActionID(),
                                 title, cmdName,

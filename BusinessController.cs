@@ -5,12 +5,15 @@ using System.Data;
 using System.IO;
 using System.Web;
 using System.Xml;
+using DotNetNuke.Abstractions;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Modules.UserDefinedTable.Components;
 using DotNetNuke.Modules.UserDefinedTable.Interfaces;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Search.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic;
 using Globals = DotNetNuke.Common.Globals;
 
@@ -18,6 +21,19 @@ namespace DotNetNuke.Modules.UserDefinedTable
 {
     public class BusinessController : ModuleSearchBase, IPortable, IPortable2
     {
+        private readonly INavigationManager navigationManager;
+        private readonly IPortalAliasService portalAliasService;
+
+        public BusinessController()
+        {
+            // In DNN 10 we should be able to use constructor injection here instead of this reflection hack.
+            var globalsType = typeof(Globals);
+            var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            var serviceProvider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+
+            this.navigationManager = serviceProvider.GetRequiredService<INavigationManager>();
+            this.portalAliasService = serviceProvider.GetRequiredService<IPortalAliasService>();
+        }
         public enum SettingsType
         {
             ModuleSettings,
@@ -26,8 +42,6 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
         static DataTable GetSettingsTable(Hashtable settings, SettingsType type)
         {
-
-
             DataTable returnValue = null;
 
             switch (type)
@@ -114,7 +128,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
         public override IList<SearchDocument> GetModifiedSearchDocuments(ModuleInfo modInfo, DateTime beginDateUtc)
         {
             var searchDocuments = new List<SearchDocument>();
-            var udtController = new UserDefinedTableController(modInfo);
+            var udtController = new UserDefinedTableController(modInfo, this.navigationManager, this.portalAliasService);
 
             try
             {
@@ -227,7 +241,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
 
             if (tabId == Null.NullInteger)
             {
-                var udtController = new UserDefinedTableController(moduleId);
+                var udtController = new UserDefinedTableController(moduleId, this.navigationManager, this.portalAliasService);
                 ds = udtController.GetDataSet(false);
                 var moduleInfo = new ModuleController().GetModule(moduleId);
                 ds.Tables.Add(GetSettingsTable(moduleInfo.ModuleSettings, SettingsType.ModuleSettings));
@@ -235,7 +249,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
             else
             {
                 var moduleInfo = new ModuleController().GetModule(moduleId, tabId);
-                var udtController = new UserDefinedTableController(moduleInfo);
+                var udtController = new UserDefinedTableController(moduleInfo, this.navigationManager, this.portalAliasService);
                 ds = udtController.GetDataSet(false);
                 ds.Tables.Add(GetSettingsTable(moduleInfo.ModuleSettings, SettingsType.ModuleSettings));
                 ds.Tables.Add(GetSettingsTable(moduleInfo.TabModuleSettings, SettingsType.TabModuleSettings));
@@ -268,7 +282,7 @@ namespace DotNetNuke.Modules.UserDefinedTable
                 // temporarily set script timeout to large value ( this value is only applicable when application is not running in Debug mode )
                 HttpContext.Current.Server.ScriptTimeout = int.MaxValue;
 
-                var udtController = new UserDefinedTableController(moduleId);
+                var udtController = new UserDefinedTableController(moduleId, this.navigationManager, this.portalAliasService);
                 using (var ds = new DataSet())
                 {
                     var xmlNode = Globals.GetContent(content, string.Empty);

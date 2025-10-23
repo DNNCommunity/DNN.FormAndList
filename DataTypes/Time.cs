@@ -121,7 +121,7 @@ namespace DotNetNuke.Modules.UserDefinedTable.DataTypes
             }
             if (HttpContext.Current != null)
             {
-                var serverTimeZone = PortalController.Instance.GetCurrentPortalSettings().TimeZone;
+                var serverTimeZone = PortalController.Instance.GetCurrentSettings().TimeZone;
                 var userTimeZone = UserController.Instance.GetCurrentUserInfo().Profile.PreferredTimeZone;
                 foreach (DataRow row in ds.Tables[DataSetTableName.Data].Rows)
                 {
